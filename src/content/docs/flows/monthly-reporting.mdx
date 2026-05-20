@@ -46,22 +46,23 @@ The template remembers the block structure, cadence (set this to `monthly`), and
 
 For each client:
 
-1. **Reports → New brief → From template → [your template]**.
-2. Set the **client** to the one you're onboarding into the cycle.
-3. Set the **reporting period** to "last calendar month" (or whatever your standard is).
-4. Save as draft.
+1. Click **Add to a brief** in the sidebar (or `/reports/update`).
+2. Pick the client.
+3. SendBriefs resolves the current-period target. If the client is wired to your house template + monthly cadence, it lands you in a draft brief for the period.
+4. Fill in the four sections (Done / In Progress / To Do / Additional Notes).
+5. The brief saves as it goes.
 
-You now have a draft brief per client, all using the same template.
+You now have a draft brief per client, all using the same template structure.
 
 ### Move briefs to the recurring cycle
 
-For each draft, set it on a recurring schedule from the brief detail page:
+Recurring schedules live at **Settings → Reports → Scheduling**. Each schedule is per-client + frequency + time-of-day:
 
-- **Cadence**: monthly on day 1, 2, or 3 (later in the month gives integrations time to settle their final numbers).
-- **Send time**: 9–10 am client-local.
+- **Frequency**: `daily`, `weekly`, or `monthly` (template-level cadences like biweekly / quarterly aren't supported by the scheduler today).
+- **Time of day**: pick a time in the client's time zone.
 - **Approval policy**: optional. If your workspace requires approvals, the brief will move to `pending_approval` ahead of the scheduled send.
 
-> **Heads up on scheduling.** Recurring sends are governed by a feature flag in the current preview. If you don't see the "Set recurring" option on a draft, the feature isn't enabled for your workspace yet — email support to flip it on. In the meantime, the manual path is to create each period's brief from the template on send day.
+You can also trigger a one-off run of a scheduled report from the Scheduling page without affecting the recurring cadence.
 
 ## The monthly cycle (after setup)
 

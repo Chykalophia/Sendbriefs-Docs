@@ -1,6 +1,6 @@
 ---
 title: Send your first brief
-description: Create a brief, write or assemble it in the block editor, submit through approval, send. About 15 minutes the first time. Two minutes the second time.
+description: Use Add to a brief to contribute, fill in the four sections, submit through approval, send. About 15 minutes the first time. Two minutes the second time.
 sidebar:
   order: 5
 ---
@@ -9,73 +9,59 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-From <strong>Reports → New brief</strong>, pick a template (or start blank). Fill out the blocks in the editor. Optional: assign sections to teammates. Submit for approval if your workspace requires it, otherwise go straight to send. Preview, send a test to yourself, then send to the client.
+From the sidebar, click <strong>Add to a brief</strong>. Pick a client. SendBriefs resolves the client's current-period draft (or offers to start one) and drops you into the editor. Fill in the four sections (<strong>Done / In Progress / To Do / Additional Notes</strong>). Optionally submit for approval, then send. The brief lands in your client's inbox and in their hosted portal.
 </aside>
 
 ## The mental model
 
-A brief is a stack of **blocks** assembled in a rich editor. Blocks include text, headings, tables, charts, images, callouts, and data tokens that pull live numbers from your connected integrations.
+A brief in SendBriefs is built around three ideas:
 
-Each brief has a **status** that moves through this state machine:
+1. **A client and a period.** Briefs belong to a specific client over a specific reporting period (last month, last week, etc.). The "Add to a brief" flow resolves which draft brief is the right one to contribute to.
+2. **Four fixed sections.** Every brief is organized into four content buckets: ✅ **Done**, 🔄 **In Progress**, 📝 **To Do**, 📌 **Additional Notes**. These are organizational, not workflow stages — you fill in any combination that applies to this period.
+3. **Blocks inside sections.** Each section is a stack of blocks (text, headings, metrics, tables, callouts, images, charts). The editor's `/` slash-menu adds blocks.
 
-```
-draft → pending_approval → approved → sent
-              ↓                  ↑
-       changes_requested ────────┘
-```
+Each brief moves through a state machine: `draft → pending_approval → approved → sent`, with `changes_requested` as a side path.
 
-If your workspace doesn't require approval, briefs go directly from `draft` to `sent`. You can move a brief backwards too (e.g., `sent → draft` to fix something and resend).
+## Step 1: Click "Add to a brief"
 
-Two more concepts:
+In the left sidebar, under **REPORTS**, click **Add to a brief**. You'll land at `/reports/update`.
 
-- **Templates** — reusable brief structures with a defined cadence (weekly, monthly, quarterly, etc.). Save any brief as a template and reuse it for every client.
-- **Sections** — collapsible groups of blocks. Each section has its own status (`to do`, `in progress`, `done`, `additional notes`) and can be assigned to a teammate. Useful when multiple people contribute to one brief.
+<Placeholder type="screenshot" caption="The Add to a brief landing page — client picker on the left, recent clients listed" />
 
-## Step 1: Create the brief
+## Step 2: Pick the client
 
-From the sidebar, click **Reports → New brief**.
+If you arrived from a client page, the client is pre-selected. Otherwise, pick from the client list.
 
-<Placeholder type="screenshot" caption="New-brief modal with 'From template' and 'Start blank' options" />
+Once a client is selected, SendBriefs **resolves the contribution target**:
 
-You'll be asked:
+- **If there's an open draft brief for this client's current period**, you land directly in the composer with an "Adding to: [brief title]" line.
+- **If there's no draft yet** and the client has a configured template + cadence, SendBriefs creates a new draft brief for the period and drops you into it.
+- **If the period brief has already been sent or approved** with no open draft, you'll see a **disambiguation screen** offering to reopen the sent brief, start the next period's brief, or cancel.
+- **If the client isn't configured for the Living period flow** (no template / contributions disabled / non-periodic client), you'll see the **deliberate authoring chooser** — start a one-off brief, or pick a template.
 
-- **Title** — what this brief is called internally. The client may see this in the email subject.
-- **Client** — pick from your client list (the one you set up on the [previous page](/getting-started/connect-first-client/)).
-- **Template** — pick a starter template or start blank. For your first brief, "blank" is often fastest — you can save it as a template after.
-- **Reporting period** — the time window this brief covers. Used by data tokens that ask "give me last month's numbers."
+For your first time, the third bullet's "start the next period's brief" is the common path if you haven't built one for this client before.
 
-Click **Create**. You'll land in the editor.
+## Step 3: Fill in the four sections
 
-## Step 2: Write in the block editor
+The editor shows the four sections stacked, each collapsible. Click any section header to expand.
 
-<Placeholder type="screenshot" caption="Block editor with a text block, a chart block, and a data-token block visible" />
+<Placeholder type="screenshot" caption="Brief editor — four sections collapsed at the top, one expanded showing blocks inside" />
 
-The editor works like Notion or any modern block editor — start typing for text, use `/` to open the block picker, drag blocks to reorder.
+For each section, type your update or use **`/`** to open the block picker. Available block types include:
 
-Common blocks you'll reach for first:
+- **Paragraph, Heading, Quote, List, Checklist** — text and structure
+- **Metric, Gauge, Sparkline, StatsGrid** — numeric callouts
+- **Table** — tabular data
+- **Image** — embedded screenshots or assets
+- **Callout** — for wins, blockers, asks
+- **Divider, Section, Column** — layout helpers
+- **Sentiment, ChannelGrid** — specialized blocks
 
-- **Heading** — H1, H2, H3.
-- **Text** — paragraphs, lists, quotes, links.
-- **Data token** — inline value pulled from a connected integration (e.g., "Total sessions: `{ga4.sessions}`"). Resolves at render time using the reporting period.
-- **Table** — for KPI rollups.
-- **Chart** — line, bar, or area. Bound to a data source the same way as tokens.
-- **Image** — for screenshots or branded assets.
-- **Callout** — for highlighting wins, blockers, or asks.
+Empty sections render nothing in the final brief — only the sections you fill in show up to the recipient.
 
-If a data block can't find its number — for example, the chosen metric returned `null` for that period — the editor shows an inline warning so you catch it before send.
+> **Workspace setting: layout mode.** Workspaces have a `strict` or `flexible` mode. In `strict`, every block must live inside one of the four sections. In `flexible`, top-level blocks alongside sections are allowed. Set per workspace, with per-template overrides — usually the default works.
 
-## Step 3 (optional): Add sections and assign teammates
-
-For solo briefs, skip this — write top to bottom in the editor and move on.
-
-For team briefs, click **Add section** at the top of the editor. Each section is a named group of blocks with its own status and (optionally) an assignee:
-
-- **Status**: `to do`, `in progress`, `done`, or `additional notes`. Visible to teammates so everyone knows where the brief stands.
-- **Assignee**: any workspace Member, Admin, or Owner. They'll get a notification ([if their preferences allow it](/features/notifications/)) when assigned.
-
-The brief as a whole can't move to `pending_approval` until every section is `done` (or marked `additional notes`).
-
-## Step 4: Preview the brief
+## Step 4: Preview
 
 Click **Preview** at the top of the editor. The brief renders the way the client will see it in their portal — branded chrome, your colors, your logo.
 
@@ -83,35 +69,31 @@ Click **Preview** at the top of the editor. The brief renders the way the client
 
 What to check:
 
-- **Are the numbers right?** Cross-check at least one data token against the source platform.
-- **Does any block look empty or weird?** A zero is fine; a blank is usually a binding issue.
-- **Are dates correct?** The period header should match what you set in Step 1.
-- **Does the branding match expectations?** Logo, color, recipient name.
+- **Are the right sections populated?** Empty sections are hidden in the rendered output.
+- **Do the numbers and dates make sense?** Most data in the current preview is written directly; data integrations are limited (see [Integrations](/features/integrations/)).
+- **Does the branding match expectations?** Logo and accent colors.
+- **Does the period header read correctly?**
 
-You can switch between desktop and mobile preview to make sure nothing breaks on phones.
+## Step 5: Submit for approval (if your workspace requires it)
 
-## Step 5: Submit for approval (if required)
-
-If your workspace requires approval on briefs, click **Submit for approval**. The brief moves to `pending_approval` and assigned approvers get a notification.
+If your workspace requires approvals, click **Submit for approval**. The brief moves to `pending_approval` and assigned approvers get a `report_submitted` notification.
 
 Approvers can:
 
-- **Approve** — moves the brief to `approved`. From here you (or the approver) can send.
-- **Request changes** — moves the brief to `changes_requested` with a note for the author. The author fixes, resubmits.
+- **Approve** — brief moves to `approved`. From here, you (or the approver) can send it.
+- **Request changes** — brief moves to `changes_requested` with a note for the author. You fix and resubmit.
 
-Owners and Admins can approve their own briefs (useful for solo agencies). Members typically can't — depends on workspace policy.
-
-If approvals aren't required in your workspace, you'll see **Send** instead of **Submit for approval** at this step.
+If approvals aren't required in your workspace, you'll see the **Send** option directly.
 
 ## Step 6: Send a test to yourself first
 
-Click **Send test to me** (or the equivalent menu option) before the client sees anything. The brief delivers to *your* email so you can:
+Before the client sees anything, click **Send test to me** (or the equivalent menu option). The brief delivers to *your* email so you can:
 
-- See it in your actual inbox (rendering can differ slightly from preview).
+- See it in your actual inbox (rendering can differ from preview).
 - Click through any links to make sure they work, including the portal link.
-- Confirm subject line and from-address look right.
+- Confirm subject line and "from" name look right.
 
-This step takes 30 seconds and catches problems the preview pane can't show.
+This catches problems the preview pane can't surface — typically email client rendering differences.
 
 ## Step 7: Send to the client
 
@@ -119,25 +101,26 @@ When the test looks right:
 
 1. Click **Send to client**.
 2. Confirm the recipient list (every contact on this client with `receive reports` on).
-3. Choose **Send now**. Scheduling for later is supported on the brief detail page after creation — see [Monthly client reporting](/flows/monthly-reporting/) for the full schedule-and-forget workflow.
-4. Confirm.
+3. Confirm.
 
 The brief moves to `sent`. You'll see a confirmation, and the brief appears in the **Sent** tab on the Reports list.
+
+> For recurring monthly briefs, scheduling lives at **Settings → Reports → Scheduling**, not on the individual brief. See [Monthly client reporting](/flows/monthly-reporting/) for the full schedule-and-forget workflow.
 
 ## Step 8: Watch delivery
 
 Open the sent brief and look at the engagement bar at the top. It shows, per recipient:
 
-- **Delivered** — the email left our system successfully (usually within 30 seconds).
-- **Opened** — the recipient loaded the email (best-effort — privacy filters like Apple Mail Privacy Protection mask this).
-- **Clicked** — any tracked link was clicked (including the portal link).
-- **Portal views** — the client opened the brief in the hosted portal.
+- **Delivered** — SendGrid accepted and forwarded the email (usually within 30 seconds).
+- **Opened** — recipient loaded the tracking pixel (best-effort — privacy filters mask this).
+- **Clicked** — any tracked link was clicked.
+- **Portal views** — recipient opened the brief in the hosted portal. Often the cleanest engagement signal.
 
-Don't read too much into "0 opens" — many email clients block tracking. Portal views are usually a better signal because the recipient has to actively click through.
+Don't read too much into "0 opens" — many email clients block tracking. Portal views are usually a better signal.
 
 ## You did it
 
-You sent a brief. Every brief after this one is faster — save this one as a template (**Brief menu → Save as template**), and the next client gets a one-click starting point.
+You shipped a brief. Every brief after this one is faster — the four sections become muscle memory, and your saved templates speed up the structure for new clients.
 
 ## Next: what comes next
 

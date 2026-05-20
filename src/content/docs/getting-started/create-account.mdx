@@ -63,7 +63,7 @@ Didn't get the email? Check spam. If it's truly missing, request a new one from 
 
 Highly recommended. You can do it now or after the workspace setup:
 
-1. Go to **Settings → Profile → Security**.
+1. Click your avatar / Profile in the sidebar and open **Profile → Security** (route: `/profile/security`).
 2. Click **Enable two-factor authentication**.
 3. Scan the QR code with your authenticator app (1Password, Authy, Google Authenticator, anything TOTP-compatible).
 4. Enter the 6-digit code to confirm.
@@ -71,7 +71,7 @@ Highly recommended. You can do it now or after the workspace setup:
 
 <Placeholder type="screenshot" caption="TOTP enrollment screen with QR code and recovery codes" />
 
-If your workspace owner has **enforced MFA** for the workspace, the system will require you to enroll at next login before you can do anything else. If you see that prompt, this is the same flow.
+If your workspace owner has **enforced MFA** for the workspace, the system will route you to `/mfa-enroll` at next login and require you to enroll before you can do anything else. Same flow.
 
 ## Next: set up your first workspace
 

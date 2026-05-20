@@ -116,7 +116,7 @@ This is the one data-ingest integration that actually flows today.
 
 ### Enforce MFA for the whole workspace
 
-If your team handles client data, requiring multi-factor authentication is table stakes. From **Settings → Workspace → Security**, flip on **Require MFA**. Members will be required to enroll TOTP at next login.
+If your team handles client data, requiring multi-factor authentication is table stakes. From **Settings → Account → Security**, flip on **Require MFA**. Members will be required to enroll TOTP at next login (via `/mfa-enroll`).
 
 [Workspaces & teams → Security →](/features/workspaces/#security)
 

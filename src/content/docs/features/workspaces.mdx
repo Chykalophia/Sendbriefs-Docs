@@ -14,13 +14,40 @@ Most agencies need one workspace. It holds members, clients, integrations, billi
 
 ## Workspace settings
 
-Open **Settings** in the sidebar. The tabs you'll use most:
+Open **Settings** in the sidebar. The settings page has **5 groups, 16 tabs** total. Most workspace-management work happens in these:
 
-- **Workspace** — name, agency details, branding (logo + colors), MFA enforcement.
-- **Team** — invite, remove, change roles.
-- **Integrations** — connected data sources.
-- **Billing** — subscription, payment method, invoices (via the Stripe Customer Portal).
-- **Notifications** — your per-event in-app and email preferences.
+**Workspace group:**
+
+- **General** — workspace name, agency details, default layout mode (`strict` / `flexible`).
+- **Branding** — logo, primary + accent colors.
+- **Team** — invite members, change roles, remove members.
+
+**Reports group:**
+
+- **Templates** — the saved brief templates this workspace uses.
+- **Approvals** — per-workspace approval policy.
+- **Scheduling** — recurring brief schedules (per-client, frequency, time).
+- **Email Layout** — the email wrapper template (subject, header, footer) used when briefs send.
+
+**Delivery group:**
+
+- **Email Settings** — custom-domain / sender setup.
+- **Media Library** — shared images and assets referenced by templates.
+- **Notifications** — per-event in-app and email toggles for the signed-in user.
+
+**Account group:**
+
+- **Client Portal** — portal customization (per-workspace).
+- **Security** — workspace-wide MFA enforcement.
+- **Billing** — subscription management via the Stripe Customer Portal.
+- **Integrations** — OAuth connections + Brief integrations mappings.
+
+**Admin group:**
+
+- **Logging** — redirects to the [Activity page](#audit-log--activity) where the audit log lives.
+- **Danger Zone** — workspace deletion (Owners only).
+
+The tabs you see depend on your role: most settings require `settings:update` permission (Owner or Admin); Billing requires `billing:read`; Danger Zone requires `workspace:delete`.
 
 ## Member roles
 
@@ -69,10 +96,12 @@ You can't reduce the workspace to zero Owners. The UI will refuse.
 Two layers:
 
 ### Per-user MFA
-Any user can enable TOTP-based MFA for themselves from **Settings → Profile → Security**. Strongly recommended for anyone with Owner or Admin access.
+Any user can enable TOTP-based MFA for themselves from the sidebar's **Profile → Security** page (route: `/profile/security`). Note: this lives on the dedicated Profile page, not inside Settings. Strongly recommended for anyone with Owner or Admin access.
+
+First-time enrollment (when no MFA factor exists yet) also has a top-level flow at `/mfa-enroll` — Settings → Account → Security can require this for everyone in the workspace.
 
 ### Workspace-enforced MFA
-Owners can require every member to have MFA enabled. From **Settings → Workspace → Security**, flip on **Require MFA**.
+Owners can require every member to have MFA enabled. From **Settings → Account → Security**, flip on **Require MFA**.
 
 Once enforced:
 
@@ -89,7 +118,7 @@ Workspace branding has three knobs:
 - **Primary color** — used for CTAs, links, the active-state highlight. Default `#6366f1` (indigo).
 - **Accent color** — used for gradient accents and decorative chrome. Default `#8b5cf6` (violet).
 
-Edit from **Settings → Workspace → Branding**. Changes apply immediately to new briefs; previously-sent briefs keep their rendered state (history is frozen).
+Edit from **Settings → Branding** (in the Workspace group). Changes apply immediately to new briefs; previously-sent briefs keep their rendered state (history is frozen).
 
 ### Per-client branding
 Per-client logo is supported (set on the client record). Per-client colors are not — clients inherit workspace colors. If you have white-label workflows with multiple agency sub-brands, run them in separate workspaces.
@@ -104,16 +133,24 @@ You'd want multiple workspaces if:
 
 Each workspace is fully separate: separate billing, separate members, separate client list, separate integrations. Briefs and clients don't cross.
 
-To switch workspaces, click your avatar in the top right and pick from the menu. If you only belong to one, the menu just shows that one.
+To switch workspaces, click the workspace name at the top of the sidebar to open `/workspaces` and pick a different one. (If you only belong to one, this is a no-op view.)
 
 > Most agencies need exactly one workspace. If you're not sure whether you need a second, you don't.
+
+## Audit log / Activity
+
+Every action that matters is logged: member changes, integration connect/disconnect, brief send events, role changes, billing changes.
+
+The audit log surfaces on the **Activity** page in the sidebar (`/activity`), with an **Advanced** tab for the full event stream. Owners and Admins can filter and export.
+
+Settings → Admin → Logging is a pointer that redirects to `/activity?tab=advanced` — same destination.
 
 ## Common gotchas
 
 - **There's no Editor or Viewer role.** If you're used to other tools, the SendBriefs model is just Owner / Admin / Member. Permissions are coarser — Members get edit access to their own briefs by default, not viewer-only access.
 - **You can't move briefs between workspaces.** Briefs are workspace-scoped. If you need to migrate, save the brief as a template, then re-create it in the destination workspace from the template.
 - **Removed members can't be un-removed automatically.** Re-invite them by email — they'll go through the standard invite flow.
-- **Workspace deletion is hard.** Only an Owner can delete, and the action is two-step with confirmation. All briefs, clients, and history go with it. There's no undo.
+- **Workspace deletion is hard.** Only an Owner can delete (Settings → Admin → Danger Zone), and the action is two-step with confirmation. All briefs, clients, and history go with it. There's no undo.
 
 ## See also
 

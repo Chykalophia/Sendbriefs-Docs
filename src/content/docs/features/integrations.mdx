@@ -9,10 +9,10 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-The integration that actually moves data into briefs today is <strong>ClickUp</strong> — wired through the <strong>Brief integrations</strong> card. <strong>Google</strong> and <strong>Slack</strong> have OAuth connect/disconnect flows in the UI, but the stored credentials aren't used by any data-pull pipeline yet. Everything else on the marketing site is roadmap.
+The <strong>Brief integrations</strong> card has a ClickUp ambient-ingest pipeline that works in the back-end — but the UI today doesn't let you self-serve a ClickUp credential. The <strong>Integrations</strong> card lets you OAuth-connect Google and Slack, but the stored credentials sit unused by any feature. Everything else on the marketing site is roadmap.
 </aside>
 
-> **Important context for the Founders Circle preview.** The marketing site lists several integrations as "live" (HubSpot, Stripe, Google Analytics, Google Ads, Meta Ads, etc.). Most of those aren't in the product code yet. This page reflects what's actually shipping, what's half-built (connect-only), and what's still roadmap.
+> **Important context for the Founders Circle preview.** The marketing site lists several integrations as "live" (HubSpot, Stripe, Google Analytics, Google Ads, Meta Ads, etc.). Most of those aren't in the product code yet. This page reflects what's actually shipping, what's connection-only, and what's still roadmap.
 
 ## How integrations work today
 
@@ -32,35 +32,29 @@ This card exists, the OAuth flows complete, but **no other code in the product c
 
 ---
 
-## Actually working today
+## Actually working today (with caveats)
 
-### ClickUp (via Brief integrations)
+### ClickUp ambient ingest (engine-only)
 
-**What it does:** Auto-pulls items from a ClickUp list and appends them as blocks in the matching brief template's draft. Items already ingested are tracked so re-runs don't duplicate.
+**What it does (in code):** A scheduled job pulls items from a ClickUp list and appends them as blocks in the matching brief template's current-period draft. Items already ingested are tracked so re-runs don't duplicate.
 
-**Setup:**
+**What you can do as a user today:** Not much, directly. The **Brief integrations** card under **Settings → Account → Integrations** lets you create a *mapping* (template + integration + source selector). But the **integration** dropdown only lists already-connected OAuth providers — Google and Slack. **ClickUp isn't in the OAuth provider list**, so you can't self-serve a ClickUp credential through the UI.
 
-1. **Settings → Integrations → Brief integrations**.
-2. Click **Add mapping**.
-3. Enter:
-   - Your ClickUp API token.
-   - The ClickUp **list ID** to pull from.
-   - The brief **template** that should receive the items.
-4. Save. The mapping starts in `active` state.
+In practice, ClickUp ambient ingest works for workspaces where someone with backend access has manually seeded a ClickUp integration row in the database. For everyone else, this is a "talk to support" path right now.
 
-**How it runs:**
+**How it runs once configured:**
 
-- An ambient ingest job runs on a schedule (in production, via Upstash QStash). For each active mapping, it pulls new items and appends them to the most recent draft brief for that template.
-- The job is idempotent — re-running on a set of items already ingested is a no-op.
-- Mappings can be paused or deleted at any time.
+- An ambient ingest job runs on a schedule (production: Upstash QStash). For each active mapping, it pulls new items and appends them to the most recent draft brief for that template.
+- The job is idempotent — re-runs on already-ingested items are no-ops.
+- Mappings can be paused or deleted from the Brief integrations card.
 
-**Status indicators:**
+**Status indicators (on the mapping row):**
 
-- **Active** — mapping is enabled and the job will pull on its next tick.
+- **Active** — mapping is enabled; the job will pull on its next tick.
 - **Paused** — mapping exists but the job skips it.
-- **Error** — last run failed; check the error detail on the mapping row.
+- **Error** — last run failed; check the detail on the row.
 
-**Gotcha — schedule registration is a deploy step.** The ambient ingest job needs to be registered as a cron schedule (QStash or Vercel Cron) for it to actually run. If your workspace has mappings but nothing is ingesting, the schedule may not be wired up — let support know.
+**Gotcha — schedule registration is a deploy step.** Even if a mapping exists, the cron schedule (QStash or Vercel Cron) has to be registered for the job to run. If your workspace has mappings but nothing is ingesting, the schedule may not be wired up for your environment — let support know.
 
 ---
 
@@ -123,27 +117,26 @@ We'll update this page as each ships. If a specific integration is blocking your
 
 ## Where this lives in the app
 
-All integration management is under **Settings → Integrations**. Two cards live there:
+All integration management is under **Settings → Account → Integrations**. Two cards live there:
 
-- **Integrations** — the OAuth connect card (Google, Slack). Connect/disconnect, see status.
-- **Brief integrations** — the per-template ambient-ingest mappings (currently ClickUp only). Wire a source selector to a brief template.
+- **Integrations** — the OAuth connect card. Available providers: **Google** and **Slack**. Connect, see status, disconnect.
+- **Brief integrations** — per-template ambient-ingest mappings. Pick a brief template, pick a connected integration from the dropdown, enter a source selector. The mapping starts polling and appending new items into the matching draft brief.
 
-Visibility is gated by the `settings:update` permission — Owners and Admins see it; Members don't.
+Both cards are visible to Owners and Admins (`settings:update` permission).
 
 ## Security and credentials
 
 - **OAuth credentials** are encrypted at rest using AES-256-GCM with workspace-scoped keys.
-- **ClickUp API tokens** are stored alongside the mapping, encrypted.
 - **OAuth grants are audit-logged** — every `oauth.granted` event records who granted access, when, and which provider.
 - **Disconnecting Google or Slack** revokes our stored token immediately.
-- **Deleting a Brief integrations mapping** removes the stored API token from our system.
+- **Deleting a Brief integrations mapping** removes the mapping; the underlying integration row (the OAuth or API credential) stays connected.
 
 ## Common gotchas
 
-- **The Integrations card and the Brief integrations card are separate.** Connecting Google in the OAuth card doesn't create a Brief integrations mapping. You need ClickUp to set up an actual data flow today.
-- **OAuth tokens expire.** Google's refresh-token flow is wired (the OAuth service has a `refreshAccessToken` method). Slack tokens currently have no refresh path — if revoked, reconnect.
-- **The ambient ingest job needs a schedule.** If you set up a Brief integrations mapping and nothing ingests, ask support whether the QStash schedule is registered for your environment.
-- **There's no per-client integration scope.** All integrations are workspace-level. A Brief integrations mapping wires to a *template*, not a client — that template can be used across multiple clients, but the source data comes from the one ClickUp list you specified.
+- **The two cards are separate and don't talk to each other.** Connecting Google in the OAuth card doesn't do anything useful by itself — you'd still need a Brief integrations mapping AND a working data adapter for that provider.
+- **The Brief integrations dropdown only shows Google and Slack today.** Neither provider has a working data adapter, so creating a mapping won't actually ingest anything until adapters land. ClickUp ambient ingest works in the back-end but isn't selectable from the UI.
+- **OAuth tokens expire.** Google's refresh-token flow is wired. Slack tokens currently have no refresh path — if revoked, reconnect.
+- **There's no per-client integration scope.** Integrations are workspace-level. Brief integrations mappings wire to a *template*, not a client — a template can be used across multiple clients, but each mapping has one source selector.
 
 ## See also
 

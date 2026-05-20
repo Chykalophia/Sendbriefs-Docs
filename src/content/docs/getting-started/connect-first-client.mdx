@@ -17,62 +17,68 @@ In <strong>Clients → New client</strong>, give the client a name and (optional
 A "client" is the organization that receives your briefs. Each client record holds:
 
 - **Basic profile** — name, optional website, optional logo.
-- **Contacts** — the actual people on the client side. One is marked Primary; others can be Billing, Stakeholder, or Technical. Each contact has a `receive reports` toggle so you can list someone as a stakeholder without spamming them.
+- **Contacts** — the people who work at this client. Each contact has an optional job-title role (15 options like Director, Marketing, Billing / Finance, Technical / Engineering, Stakeholder, etc.) and a `receive reports` toggle. The day-to-day point of contact is set separately on the client record as the *primary contact* — independent of the contacts list.
 - **Status** — active, inactive, or archived. Lets you keep historical clients findable without cluttering the active list.
 
 Clients **do not log in**. When a brief is sent, recipients get an email with a signed link to a hosted client portal — no password required.
 
 ## Adding the client
 
-Open **Clients → New client** in the sidebar (or hit the **Add client** button on the dashboard).
+Open **Clients** in the sidebar, then click **+ Add Client** at the top.
 
-<Placeholder type="screenshot" caption="New-client form with name, website, logo fields" />
+<Placeholder type="screenshot" caption="New-client form with name, slug, website, logo, primary contact, default template fields" />
 
 You'll see:
 
 | Field | Required? | Notes |
 |---|---|---|
 | **Client name** | Yes | What you call them internally. Shows up everywhere in the app. |
-| **Website** | No | Helps you orient when you have many clients with similar names. |
-| **Logo** | No | Used in the client portal header and on white-label briefs. PNG, JPG, or SVG. Square works best. |
+| **Slug** | Yes | Auto-generated from the name (`acme-corp` for "Acme Corp"). Used in URLs and the portal. Editable — only lowercase letters, numbers, hyphens. |
+| **Website URL** | No | Helps you orient when you have many clients with similar names. Must be a valid URL if provided. |
+| **Logo URL** | No | Used in the portal header and on white-label briefs. URL to a hosted image (not a file upload). |
 | **Primary contact name** | No (recommended) | The default "Send to" person. |
-| **Primary contact email** | No (recommended) | Same. Required before you can actually send a brief to this client. |
+| **Primary contact email** | No (recommended) | Same. Required before you can send a brief to this client. |
+| **Default template** | No | If you've created brief templates, pick the one that should preselect when starting a brief for this client. |
 
-Click **Create client**. You'll land on the client detail page.
+Click **Create**. You'll land on the client detail page.
 
 ## Adding contacts
 
-You can add as many contacts as you need. Each contact has:
+Each client can have any number of contacts (people who work at that client). A contact has:
 
 - **Name + email** — required.
-- **Role** — one of `Primary`, `Billing`, `Stakeholder`, `Technical`. Used for organization; doesn't change permissions.
-- **Receive reports** — toggle. On = this person gets briefs when you send. Off = they're listed on the account but kept off the recipient list.
+- **Phone** — optional.
+- **Role** — optional job title. Pick from a dropdown of 15 options: CEO / Owner, CTO, CFO, COO, VP / Executive, Director, Manager, Marketing, Sales, Operations, Technical / Engineering, Billing / Finance, Vendor / Partner, Stakeholder, Other. This is just organizational — it doesn't change what they receive.
+- **Receive reports** — toggle. On = this contact appears in the brief recipient list. Off = listed on the account but skipped at send.
 
-From the client detail page, click **Contacts → Add contact** and fill in the form.
+> **"Primary" is not a contact role.** Each client has a separate **primary contact name** and **primary contact email** on the client record itself. The primary contact may or may not also be a contact row — they're independent. If you only need one recipient, the primary contact fields on the client are enough.
 
-<Placeholder type="screenshot" caption="Contact form with role selector and 'receive reports' toggle" />
+From the client detail page, open **Contacts** and click **Add contact**.
 
-A few patterns worth noting:
+<Placeholder type="screenshot" caption="Contact form with name, email, phone, role dropdown, receive-reports toggle" />
 
-- **One Primary, many Stakeholders.** Most agencies have one main day-to-day contact (Primary) and a handful of executives or specialists who want to see what's going on (Stakeholders with `receive reports` on).
-- **Billing contacts** typically have `receive reports` off — they only need to see things when something invoice-related happens.
-- **Technical contacts** are the people who handle the data connections (the ones who own the GA4 property, for example). Often `receive reports` off.
+Common patterns:
+
+- **Day-to-day contact + execs.** One primary contact (set on the client record), plus a few contact rows with roles like Director or VP, all with `receive reports` on.
+- **Billing / Finance** — set the role accordingly, usually with `receive reports` off — they only need invoice-related comms.
+- **Technical / Engineering** — the person who handles data connections. Often `receive reports` off.
 
 ## Connecting data sources (optional in the current preview)
 
-Briefs are written in the block editor — you can ship a brief with no integrations connected at all. Most content (text, headings, tables, callouts) is written directly.
+Briefs in the current preview are mostly written in the block editor. You don't need any integration connected to ship a brief.
 
-For automated content — auto-pulling items from an external tool into a brief's General section — there's a **Brief integrations** system under **Settings → Integrations → Brief integrations**. In the current preview, that supports **ClickUp** (configured with an API token + a ClickUp list ID, mapped to a brief template).
+The integrations surface (**Settings → Account → Integrations**) shows Google and Slack as connectable, but those OAuth flows complete and store credentials without doing anything else — no functional data pipeline uses them today.
 
-> **Setting expectations honestly.** Several integrations on the marketing site (HubSpot, Stripe, Google Analytics, Google Ads, Meta Ads, etc.) aren't wired up yet. **Google** and **Slack** each have an OAuth connect flow in the **Settings → Integrations** card and the flow completes, but no functional data pipeline uses the stored credentials today. Treat them as placeholder connections for features in development.
+A separate **Brief integrations** card (same Settings tab) supports an ambient-ingest pipeline that can auto-append items from an external source into a brief. The pipeline supports ClickUp on the backend, but **there's no self-serve UI to register a ClickUp credential today**. If you want ClickUp ambient ingest set up, ask support.
 
-For the full integration story — what works, what's connection-only, and what's roadmap — see [Integrations →](/features/integrations/).
+For the full picture — what works, what's connection-only, what's roadmap — see [Integrations →](/features/integrations/).
 
 ## Common gotchas
 
-- **You don't need an integration to ship a brief.** The block editor + your prose is enough for most monthly briefs in the current preview. Add integrations only when you want auto-ingest of external content.
-- **The Integrations card shows Google and Slack as "available."** Those OAuth flows complete and store credentials, but the product doesn't yet pull data from Google or send messages to Slack. The credentials sit there for features in development.
-- **ClickUp is the working integration today.** If your team tracks brief inputs in ClickUp, the Brief integrations system auto-appends new list items into the matching draft brief.
+- **You don't need an integration to ship a brief.** The block editor + your written content is enough for most monthly briefs in the current preview.
+- **Slug field is auto-generated but editable.** Watch it before submitting — once you create the client, the slug is part of the portal URL and changing it later is more painful than getting it right at creation.
+- **Phone is optional and never displayed to recipients.** It's internal-only metadata.
+- **The "Primary" contact lives on the client record, not as a contact role.** If you only have one recipient, set the primary contact fields and skip the contacts list entirely.
 
 ## Next: send your first brief
 
