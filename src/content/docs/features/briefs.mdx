@@ -1,0 +1,154 @@
+---
+title: Briefs
+description: What a brief is, how the block editor works, and the state machine from draft to delivered.
+sidebar:
+  order: 1
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+A brief is a block-built report attached to a client and a reporting period. Briefs move through <strong>draft → pending_approval → approved → sent</strong>, with a <strong>changes_requested</strong> side path. The app sidebar labels these <strong>Reports</strong> — same thing.
+</aside>
+
+## Anatomy of a brief
+
+Every brief has three layers:
+
+1. **Content** — the blocks you assemble in the editor (text, headings, data tokens, tables, charts, images, callouts). Stored as Tiptap JSON.
+2. **Sections** *(optional)* — collapsible groups of blocks for multi-author briefs. Each section has its own status and assignee.
+3. **Metadata** — client, reporting period, title, template (if any), recipients.
+
+A brief is the render of these against the period's data at the moment it sends.
+
+## The block editor
+
+Briefs are built in a block editor (think Notion). Type `/` to open the block picker, drag blocks to reorder, click a block to edit its config.
+
+<Placeholder type="screenshot" caption="Brief block editor — left: blocks; right: live preview with branded chrome" />
+
+Common blocks:
+
+- **Heading** — H1, H2, H3.
+- **Text** — paragraphs, lists, quotes, links, inline formatting.
+- **Data token** — inline value pulled from a connected integration, resolved at render time against the reporting period.
+- **Table** — for KPI rollups.
+- **Chart** — line, bar, or area. Bound to a data source the same way as tokens.
+- **Image** — for screenshots or branded assets.
+- **Callout** — for highlighting wins, blockers, or asks.
+
+When a data block can't find its value for the period (for example, the chosen metric returned `null`), the editor surfaces an inline warning so you catch it before send.
+
+## Sections (multi-author briefs)
+
+For solo briefs, skip sections — write top to bottom.
+
+For team briefs, click **Add section** at the top of the editor. Each section has:
+
+| Field | What it does |
+|---|---|
+| **Title** | The section header that shows in the rendered brief. |
+| **Content status** | `to do`, `in progress`, `done`, or `additional notes`. Visible to teammates so everyone knows where the brief stands. |
+| **Review status** | `draft`, `in review`, `changes requested`, `approved`. Tracks the internal review of just this section. |
+| **Assignee** | Any Owner, Admin, or Member. Gets a notification when assigned (if their preferences allow). |
+
+The brief as a whole can't move to `pending_approval` until every section is `done` or marked `additional notes`.
+
+## Brief state machine
+
+```
+draft ───► pending_approval ───► approved ───► sent
+              │      ▲
+              ▼      │
+         changes_requested
+```
+
+Briefs can also move backwards (`sent → draft`, `approved → draft`, `pending_approval → draft`) — useful for fixing something and resending.
+
+### draft
+You can edit anything. Drafts auto-save as you type. No notifications sent.
+
+### pending_approval
+Author has submitted the brief. Assigned approvers (workspace policy decides who that is — Owners and Admins by default) get a `report_submitted` notification.
+
+### changes_requested
+An approver requested changes. The brief goes back to the author with the approver's note. Author fixes, resubmits — back to `pending_approval`.
+
+### approved
+A reviewer approved the brief. Now it can be sent. Approval moves the brief out of the queue but doesn't auto-send.
+
+### sent
+The brief was delivered. SendGrid handles the actual transport; we log the message ID and per-recipient delivery status (delivered, opened, clicked, bounced).
+
+> If your workspace doesn't require approvals, briefs go straight from `draft` to `sent` when you click Send.
+
+## Creating a brief
+
+From the sidebar, click **Reports → New brief**. You'll be asked for:
+
+- **Title** — internal name; may show in the email subject.
+- **Client** — pick from your client list.
+- **Template** — pick a saved template, or start blank.
+- **Reporting period** — the time window the brief covers (`last week`, `last month`, `last quarter`, custom, etc.). Used by data tokens.
+
+Click **Create** and you'll land in the editor.
+
+## Templates
+
+Save any brief as a template from the brief menu. Templates remember:
+
+- The block structure (text, data tokens, charts, callouts).
+- The default **cadence**: daily, weekly, biweekly, monthly, quarterly, milestone, ad-hoc, or custom.
+- The section structure with default content status and assignment.
+
+Templates do **not** lock in:
+
+- The specific data values — those re-resolve each period.
+- The client — you pick that when you create a new brief from the template.
+
+The next time you create a brief and pick this template, the structure is pre-filled. You change the period and the client, fill in any section assignments, and you're 80% there.
+
+## Editing a brief
+
+Click any brief from the Reports list to open the editor.
+
+Briefs in `draft` are fully editable. Briefs in `pending_approval`, `approved`, or `sent` are read-only by default — to edit, transition the brief back to `draft` (the brief menu has a **Move to draft** option).
+
+## Recipients
+
+A brief's recipient list is computed from the client's contacts where `receive reports` is on. You can review and tweak this list at send time, but the default is "every contact who's flagged to receive reports."
+
+## Delivery and tracking
+
+Once the brief is `sent`, the engagement bar at the top of the brief page shows, per recipient:
+
+- **Delivered** — SendGrid accepted and forwarded the email. Reliable.
+- **Opened** — recipient loaded the tracking pixel. Best-effort (privacy filters mask this).
+- **Clicked** — any tracked link in the brief was clicked, including the portal link.
+- **Portal views** — recipient opened the brief in the hosted client portal. Often the cleanest engagement signal.
+
+[More on delivery tracking →](/features/notifications/)
+
+## The hosted client portal
+
+In addition to the email, every brief gets a hosted portal URL — a signed link that opens the brief in a branded web view. Recipients don't need to log in; the signed token in the URL grants access.
+
+- **Single-brief link**: `app.sendbriefs.com/portal/r/[token]`
+- **Contact hub link** (all briefs for a single contact): `app.sendbriefs.com/portal/c/[contact-token]`
+
+The portal supports PDF download. If you want a more secure portal (verification code required before viewing), set the client's access tier to `verified`.
+
+## Common gotchas
+
+- **Approval isn't automatic for self-sends.** If you're the only person in the workspace and approvals are required, you still need to approve your own brief before send. Most solo workspaces leave approvals off.
+- **`changes_requested` keeps the original draft.** When an approver requests changes, the brief stays editable for the author. Their note appears as an in-app notification + email.
+- **Sections without an assignee block submission.** A section in `to do` status with no assignee won't block — but if it's `in progress` or assigned, the brief won't submit until it's marked `done`.
+- **Reporting period is set when the brief is created.** You can change it from the brief settings, but data tokens already in the editor re-resolve when the period changes — review the preview after.
+
+## See also
+
+- [Clients](/features/clients/) — how briefs attach to recipients
+- [Notifications & delivery](/features/notifications/) — the post-send tracking story
+- [Templating a recurring brief](/flows/templating-recurring/) — turning your first brief into a reusable starter
+- [Edits & approvals](/flows/edits-and-approvals/) — the team-review workflow in depth

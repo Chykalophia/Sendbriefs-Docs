@@ -1,0 +1,120 @@
+---
+title: Notifications & delivery
+description: How briefs reach recipients, what tracking exists, and what team notifications you'll get.
+sidebar:
+  order: 6
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Briefs are delivered by email through SendGrid, plus a hosted client portal. Internal notifications cover the brief lifecycle (submitted / approved / rejected / sent), section activity (assigned, commented), team changes, and @mentions. Each event has independent <strong>in-app</strong> and <strong>email</strong> toggles — tune from <strong>Settings → Notifications</strong>.
+</aside>
+
+## How a brief is delivered
+
+When you send a brief:
+
+1. **Render** — we compile the brief content + branding + recipient list.
+2. **Submit to SendGrid** — our email infrastructure provider handles the actual SMTP delivery.
+3. **Per-recipient logging** — we store a SendGrid message ID for each recipient so we can correlate later events (opens, clicks, bounces) back to this specific send.
+4. **Portal token issued** — every brief gets a signed portal URL embedded in the email and a per-contact hub URL.
+
+The full sequence completes in 10-60 seconds. Recipients see the email within 30 seconds in most cases (subject to their mail provider's delivery speed).
+
+## What recipients see
+
+### In their inbox
+A branded HTML email with the brief content inline. The "View in portal" link at the top opens the hosted version.
+
+### In the hosted portal
+Two flavors:
+
+- **Single-brief portal**: `app.sendbriefs.com/portal/r/[token]`. Opens the specific brief in a branded web view.
+- **Contact hub portal**: `app.sendbriefs.com/portal/c/[contact-token]`. Lists every brief sent to that contact, on one page.
+
+Both support PDF download. Recipients don't need to log in — the token in the URL grants read access.
+
+> **Security model.** Portal URLs are bearer tokens. Anyone with the URL can view that brief. For clients with strict confidentiality needs, set the access tier to `verified` (requires a 6-digit code emailed to the contact's address before the portal loads). See [Clients → portal access](/features/clients/#stricter-portal-access).
+
+## Tracking what happens after send
+
+Each recipient has four signals on the brief's engagement bar (see [Reports & data](/features/reports/) for the full breakdown):
+
+- **Delivered** — SendGrid accepted and forwarded. Reliable.
+- **Opened** — tracking pixel loaded. Best-effort (privacy filters mask this).
+- **Clicked** — any tracked link clicked. Stronger signal.
+- **Portal views** — recipient opened the brief in the portal. Cleanest signal.
+
+Plus failure states:
+
+- **Bounced** — recipient's mail server rejected the message.
+- **Marked as spam** — recipient or filter marked the brief as spam.
+- **Failed** — couldn't submit to SendGrid at all (rare, indicates a workspace config issue).
+
+## Internal notifications
+
+You and your team get notified about activity inside SendBriefs — brief lifecycle, section work, team changes, mentions.
+
+### Event types
+
+| Event | What triggers it | Default channels |
+|---|---|---|
+| `report_submitted` | A brief moved to `pending_approval`. Approvers are notified. | In-app + email |
+| `report_approved` | Your brief was approved. Author is notified. | In-app + email |
+| `report_rejected` | Your brief had changes requested. Author is notified. | In-app + email |
+| `report_sent` | A brief you authored or co-authored was sent. | In-app |
+| `section_assigned` | You were assigned a section in a brief. | In-app + email |
+| `section_comment` | Someone commented on a section you're involved with. | In-app |
+| `member_joined` | A new teammate joined the workspace. | In-app |
+| `mention` | Someone @mentioned you. | In-app + email |
+
+### Channels
+
+Each event type has two independent toggles: **in-app** (the bell icon in the header + your `/notifications` page) and **email** (sent to your account address).
+
+Defaults are tuned for solo operators — in-app on for most things, email reserved for approvals, mentions, and direct assignments. For larger teams, you'll want to tune this per person to reduce noise.
+
+Change preferences from **Settings → Notifications** (or your personal `/notifications` page).
+
+<Placeholder type="screenshot" caption="Notification preferences screen — table of events with per-event in-app and email toggles" />
+
+### The bell icon
+
+The header bell shows unread in-app notifications. Click to see the list; click any notification to jump to the relevant brief or section. The unread count updates in real time as new notifications arrive.
+
+## What you can't get yet
+
+Setting honest expectations on what's *not* in the product today:
+
+- **No Slack notifications for brief activity.** The Slack integration exists for posting brief summaries to a channel (when you wire it up), but the team-notification fan-out (brief submitted, brief sent, etc.) doesn't route to Slack yet. In-app and email only.
+- **No SMS or push notifications.** Email + in-app are the only channels.
+- **No digest mode.** Notifications fire per event. If you want a quiet workspace, turn off email for routine events (`report_sent`, `section_comment`) and keep only the ones that demand attention.
+- **No custom event subscriptions.** You subscribe at the workspace level (every brief from any client), not per-client or per-template.
+
+## Unsubscribe and compliance
+
+Every brief includes an unsubscribe link in the footer (required by anti-spam law).
+
+When a recipient unsubscribes:
+
+1. They land on a confirmation page.
+2. They're added to a suppression list.
+3. We won't send future briefs to that address from this workspace.
+4. The workspace owner is notified.
+
+You can't disable the unsubscribe link — it's a legal requirement.
+
+## Common gotchas
+
+- **Open rates lie.** Apple Mail Privacy Protection pre-loads tracking pixels via a proxy, inflating opens to ~95-100% for iPhone users. Read clicks and portal views as the real engagement signal.
+- **Bounced contacts stay bounced.** A hard bounce suppresses the contact. To re-enable, update their email on the client record. Adding the same email back without changes won't re-enable delivery.
+- **Slack is for posting *brief summaries*, not notifications.** If you connected Slack expecting "tell me in Slack when a brief gets approved," that doesn't exist yet. You'll see the approval in-app and over email.
+- **Notification preferences are per-user, per-workspace.** If you belong to multiple workspaces, tune each one separately.
+
+## See also
+
+- [Reports & data](/features/reports/) — what you can see about a brief after it ships
+- [Briefs](/features/briefs/) — the artifact being delivered
+- [Edits & approvals](/flows/edits-and-approvals/) — the workflow that fires most of these notifications

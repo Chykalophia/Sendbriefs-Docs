@@ -1,0 +1,133 @@
+---
+title: Integrations
+description: Available data sources and the roadmap. What scopes we request, how OAuth works, what to expect per integration.
+sidebar:
+  order: 5
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Available today: <strong>Google</strong> (for Analytics) and <strong>Slack</strong>. Everything else on the marketing site — HubSpot, Stripe, GA4 direct, Google Search Console, Google Ads, Meta Ads, Linear, PostHog, BigQuery, Calendly, webhook — is on the roadmap and not yet wired up. Connect from <strong>Settings → Integrations</strong>.
+</aside>
+
+## How integrations work
+
+Every integration is connected at the **workspace level** — once per workspace, used across every client.
+
+The OAuth flow:
+
+1. From **Settings → Integrations**, click **Connect [provider]**.
+2. We redirect you to the provider's authorization screen.
+3. You sign in (with your account that has access to the data you want) and grant the requested scope.
+4. Provider redirects back to SendBriefs with a code.
+5. We exchange the code for an access token + refresh token, encrypt them at rest, and store them against your workspace.
+
+When you build a brief and add a data block, you pick which integration to pull from and which property/account/channel inside that integration to use. The per-client choice happens at the data-block level, not at the integration level.
+
+To disconnect: **Settings → Integrations → [provider] → Disconnect**. We immediately delete our stored tokens. Any briefs bound to that integration will show a binding warning on next render until you reconnect.
+
+---
+
+## Available now
+
+### Google
+
+**What it gives you:** Read-only access to Google Analytics for any property the connected Google account can view.
+
+**Scopes requested:**
+- `https://www.googleapis.com/auth/analytics.readonly`
+- `userinfo.email` and `userinfo.profile` (so we can show which account is connected)
+
+**Setup:**
+
+1. **Settings → Integrations → Connect Google**.
+2. Sign in with the Google account that has access to your clients' GA4 properties.
+3. Grant the read-only Analytics scope.
+4. The integration shows as **Connected** with the signed-in email.
+
+**Picking a property per client:** When you add a data block in the brief editor, you pick which GA4 property to pull from. The list shows every property the connected Google account can read.
+
+**Gotcha — multi-client property access.** One Google account may not have access to every client's GA4 property. Two patterns:
+
+- **Per-client Google account.** Disconnect and reconnect with a different account when working on different clients. Inconvenient but explicit.
+- **Shared agency Google account.** Add a single agency-owned Google account as a Viewer on every client's GA4 property. Connect once, see all of them. Recommended for agencies with more than three clients.
+
+### Slack
+
+**What it gives you:** A connection to a Slack workspace for posting brief activity to a channel.
+
+**Scopes requested:**
+- `chat:write`
+- `channels:read`
+- `users:read`
+
+**Setup:**
+
+1. **Settings → Integrations → Connect Slack**.
+2. Authorize the SendBriefs Slack app for your workspace.
+3. Pick which channel(s) to post to.
+
+**Gotcha — public channels only.** The current scope allows posting to public channels. Private channels need a different scope; let support know if you need it.
+
+---
+
+## Coming soon
+
+These integrations are on the roadmap and listed on the marketing site. They are **not yet wired up**. If you plan a brief around any of them, the data block will fail to bind.
+
+| Integration | What it'll give you | Status |
+|---|---|---|
+| **HubSpot** | CRM data — companies, deals, pipeline | Roadmap |
+| **Stripe** | Revenue, subscriptions, MRR, churn | Roadmap |
+| **Google Search Console** | Organic search performance — queries, clicks, impressions | Roadmap |
+| **Google Ads** | Paid search performance — spend, conversions, ROAS | Roadmap |
+| **Meta Ads** | Facebook + Instagram campaigns — spend, reach, conversions | Roadmap |
+| **Linear** | Project status — issues shipped, in progress, blockers | Roadmap |
+| **PostHog** | Product analytics — events, funnels, retention | Roadmap |
+| **BigQuery** | Direct warehouse access for custom data | Roadmap |
+| **Calendly** | Meetings booked, kept, no-show rate | Roadmap |
+| **Webhook** | Generic inbound for anything we don't natively integrate | Roadmap |
+
+We'll update this page as each ships. If a specific integration is blocking your workflow, [let us know](mailto:support@sendbriefs.com) — that informs the priority order.
+
+---
+
+## Health, errors, and reconnects
+
+Each connected integration shows a status indicator in **Settings → Integrations**:
+
+- **Green** — token is valid and tested recently.
+- **Red** — token is invalid, usually because the user reset access on the provider's side.
+
+A red status means briefs bound to that integration will show binding warnings until you reconnect. Click **Reconnect** to re-run the OAuth flow with the same provider — your settings (channels, properties) are preserved.
+
+## Workspace-level only (for now)
+
+Some agencies ask about **per-client OAuth** — connecting a separate token per client so each client's data is fully isolated.
+
+We don't support that yet. All integrations are workspace-scoped, and the per-client filter happens when you bind data inside a brief. If you need true per-client isolation (e.g., for compliance reasons), the pattern is to run those clients in separate workspaces.
+
+## What's *not* on the roadmap
+
+To set honest expectations:
+
+- **Salesforce, Pipedrive** — no plans yet. Most agency CRM data lives in HubSpot.
+- **TikTok Ads, LinkedIn Ads** — interest depends on requests. Email support if these block your work.
+- **Plausible, Fathom, Matomo** — not planned. GA4 is the focus.
+- **QuickBooks, Xero** — not planned at this layer. If you need financial data in briefs, the path is Stripe → webhook → SendBriefs once that ships.
+
+Let support know what you're missing — that's how we set priorities.
+
+## Common gotchas
+
+- **OAuth tokens expire.** We refresh in the background using the provider's refresh token. If we can't refresh (e.g., user reset access), the integration goes red and the next brief render shows a warning.
+- **Workspace-scoped, not client-scoped.** One Google connection covers every GA4 property your account can read. To switch which property feeds a specific brief, change the block-level binding, not the integration.
+- **Disconnecting is irreversible from our side.** We delete the tokens immediately. The provider's revocation is also immediate. To re-enable, run the OAuth flow again.
+
+## See also
+
+- [Reports & data](/features/reports/) — what you see *after* a brief sends
+- [Briefs → block editor](/features/briefs/#the-block-editor) — where you bind integration data
+- [Connect your first client](/getting-started/connect-first-client/) — the end-to-end walkthrough

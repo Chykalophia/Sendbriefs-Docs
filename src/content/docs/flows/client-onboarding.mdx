@@ -1,0 +1,144 @@
+---
+title: Onboarding a new client
+description: A repeatable recipe for adding a new client to your workspace and shipping their first brief in the same sitting.
+sidebar:
+  order: 2
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Four steps: <strong>create the client record (2 min) → add their contacts (2-3 min) → check the integration is connected (1 min, since most are workspace-level) → spin up their first brief from your house template (10-15 min)</strong>. Ship a test brief in the same sitting.
+</aside>
+
+This is the recipe for adding a new client once your workspace is set up and you already have a house template. For the very first client, follow [Getting Started](/getting-started/welcome/) instead.
+
+## Before you start
+
+Have these ready:
+
+- **Client name** and **primary contact email**.
+- **Client logo** if you white-label.
+- **Access to the client's data sources** — usually means the relevant Google account has Viewer access to the client's GA4 property. If you haven't done that, hold off on the brief until it's sorted.
+
+## Step 1: Create the client record (2 minutes)
+
+1. **Clients → New client**.
+2. Fill in:
+   - **Name** (display name in your nav).
+   - **Website** (optional but useful for context).
+   - **Logo** (optional; for white-label briefs).
+   - **Primary contact name + email** (recommended — they'll be the default brief recipient).
+3. Click **Create**.
+
+You'll land on the client detail page.
+
+## Step 2: Add the rest of the contacts (2-3 minutes)
+
+From the client detail page, click **Contacts → Add contact** for each person:
+
+| Role | Typical use | `receive reports` |
+|---|---|---|
+| **Primary** | The main day-to-day contact. | On |
+| **Stakeholder** | Execs or specialists who want visibility. | Usually on |
+| **Billing** | Handles invoices and money questions. | Usually off |
+| **Technical** | Owns the data connection (e.g., the GA4 property admin). | Usually off |
+
+Toggle **receive reports** for each based on whether that contact should be in the brief recipient list.
+
+> **Reminder:** clients don't log in. Every contact reads briefs by email and via a signed-link portal. The role is for your organization; it doesn't change what they see.
+
+## Step 3: Confirm data sources (1 minute)
+
+Integrations are connected at the **workspace** level, not per-client. If your workspace already has Google connected (the typical case), you don't need to do anything here — the connection is already in place.
+
+What changes per-client is which property/account you bind to in the brief editor. You'll do that in the next step.
+
+If the new client uses data sources you haven't connected yet (e.g., a Slack channel, or one of the integrations on the roadmap), do that now from **Settings → Integrations**.
+
+## Step 4: Build the first brief (10-15 minutes)
+
+1. **Reports → New brief**.
+2. Fill in:
+   - **Title**: something like "May 2026 — Acme Co performance" (or whatever your house format is).
+   - **Client**: the one you just created.
+   - **Template**: your house template (or start blank if you don't have one yet).
+   - **Reporting period**: usually "last month" or "month-to-date."
+3. Click **Create** — you'll land in the block editor.
+4. For each data block: pick the integration and the specific property/account for this client.
+5. Skim the rendered preview. Numbers reasonable? Branding right? Recipient list correct?
+
+## Step 5: Send a test to yourself first
+
+Before the client sees anything:
+
+1. From the brief menu, click **Send test to me**.
+2. Open it in your inbox. Check:
+   - The numbers match what's in the source platform.
+   - Branding looks right (client logo if white-label, workspace branding otherwise).
+   - The portal link works and the portal view looks correct.
+   - Subject line and "from" name read well.
+
+If anything's off, fix in the editor and re-test. The test send doesn't go to the client — it's safe to do as many as you need.
+
+## Step 6: Send to the client
+
+When the test looks right:
+
+1. Click **Send to client**.
+2. Confirm the recipient list.
+3. Hit Send.
+
+The brief moves to `sent`. The engagement bar appears at the top of the brief and starts filling in (delivered → opened → clicked → portal view).
+
+> If your workspace requires internal approvals, the path is **Send → Submit for approval → approver clicks Approve → Send**. Adds a step but no more than a few minutes for a routine brief.
+
+## Step 7: Move them into the recurring cycle
+
+If recurring sends are available in your workspace and you have a steady cadence (most agencies do):
+
+1. From the brief detail page, set up a **recurring schedule** matching your house cadence.
+2. Done. Future periods will create + render + send automatically; you'll review them as part of your weekly cycle.
+
+If recurring isn't available yet for your workspace, hold this client in your manual rotation — create + send each period from the template until the feature ships.
+
+## A useful onboarding-day checklist
+
+Walk through this when you onboard a new client:
+
+- Client record created (name, website, logo)
+- All contacts added with correct role + `receive reports` flag
+- Integration available at the workspace level for the data the brief needs
+- House template applied to the first brief
+- Data blocks bound to the correct properties/accounts for this client
+- Preview reviewed — numbers spot-checked against source platforms
+- Test brief sent to your own email
+- Test reviewed — looks right
+- Real brief sent to client
+- Recurring schedule set up (if available)
+- Client added to your Friday review queue (mental note or actual calendar entry)
+
+## Common bumps
+
+### The client uses an integration that's not connected yet
+
+If it's on our roadmap ([Integrations](/features/integrations/)) but not live, you can still build the brief with manual/prose content for that section until the integration ships. Or skip that brief block entirely for now.
+
+### Your house template has blocks that don't apply to this client
+
+Edit the brief (not the template) to remove or hide those blocks for this client. Don't fork the template just for one client unless you have multiple clients with the same pattern.
+
+### Client doesn't have a logo yet, but you white-label
+
+Leave the client logo blank — the workspace branding shows up instead. Add the logo later when you have it; previously-sent briefs are frozen so they keep the old branding, but new ones pick up the change.
+
+### Client wants their own "from address"
+
+The "from" address is workspace-wide (default `reports@sendbriefs.com`). Per-client sending domains aren't in the product today. If this is a hard requirement, run that client in a separate workspace.
+
+## See also
+
+- [Connect your first client](/getting-started/connect-first-client/) — the very first walkthrough
+- [Templating a recurring brief](/flows/templating-recurring/) — building the house template this onboarding relies on
+- [Monthly client reporting workflow](/flows/monthly-reporting/) — the cycle the new client joins

@@ -1,0 +1,141 @@
+---
+title: Monthly client reporting workflow
+description: The standard end-to-end recipe for sending monthly briefs to a roster of clients without it eating your Friday.
+sidebar:
+  order: 1
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+The workflow: <strong>build one template → bind once per client → review the queue weekly → ship</strong>. After initial setup (~20 minutes per client), the monthly cycle becomes ~10 minutes of review per Friday instead of a full Friday of report assembly.
+</aside>
+
+## The painful version (what we're replacing)
+
+Without SendBriefs, the typical monthly cycle:
+
+1. **Day 1 of the month**: log into 3-5 platforms per client, copy numbers into a Google Doc.
+2. **Days 2-4**: format, polish, write commentary, fix the formatting again.
+3. **Day 5**: send manually, often with last-minute fixes.
+4. **Days 5-7**: chase the one client who replies "can you also include X?"
+5. **Repeat for every client.** Twenty clients × 2 hours × 12 months = 480 hours per year on report assembly alone.
+
+## The SendBriefs version
+
+After the initial setup, the cycle:
+
+1. **Friday before send day**: open the queued briefs for the upcoming send. Skim each preview. Approve or flag for edits. ~10 minutes for a roster of 20 clients.
+2. **Send day**: briefs go out on schedule. The engagement bar fills in as recipients open and click.
+3. **Through the week**: respond to actual client questions about the *content* — not the formatting.
+
+If you do this for a year: ~60 hours of active reporting work instead of 480. The reclaimed time goes to client strategy, new business, or — radically — taking Fridays off.
+
+## Setup: do this once
+
+### Build your house template
+
+Start from a brief that worked well (yours or a starter). Click **Save as template** from the brief menu. Name it durably — "Monthly performance — Studio v2."
+
+The template remembers the block structure, cadence (set this to `monthly`), and section layout. Per-client data values are NOT saved — they re-resolve each period from the connected integrations.
+
+[Templating a recurring brief →](/flows/templating-recurring/) covers this in detail.
+
+### Per-client briefs from the template
+
+For each client:
+
+1. **Reports → New brief → From template → [your template]**.
+2. Set the **client** to the one you're onboarding into the cycle.
+3. Set the **reporting period** to "last calendar month" (or whatever your standard is).
+4. Save as draft.
+
+You now have a draft brief per client, all using the same template.
+
+### Move briefs to the recurring cycle
+
+For each draft, set it on a recurring schedule from the brief detail page:
+
+- **Cadence**: monthly on day 1, 2, or 3 (later in the month gives integrations time to settle their final numbers).
+- **Send time**: 9–10 am client-local.
+- **Approval policy**: optional. If your workspace requires approvals, the brief will move to `pending_approval` ahead of the scheduled send.
+
+> **Heads up on scheduling.** Recurring sends are governed by a feature flag in the current preview. If you don't see the "Set recurring" option on a draft, the feature isn't enabled for your workspace yet — email support to flip it on. In the meantime, the manual path is to create each period's brief from the template on send day.
+
+## The monthly cycle (after setup)
+
+### Friday before send week: review
+
+The previous month's data is now available. Open **Reports** and look at the briefs scheduled for the upcoming Monday.
+
+For each:
+
+1. Click to open the brief.
+2. Skim the numbers. Anything that looks wildly off (10× anomaly, missing data warning)?
+3. If something looks wrong: open the underlying data, decide if it's a real issue or a binding glitch.
+4. If something is genuinely interesting (a record high or low, a campaign that worked): add a one-line commentary to the prose block.
+5. Approve (if your workspace requires approval), or just leave it scheduled.
+
+For 20 clients, this takes about 10 minutes. The whole point is that *most* months are routine — the data is right and the brief reads itself.
+
+### Send day: ignore everything (almost)
+
+Briefs send automatically on their scheduled time. You'll see `report_sent` notifications (in-app, plus email if you've left email on for that event) as each one ships.
+
+If a brief fails to send (integration broken, data block returned an error), you'll see a notification immediately. Reconnect the integration in **Settings → Integrations** and the next render will catch up.
+
+### Through the week: respond to substance
+
+Most replies are positive — "thanks, looks great." Some will be substantive — "wait, why did organic traffic drop?"
+
+These are the conversations you want to be in. They're not formatting questions; they're strategy questions. SendBriefs gives you back the time to answer them well.
+
+## What to do when it goes wrong
+
+### Integration broken during a batch
+
+If GA4 tokens expired or Slack disconnected, the affected briefs will fail their next render. Reconnect from **Settings → Integrations**, then re-run the brief. The notification system will surface the failure; you don't have to babysit.
+
+### A client wants a one-off addition
+
+Open their next scheduled brief. Add the requested block or write commentary in a prose block. Save. The recurring schedule continues unchanged — your edit applies only to this period.
+
+If they want this every month, add it to the template instead.
+
+### A client wants a different cadence
+
+Edit the recurring schedule on their specific brief. The change is per-client, not template-wide.
+
+### You want to pause everything
+
+Each recurring brief can be paused from its detail page. For a workspace-wide pause (around holidays, transitions, etc.), there's no single "pause all" toggle — you'd pause each client's recurring brief individually. If you have a large roster, email support and we can handle this in one operation.
+
+## A sample weekly rhythm
+
+How one pilot agency (15 clients, 2-person team) runs it:
+
+| Day | Activity | Time |
+|---|---|---|
+| **Mon AM** | Skim `report_sent` notifications from Sunday-night batch. | 3 min |
+| **Mon-Wed** | Substantive client replies. | Variable |
+| **Thu** | Onboard new client (if any). Test template changes. | 30 min |
+| **Fri PM** | Review next week's queued briefs. Approve. | 10 min |
+| **Sat-Sun** | Off. | 0 min |
+
+The Friday review is the load-bearing habit. Treat it like a 10-minute calendar event. If you skip it, the briefs still send — but you lose the opportunity to add per-period commentary that turns a report into a conversation.
+
+## What's not in the product yet
+
+To be honest about gaps in the current preview:
+
+- **No bulk-schedule UI.** You set the schedule per draft. For 5-10 clients this is fine; for 50 clients, ask support about a one-time bulk setup.
+- **No Slack digest of sent briefs.** Slack notifications for brief activity aren't wired up yet (the Slack integration exists for other purposes). You'll see `report_sent` notifications in-app and over email.
+- **No automatic correction-send.** If a brief shipped with bad data, the path is: fix the underlying issue, manually resend from the brief menu, and add a note in the email body explaining the correction.
+
+## See also
+
+- [Templating a recurring brief](/flows/templating-recurring/) — the template work that makes this scale
+- [Onboarding a new client](/flows/client-onboarding/) — adding a client to the cycle
+- [Edits & approvals](/flows/edits-and-approvals/) — the approval workflow when you need extra eyes
+- [Briefs → state machine](/features/briefs/#brief-state-machine) — what's happening under the hood

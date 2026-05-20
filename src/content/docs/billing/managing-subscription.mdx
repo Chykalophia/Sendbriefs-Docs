@@ -1,0 +1,118 @@
+---
+title: Managing your subscription
+description: Where billing lives in the app, how to update payment, and what happens at renewal.
+sidebar:
+  order: 2
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Billing lives at <strong>Settings → Billing</strong>. Subscription changes (plan, payment method, cancellation) route through Stripe's hosted Customer Portal. Only <strong>Owners and Admins</strong> can access billing.
+</aside>
+
+## Where billing lives
+
+In the app: **Settings → Billing**. Only Owners and Admins see this section.
+
+You'll find:
+
+- Your current plan
+- Trial status (if you're still in the 14-day trial)
+- A link to **Manage in the customer portal** — opens Stripe's hosted Customer Portal in a new tab
+
+Most of the actual billing operations — updating your card, changing plans, downloading invoices, canceling — happen in the Stripe-hosted Customer Portal rather than in our UI directly. We pass you through to Stripe and let their hosted UX handle the payment-card-handling parts. Stripe is PCI-compliant by default; we never see your card data.
+
+## Starting a subscription (first time)
+
+After your 14-day trial ends (or earlier if you're ready to subscribe):
+
+1. **Settings → Billing**.
+2. Click **Choose a plan** (or **Upgrade** if you're already past the trial limit).
+3. You're redirected to a **Stripe Checkout** session — a hosted page with the plan selection and payment fields.
+4. Enter your card details and confirm.
+5. You're returned to **Settings → Billing** with the success state.
+
+The workspace is now on a paid plan. The first charge happens immediately for the prorated amount.
+
+## Updating your payment method
+
+1. **Settings → Billing → Manage in the customer portal**.
+2. Stripe Customer Portal opens.
+3. Under **Payment methods**, click **Add payment method** or update the existing card.
+4. Save.
+
+The new card applies to your next charge. The current cycle's payment is unchanged.
+
+## Changing plans
+
+Same path — through the Stripe Customer Portal:
+
+1. **Settings → Billing → Manage in the customer portal**.
+2. Click **Update plan** (or similar; Stripe's UI evolves).
+3. Pick the new tier.
+4. Stripe walks you through the confirmation, prorations, and (if applicable) the new charge.
+
+For upgrades, the change usually takes effect immediately and you're charged the prorated difference.
+
+For downgrades, the change applies at the end of the current billing cycle (you don't lose features you've paid for).
+
+> **First-time subscriptions** route through Stripe Checkout (a session-based flow). **Subsequent plan changes** route through the Customer Portal's update-confirm flow. Same end result, slightly different UX.
+
+## What you can do in the Customer Portal
+
+The Customer Portal handles:
+
+- **Payment methods** — add, remove, set default
+- **Billing address** — used on invoices
+- **Tax ID** — for VAT-registered businesses, set your tax ID so it appears on invoices
+- **Invoices** — list, download as PDF, email to yourself
+- **Cancel subscription** — at end of current cycle
+
+When you come back to SendBriefs after a change, the workspace reflects the new state (typically within seconds; up to a minute for some changes via webhook).
+
+## Billing cycle and renewal
+
+- **Monthly plans** charge on the same day each month (closest business day if your billing day is on a weekend).
+- **Annual plans** charge once a year on the anniversary of your subscription start.
+
+You'll get an email from Stripe with the receipt after each charge. SendBriefs surfaces the receipt in the Customer Portal too.
+
+## Failed payments
+
+If your card is declined:
+
+1. Stripe retries on its standard schedule (typically 3 / 5 / 7 days).
+2. You get email notifications from Stripe for each retry.
+3. SendBriefs surfaces an in-app banner once a payment fails.
+
+If retries don't succeed within Stripe's window, **the workspace transitions to a suspended state**. Briefs stop sending; data is preserved. Update your payment in the Customer Portal and the workspace resumes once the next charge succeeds.
+
+## Multi-workspace billing
+
+Each workspace has its own subscription. No "umbrella" billing across multiple workspaces in the current preview.
+
+If you operate multiple workspaces and need a consolidated invoice, that's an Enterprise conversation — [email support](mailto:support@sendbriefs.com).
+
+## What's not in the product today
+
+To be honest about gaps:
+
+- **ACH / wire / SEPA payments.** Only credit card / debit card via Stripe Checkout in the preview. Larger plans may add ACH later.
+- **Tax-info edits inside the SendBriefs UI.** Tax ID and billing address live in the Stripe Customer Portal; we don't mirror them in our own settings.
+- **Multi-currency.** USD by default in the preview. We'll expand currency options as we ship to more regions.
+- **Reseller / partner pricing.** Not currently structured. If you're managing workspaces for multiple agency clients, email support to discuss.
+
+## Common gotchas
+
+- **Plan changes go through Stripe.** If you click "Update plan" in our UI and nothing happens, check whether your browser's pop-up blocker is preventing the Stripe Portal from opening.
+- **Tax ID lives in Stripe.** To put a VAT number or business tax ID on your invoices, set it in the Customer Portal (not in our settings — that's not where Stripe pulls it from).
+- **You can't have two cards on file.** The Customer Portal allows multiple payment methods but only one is the "default." Updating the card replaces the default.
+- **Owners and Admins only.** Members can't see billing. The "Manage in the customer portal" button is hidden for them.
+
+## See also
+
+- [Pricing & plans](/billing/plans/) — what each tier includes
+- [Invoices & receipts](/billing/invoices/) — accessing and downloading invoices
+- [Upgrading, downgrading, canceling](/billing/upgrading-canceling/) — mid-cycle plan changes

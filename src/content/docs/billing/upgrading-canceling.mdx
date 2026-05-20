@@ -1,0 +1,146 @@
+---
+title: Upgrading, downgrading, canceling
+description: How plan changes work, what cancellation does to your workspace, and how to come back later.
+sidebar:
+  order: 4
+---
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Upgrades are immediate and prorated. Downgrades take effect at the end of the current cycle. Cancellation stops the subscription at cycle end; afterwards the workspace transitions to suspended (briefs stop, data preserved). All these changes route through the Stripe Customer Portal.
+</aside>
+
+## Upgrading
+
+Upgrades take effect immediately. You're charged the prorated difference for the remainder of the current cycle.
+
+### How to upgrade
+
+1. **Settings → Billing → Manage in the customer portal**.
+2. The Stripe Customer Portal opens.
+3. Click **Update plan** (or the equivalent CTA on the portal).
+4. Pick the new tier.
+5. Stripe shows the prorated charge.
+6. Confirm.
+
+The upgrade reflects immediately in SendBriefs — gated features become available within seconds.
+
+### Proration math
+
+If you upgrade mid-cycle:
+
+- Stripe credits the unused portion of your current plan for the rest of the cycle.
+- Stripe charges the prorated cost of the new plan for the same period.
+- The difference is the amount on your next charge.
+
+You can also see the proration preview in the Customer Portal before confirming.
+
+## Downgrading
+
+Downgrades take effect **at the end of the current billing cycle**, not immediately. You don't lose features you've already paid for.
+
+### How to downgrade
+
+Same path: **Settings → Billing → Manage in the customer portal → Update plan → pick a lower tier**.
+
+You'll see a notice: "Plan will downgrade to [Plan] at the end of the current cycle." Until that date, you have your current plan's features.
+
+### Hitting the new plan's limits
+
+You can't downgrade to a plan whose limits you currently exceed. For example, if you have 30 clients on the Agency plan and try to downgrade to Solo (which allows ~5 clients), the change will be rejected.
+
+The portal will surface this. Either archive enough clients to fit under the lower plan's limit, or stay on your current tier.
+
+## Canceling
+
+Canceling stops your subscription at the end of the current billing cycle. You keep access until then.
+
+### How to cancel
+
+1. **Settings → Billing → Manage in the customer portal**.
+2. Click **Cancel subscription** (or the equivalent CTA).
+3. Stripe asks for confirmation and (optionally) a reason.
+4. Confirm.
+
+You'll get a cancellation confirmation email. The subscription remains active until the end of the current cycle.
+
+### Canceling mid-cycle
+
+You keep access through the end of the cycle you've already paid for. We don't refund the unused portion automatically — for that, see the [refund policy](#refunds-policy) below.
+
+### What happens after the cancellation date
+
+When the cycle ends and the cancellation takes effect:
+
+1. **Briefs stop sending.** Any scheduled briefs are paused.
+2. **The workspace transitions to a suspended state.** You can still log in and see everything, but you can't create new briefs or send. Data is preserved.
+3. **You can reactivate at any time** by picking a plan again (see below).
+
+> **Data retention after cancellation** isn't explicitly documented in the preview. If you're cancelling and need a specific data-retention commitment, talk to support before you cancel.
+
+## Reactivating after cancellation
+
+To come back after canceling:
+
+1. Log in to your existing account.
+2. The workspace shows a "Subscription required" banner.
+3. **Settings → Billing → Choose a plan** (or click the banner).
+4. Pick a plan, complete Stripe Checkout, confirm.
+
+If you're reactivating within a short window, your data should be intact — templates, clients, integrations, audit logs. Any briefs that *would* have sent during the suspended window are not auto-sent; you decide whether to send them now or skip.
+
+## Switching billing cadence (monthly ↔ annual)
+
+To switch from monthly to annual:
+
+1. **Settings → Billing → Manage in the customer portal**.
+2. Pick the annual variant of your current plan.
+3. Stripe prorates the unused monthly portion as a credit toward the annual charge.
+4. Confirm.
+
+To switch from annual back to monthly, the change happens at your annual renewal date — we don't break annual contracts mid-cycle.
+
+## Refunds policy
+
+Refund handling depends on the situation:
+
+- **First 30 days of annual**: typically refundable on request. Email support.
+- **Monthly plan cancellations**: no refund of the in-progress cycle; the cycle plays out and then ends.
+- **Mid-annual cancellations**: handled case-by-case. Email support and we'll work through the specifics.
+- **Mistaken charges** (e.g., you canceled and were still charged): emailed to support, resolved within 1 business day.
+
+## Exporting data before canceling
+
+If you're canceling and want a clean copy of your data:
+
+- **Brief content** — each brief in `sent` state has a portal URL you can save (PDF download is available from the portal).
+- **Templates** — currently in-app only; no JSON export in the preview. If you need a copy, email support.
+- **Client list** — currently in-app only; no CSV export in the preview. Email support for a one-time export.
+- **Audit log** — Owners and Admins can request a CSV export from support.
+
+Once data export is more first-class in the product, we'll update this page.
+
+## What happens to your clients' data
+
+Cancellation only affects *your* workspace. Briefs already in your clients' inboxes stay there — they're not retracted. Portal links remain accessible until the portal tokens expire (or until your workspace data is purged per retention policy, whichever comes first).
+
+We **don't** automatically email your clients on your behalf when you cancel. That's your call.
+
+## What's not in the product today
+
+- **In-app plan change UI.** All plan changes route through Stripe's Customer Portal. We surface a button; Stripe handles the flow.
+- **Self-serve bulk data export.** No "download everything as a ZIP" button. Email support for a workspace-wide export.
+- **Auto-notify clients on cancellation.** No built-in client-facing comms when you wind down. Manual outreach is your responsibility.
+
+## Common gotchas
+
+- **Downgrade gotcha:** if you're on Agency with 20 team members and try to downgrade to Solo, you'll need to remove most members first.
+- **Annual cancellation timing:** canceling on day 360 of a 365-day annual cycle means you have 5 more days of access, then it ends.
+- **Reactivation is account-level, not workspace-level.** Your user account stays usable for other workspaces even if a specific workspace is suspended.
+- **You can have multiple cancellations and reactivations.** No penalty for changing your mind, but the data retention clock starts each time.
+
+## See also
+
+- [Pricing & plans](/billing/plans/) — what each tier includes
+- [Managing your subscription](/billing/managing-subscription/) — Stripe Customer Portal access
+- [Invoices & receipts](/billing/invoices/) — accessing past invoices

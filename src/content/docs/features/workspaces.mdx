@@ -1,0 +1,122 @@
+---
+title: Workspaces & teams
+description: Workspace settings, member roles and permissions, invitations, branding, MFA, and the multi-workspace pattern.
+sidebar:
+  order: 4
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Most agencies need one workspace. It holds members, clients, integrations, billing, and branding. Members get one of three roles — <strong>Owner / Admin / Member</strong>. Invitations expire in 7 days. Owners can enforce MFA for the whole workspace.
+</aside>
+
+## Workspace settings
+
+Open **Settings** in the sidebar. The tabs you'll use most:
+
+- **Workspace** — name, agency details, branding (logo + colors), MFA enforcement.
+- **Team** — invite, remove, change roles.
+- **Integrations** — connected data sources.
+- **Billing** — subscription, payment method, invoices (via the Stripe Customer Portal).
+- **Notifications** — your per-event in-app and email preferences.
+
+## Member roles
+
+| Role | Can do | Can't do |
+|---|---|---|
+| **Owner** | Everything: manage members, billing, integrations, workspace settings. Delete the workspace. | n/a |
+| **Admin** | Everything Owner can do except delete the workspace. | Delete workspace. |
+| **Member** | Create and edit briefs they own. Read briefs from teammates. Read clients, contacts, and the team directory. | Manage billing, team, or workspace settings. Edit briefs they don't own. |
+
+Roles are configured per-workspace; the same person can be an Owner in one workspace and a Member in another.
+
+> There's a fourth role internally called **Client** — but that's for portal recipients, not for human team members. You don't assign it. Clients view briefs through a signed link, not a login. See [Clients](/features/clients/).
+
+## Inviting members
+
+From **Settings → Team**, click **Invite member**:
+
+1. Enter email — one at a time.
+2. Pick a role (Owner, Admin, Member).
+3. Send.
+
+The invitee gets an email with a sign-up link valid for **7 days**. If they miss it, resend from the same screen — the old token is revoked.
+
+If they're already a SendBriefs user, they'll switch into the workspace from their account menu. Otherwise they go through signup first, then land in the workspace.
+
+## Removing or downgrading members
+
+From **Settings → Team**, click a member's row:
+
+- **Change role** — promote or demote.
+- **Remove from workspace** — they lose access immediately. Their previously-authored briefs stay; you can't delete a Member's contribution after the fact.
+
+Owners can't be removed by Admins — only another Owner (or self-removal after transferring ownership) can do that.
+
+## Transferring ownership
+
+There must be at least one Owner. To hand off:
+
+1. Promote the new person to **Owner** from their row.
+2. Demote yourself to **Admin** or **Member** (or remove yourself).
+
+You can't reduce the workspace to zero Owners. The UI will refuse.
+
+## Multi-factor authentication
+
+Two layers:
+
+### Per-user MFA
+Any user can enable TOTP-based MFA for themselves from **Settings → Profile → Security**. Strongly recommended for anyone with Owner or Admin access.
+
+### Workspace-enforced MFA
+Owners can require every member to have MFA enabled. From **Settings → Workspace → Security**, flip on **Require MFA**.
+
+Once enforced:
+
+- Existing members who don't have MFA enabled will be required to enroll TOTP at next login before they can do anything else.
+- New invitees go through the same gate on first login.
+
+This is a one-way switch from a security standpoint — turning it off again later is allowed, but members who enrolled stay enrolled (they have to disable per-user).
+
+## Branding
+
+Workspace branding has three knobs:
+
+- **Logo** — PNG, JPG, or SVG. Square works best (renders at 32 × 32 in the nav, scales up for brief headers).
+- **Primary color** — used for CTAs, links, the active-state highlight. Default `#6366f1` (indigo).
+- **Accent color** — used for gradient accents and decorative chrome. Default `#8b5cf6` (violet).
+
+Edit from **Settings → Workspace → Branding**. Changes apply immediately to new briefs; previously-sent briefs keep their rendered state (history is frozen).
+
+### Per-client branding
+Per-client logo is supported (set on the client record). Per-client colors are not — clients inherit workspace colors. If you have white-label workflows with multiple agency sub-brands, run them in separate workspaces.
+
+## Multi-workspace pattern
+
+You'd want multiple workspaces if:
+
+- You operate **two distinct agency brands** that don't share clients or staff.
+- You need **hard data isolation** for compliance (e.g., healthcare clients in their own workspace with stricter access).
+- You run an **agency network** where each franchise has its own data, members, and billing.
+
+Each workspace is fully separate: separate billing, separate members, separate client list, separate integrations. Briefs and clients don't cross.
+
+To switch workspaces, click your avatar in the top right and pick from the menu. If you only belong to one, the menu just shows that one.
+
+> Most agencies need exactly one workspace. If you're not sure whether you need a second, you don't.
+
+## Common gotchas
+
+- **There's no Editor or Viewer role.** If you're used to other tools, the SendBriefs model is just Owner / Admin / Member. Permissions are coarser — Members get edit access to their own briefs by default, not viewer-only access.
+- **You can't move briefs between workspaces.** Briefs are workspace-scoped. If you need to migrate, save the brief as a template, then re-create it in the destination workspace from the template.
+- **Removed members can't be un-removed automatically.** Re-invite them by email — they'll go through the standard invite flow.
+- **Workspace deletion is hard.** Only an Owner can delete, and the action is two-step with confirmation. All briefs, clients, and history go with it. There's no undo.
+
+## See also
+
+- [Clients](/features/clients/) — what's inside the workspace
+- [Notifications & delivery](/features/notifications/) — team notification preferences
+- [Edits & approvals](/flows/edits-and-approvals/) — the review workflow that uses these roles

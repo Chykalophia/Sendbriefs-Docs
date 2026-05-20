@@ -1,0 +1,63 @@
+---
+title: API access
+description: A public REST API for SendBriefs is in development. Here's where things stand.
+sidebar:
+  order: 1
+  badge:
+    text: Soon
+    variant: note
+---
+
+A public REST API for SendBriefs is in active development. The OpenAPI spec is drafted; the public endpoints aren't yet deployed.
+
+## Where things stand today
+
+- **OpenAPI 3.0 spec exists** internally with around 50 endpoints (clients, briefs, sections, templates, integrations, notifications, billing).
+- **Endpoints are implemented** but currently live behind the same cookie-based session the in-app dashboard uses — they're not yet exposed at a separate `api.sendbriefs.com` domain or accessible via API token.
+- **API access is positioned as an Enterprise-tier feature.** When public access ships, it'll be part of the Enterprise plan.
+
+## What you can do via API today
+
+Nothing publicly. The endpoints listed in the OpenAPI draft (`POST /api/clients`, `POST /api/reports/[id]/send`, etc.) are accessible from the dashboard but not from external tooling.
+
+If you have a specific automation need that's blocking you, [email support@sendbriefs.com](mailto:support@sendbriefs.com) and describe what you're trying to build. We may be able to help you achieve the workflow another way (e.g., through the dashboard's bulk actions, or a one-off operation on our side) while the public API matures.
+
+## What's coming when the API ships
+
+The first public endpoints are likely to cover:
+
+- **Programmatic client creation** — provision a new client from your CRM when a deal closes.
+- **Programmatic brief send** — trigger a one-off brief from your own systems.
+- **Read access** to brief metadata, engagement data, and recipient delivery status — useful for syncing into a data warehouse.
+- **Webhook registration** — subscribe your own endpoint to brief lifecycle events (`report_sent`, `report_approved`, etc.).
+
+This is a working list, not a commitment. The exact endpoint surface will be confirmed when the API ships.
+
+## When
+
+We don't pre-announce ship dates we're not sure of. Realistic window for the first public endpoints: **a few months after general availability of SendBriefs itself**.
+
+The Enterprise-tier gating is intentional — we want a small set of customers exercising the API in production before opening it up.
+
+## Auth and rate limits (planned)
+
+The drafted spec uses **JWT bearer authentication** and **per-tier rate limits** (the Enterprise tier supports the highest limits — into the thousands of requests per minute).
+
+These details may change before launch. Treat them as design intent, not contract.
+
+## Existing webhooks (inbound, system-only)
+
+To be clear about what's *not* an API for you:
+
+- The endpoints at `/api/webhooks/sendgrid` and `/api/webhooks/stripe` exist to receive events FROM those services — they're not user-callable.
+- There is no public "send your data to us" webhook surface yet. The "Webhook" integration on the roadmap (see [Integrations](/features/integrations/#coming-soon)) will be the user-facing inbound webhook.
+
+## Wait list
+
+If you want to be notified the day the public API is available, [email support@sendbriefs.com](mailto:support@sendbriefs.com) with "API wait list" in the subject. One email when the API ships — no drip, no marketing follow-up.
+
+## See also
+
+- [Integrations](/features/integrations/) — outbound connections we currently support
+- [Reports & data](/features/reports/) — what's available from the dashboard today
+- [Notifications & delivery](/features/notifications/) — what the system fires when things happen

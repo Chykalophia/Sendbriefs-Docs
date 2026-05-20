@@ -1,0 +1,134 @@
+---
+title: Templating a recurring brief
+description: Build one template that works across every client and stays current period after period.
+sidebar:
+  order: 3
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Save your best brief as a template. Strip out client-specific copy. Let data blocks re-resolve each period. Keep prose blocks for the parts that need editorial judgment. <strong>Two templates is fine. Twelve is a sign you're not keeping them lean enough.</strong>
+</aside>
+
+## What a template actually is
+
+A template is a saved brief structure that you can spin up new briefs from. It remembers:
+
+- The block layout — text, headings, data blocks, charts, callouts, in the order you set.
+- The default **cadence** — daily, weekly, biweekly, monthly, quarterly, milestone, ad-hoc, or custom.
+- The section structure — section titles, default content statuses, default assignments.
+
+What a template does NOT remember:
+
+- **Per-client data values.** Each render pulls fresh numbers from the bound integration.
+- **The specific client.** You pick that when you create a new brief from the template.
+- **The reporting period.** That's set per-brief.
+
+## How to save one
+
+Build a brief that worked well. From the brief menu, click **Save as template**. Give it a clear name — "Monthly performance — Studio house style" beats "Template 3."
+
+The template now appears in the template picker when you create a new brief.
+
+## Building a good template
+
+### Start narrow
+
+Don't try to template everything upfront. Pattern:
+
+1. Send the same kind of brief manually to 2-3 clients.
+2. Notice what's identical and what's per-client.
+3. Save the identical structure as a template.
+4. Use it for the next client.
+5. Iterate when something doesn't fit.
+
+A template that solves your existing pattern is more durable than one designed in the abstract.
+
+### Mix data blocks and prose
+
+The numbers come from data blocks. The story comes from prose.
+
+Data blocks (charts, tables, data tokens) re-resolve every period — they always show this period's numbers without any work from you.
+
+Prose blocks are written once at template time and remain literal. They're where you put recurring framing — "Here's how the quarter went" — but NOT where you put numbers that should refresh.
+
+If you find yourself writing numbers into a prose block, replace them with a data token. Otherwise next period's brief will lie.
+
+### Section structure for multi-author briefs
+
+For team workflows:
+
+1. Add sections to the template.
+2. Set each section's **default assignee** if it's always the same person.
+3. The default content status is `to do` — keep that so each new brief reminds the assignee to fill it in.
+
+When a new brief is created from this template, the sections come pre-assigned and the team knows what to do.
+
+## Working across clients
+
+The template is shared; the data bindings are per-brief.
+
+When you create a brief from the template, each data block needs to be pointed at the right property/account for the current client. The pre-fills are smart (often the same as the previous brief for that client), but **review each binding the first time** for a new client to catch mistakes.
+
+If you build a brief for a client who doesn't have a particular data source connected yet, those blocks render with a warning. Either:
+
+- Wait until the source is connected, then refresh.
+- Remove the block in this client's brief (doesn't affect the template).
+- Replace it with a prose block for now.
+
+## Editing a template later
+
+Open **Reports → Templates** (or wherever templates live in your workspace's menu), pick the template, edit.
+
+**Important:** edits to a template don't retroactively change previously-sent briefs. Past briefs are frozen at the moment they shipped. Future briefs created from the template get the new structure.
+
+## Prose patterns that age well
+
+Some prose holds up across periods; some doesn't.
+
+**Holds up:**
+
+> Here's how the {{period.label}} went. Numbers below, narrative after.
+
+(Uses a variable so the period label updates each render. Doesn't reference specific facts.)
+
+**Doesn't hold up:**
+
+> Q1 was a strong quarter for paid search, with the new landing pages launched in February driving a 22% lift.
+
+(Specific to one period. Will be misleading every other period.)
+
+For period-specific commentary, leave a prose block in the template with a placeholder like "Insert period commentary." Each render reminds you to write it fresh.
+
+## When to make a second template
+
+Most agencies need 2-3 templates max. Reasonable variants:
+
+- **Monthly performance** — your standard monthly brief.
+- **Weekly snapshot** — for clients on a faster cadence.
+- **Quarterly review** — deeper, more prose, less granular data.
+
+Add another template only when the *shape* of the brief genuinely differs. If the only difference is "this client gets a different chart in block 4," that's a per-client binding adjustment, not a new template.
+
+## A note on variables
+
+The product supports inline values from data sources (the "data block" or "data token") that re-resolve every render. We call these **bindings**.
+
+Full templating-language constructs — `{{#if integration.stripe}}` conditional blocks, variable arithmetic, custom formulas — are not in the product today. If you need conditional structure, the path is to create the brief from the template and then remove/add blocks per client.
+
+We'll update this page when the templating language ships more comprehensively. In the meantime, keep templates simple: blocks plus prose plus data bindings.
+
+## Common gotchas
+
+- **A data block bound to an unavailable property breaks the brief render.** The editor surfaces a warning before send — don't ignore it. Either fix the binding or remove the block.
+- **Section assignments carry forward.** If you change who owns a section, change it in the template, not just on one brief — otherwise the same person gets assigned every period from now on.
+- **Template edits affect future briefs only.** Past sends are frozen. Don't expect a template fix to retroactively change what a client already received.
+- **"Save as template" doesn't archive the source brief.** The brief you saved from continues to exist independently. If you want to clean up, delete the source brief after templating.
+
+## See also
+
+- [Briefs → templates](/features/briefs/#templates) — the feature reference
+- [Monthly client reporting workflow](/flows/monthly-reporting/) — the cycle the template feeds
+- [Edits & approvals](/flows/edits-and-approvals/) — for templates that include a review step

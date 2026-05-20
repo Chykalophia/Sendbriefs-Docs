@@ -1,0 +1,112 @@
+---
+title: Clients
+description: Managing client records — profile, contacts, status lifecycle, and how recipients see briefs.
+sidebar:
+  order: 2
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+A client is the organization that receives your briefs. Each client has a basic profile, a list of contacts (with roles and a "receive reports" flag), and a status (active / inactive / archived). Clients don't log in — they read briefs by email and through a signed-link portal.
+</aside>
+
+## The client record
+
+| Field | Required? | Notes |
+|---|---|---|
+| **Name** | Yes | Display name in your nav and on the brief. |
+| **Website** | No | Useful when you have many clients with similar names. |
+| **Logo** | No | Used in the portal header and on white-label briefs. PNG, JPG, or SVG. Square works best. |
+| **Primary contact name** | No | Recommended — the default "Send to" person. |
+| **Primary contact email** | No | Required before you can actually send a brief to this client. |
+| **Status** | Auto | One of `active`, `inactive`, `archived`. |
+
+Click **Clients → New client** to create. Open any client to edit. Most edits are inline — click a field, change it, blur out, save.
+
+## Contacts
+
+A client can have any number of contacts. Each contact has:
+
+- **Name + email** — both required.
+- **Role** — `Primary`, `Billing`, `Stakeholder`, or `Technical`. Organizational only; doesn't change what they receive.
+- **Receive reports** — toggle. On = this contact appears in the brief recipient list. Off = listed on the account but skipped at send.
+
+Common patterns:
+
+- **One Primary + one or two Stakeholders.** Day-to-day contact + execs who want visibility. All with "receive reports" on.
+- **Billing contact, no reports.** Person who handles invoices but doesn't read the operational brief.
+- **Technical contact, no reports.** The person who owns the data connection (e.g., the client's GA4 property admin).
+
+> Contacts are tied to one client, not the workspace. If the same person represents multiple clients, you'll have separate contact rows on each client.
+
+## Client status
+
+Clients move between three states:
+
+### `active`
+Default. Visible in the main Clients list. Eligible to receive briefs.
+
+### `inactive`
+Paused. Still visible (under the **Inactive** tab on the Clients list) and editable. Briefs can't be sent to inactive clients without reactivating first.
+
+Use when a client has paused engagement but you expect them back.
+
+### `archived`
+Historical. Hidden from the default Clients list (visible under the **Archived** tab). All past briefs remain readable. Re-activate to start sending again.
+
+Use when you part ways with a client and want to keep the history clean.
+
+You move between statuses from the client detail page (top-right menu).
+
+## The hosted client portal
+
+Clients don't have logins. They read briefs in two ways:
+
+### Email
+The default. Every recipient with `receive reports` on gets each brief in their inbox.
+
+### Hosted portal
+Every brief also has a signed portal URL — a long random token in the path that grants read access without a login. Two flavors:
+
+- **Single-brief link**: `app.sendbriefs.com/portal/r/[token]`. Visible at the top of the brief email.
+- **Contact hub**: `app.sendbriefs.com/portal/c/[contact-token]`. Shows every brief sent to that contact, on one page. Linked from every brief and (optionally) from a standalone email when a new contact is added.
+
+> Portal access is **token-based, not password-based**. If a recipient forwards the link, anyone with the URL can view that brief. Treat portal URLs as you'd treat a Dropbox share link.
+
+### Stricter portal access
+
+If a client needs more than token security, an Owner can set the client's **access tier** to `verified`. Recipients then have to enter a 6-digit code (emailed to their address) before the portal loads. The verification holds for that browser session.
+
+## Editing a client
+
+Anything on the client detail page can be changed without re-doing anything else:
+
+- **Profile fields** are inline-editable.
+- **Contacts** — add, edit role, toggle receive reports, remove.
+- **Logo** — upload replaces the existing.
+- **Status** — flip from the page menu.
+
+Changes don't retroactively edit briefs that already shipped. The history is frozen the moment the brief is sent.
+
+## Workspace branding vs client branding
+
+If a client has a logo, the portal and rendered brief use that logo. If they don't, the workspace branding (logo + brand colors) takes over.
+
+For white-label work, set a per-client logo. For your own house-branded briefs, leave the client logo blank and the workspace logo handles it.
+
+The workspace **primary** and **accent** colors (set during onboarding, editable in **Settings → Workspace → Branding**) are used across the portal and brief chrome. Per-client color overrides aren't supported yet — if you need that for a heavy white-label workflow, let support know.
+
+## Common gotchas
+
+- **A client with no `receive reports`-on contacts can't be sent to.** The send dialog will surface a warning. Toggle at least one contact before retrying.
+- **Status changes don't move past briefs.** Archiving a client preserves every brief you've ever sent them — the archive flag only affects what shows in your active list.
+- **Logo uploads replace, they don't archive.** Once you upload a new logo, the old one is gone. Keep your original brand assets elsewhere.
+- **Portal URLs are sensitive.** Anyone who has the URL can read the brief, even if they're not on the contact list. Use the `verified` access tier for clients with strict confidentiality needs.
+
+## See also
+
+- [Briefs](/features/briefs/) — what gets sent to these clients
+- [Notifications & delivery](/features/notifications/) — what happens when briefs go out
+- [Onboarding a new client](/flows/client-onboarding/) — the end-to-end recipe

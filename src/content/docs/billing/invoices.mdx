@@ -1,0 +1,125 @@
+---
+title: Invoices & receipts
+description: Where invoices live, how to download them, and how to get them to accounting.
+sidebar:
+  order: 3
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Invoices live in the Stripe-hosted Customer Portal. Get there from <strong>Settings → Billing → Manage in the customer portal</strong>. Download PDFs, view past invoices, or update billing details. Owners and Admins only.
+</aside>
+
+## Where invoices live
+
+Stripe handles all billing, including invoice generation and storage. To access invoices:
+
+1. In SendBriefs: **Settings → Billing**.
+2. Click **Manage in the customer portal**.
+3. The Stripe Customer Portal opens in a new tab.
+4. Click **Invoices** in the portal navigation.
+
+You'll see a table of every invoice with:
+
+- Invoice number
+- Date issued
+- Amount
+- Status (paid, open, past due, etc.)
+- A **Download** link for the PDF
+
+## Downloading invoices
+
+In the Customer Portal, click the PDF icon next to any invoice. The PDF downloads immediately.
+
+The PDF includes:
+
+- Your business name and billing address (from the address you've set in the Customer Portal)
+- SendBriefs business name and address
+- Invoice number and date
+- Period covered
+- Line items
+- Subtotal, tax (if applicable), total
+- Payment method (last 4 digits of card)
+- Payment date
+
+The PDF format is the standard Stripe invoice and is suitable for expense systems (Expensify, Brex, Ramp, Concur, etc.).
+
+## Getting invoices to accounting
+
+A few patterns:
+
+### Option A: forward from your inbox
+
+After each charge, Stripe emails the workspace billing contact a receipt with the invoice attached. Forward that email to your accountant or expense system's email-in address. Most expense tools have one.
+
+### Option B: download as a batch at tax time
+
+In the Stripe Customer Portal's Invoices tab, you can download invoices one at a time. For tax season, set aside 5 minutes to grab them all and ZIP them yourself.
+
+### Option C: Stripe receipt emails
+
+Stripe sends an auto-receipt email after every successful charge. If your accountant just needs "did the agency get paid for these months," forwarding the receipts (rather than the invoices) is sometimes lighter.
+
+## Tax ID on invoices
+
+If your business needs invoices to show a tax ID (VAT number, GST number, US sales tax registration):
+
+1. Open the Stripe Customer Portal.
+2. Under **Billing information**, add your **Tax ID**.
+3. Save.
+
+The tax ID appears on the next invoice. To re-issue past invoices with the new tax info, contact support — Stripe doesn't change historical invoices automatically.
+
+### EU VAT specifics
+
+If you're EU-based with a valid VAT number, Stripe applies the reverse-charge mechanism (VAT 0%, you self-account). Stripe validates the VAT number with VIES when you enter it; you'll see the validation status in the Customer Portal.
+
+### US state sales tax
+
+Sales tax handling depends on your billing address and the jurisdictions SendBriefs is required to collect in. The Stripe Customer Portal shows the tax line on each invoice when applicable.
+
+## Re-issuing invoices
+
+To re-issue an invoice (e.g., your billing address changed and you need a clean version):
+
+1. Update the relevant info in the Stripe Customer Portal.
+2. Email support — Stripe's flow for re-issuing historical invoices requires us to nudge it manually.
+3. We'll send the re-issued PDF within 1 business day.
+
+## Receipts vs invoices
+
+For credit card payments, the invoice + the payment confirmation in the PDF together serve as your receipt. The Stripe Customer Portal also has separate **Receipts** that download as PDFs if your accounting system specifically requires "receipt" vs "invoice."
+
+## Currency
+
+Invoices are issued in USD by default in the current preview. To request a different currency, talk to support — currency choice is set on the Stripe subscription and can't be changed mid-cycle.
+
+## Refunds
+
+If a refund is issued (e.g., you cancel within the refund window of an annual plan), the refund appears as a credit on your next invoice — or, for full refunds, as a separate **Credit note** PDF in the Customer Portal.
+
+## Tax-time bundle
+
+A common ask: "I need all my SendBriefs invoices from last year for filing."
+
+The Stripe Customer Portal's Invoices tab has date filters. Set it to your fiscal year and download each PDF one at a time, or email support and we can produce a bundled ZIP within a business day.
+
+## What's not in the product today
+
+- **In-app invoice list.** All invoice access goes through the Stripe Customer Portal — we don't mirror the list inside SendBriefs.
+- **Auto-forward invoices to a specific email.** Stripe sends to the workspace's billing-contact email. There's no built-in "also send invoices to accounting@" toggle yet. The manual path is to set a forwarding rule in your inbox.
+- **Native expense-system integrations.** No direct push to Expensify/Brex/Ramp. The PDF format works with all of them via forward-to-inbox.
+
+## Common gotchas
+
+- **Billing email vs workspace owner email.** Stripe sends invoice emails to the billing contact configured in the Customer Portal — which may differ from the workspace Owner if you set it that way. Check the Customer Portal's contact settings if invoices are going to the wrong address.
+- **PDF attachment size.** Some corporate email systems strip attachments over a threshold. If your accountant says "the invoice didn't come through," download from the Customer Portal directly.
+- **Tax info changes are forward-only.** Updating your tax ID applies to future invoices. To update past ones, contact support.
+
+## See also
+
+- [Managing your subscription](/billing/managing-subscription/) — payment methods, billing cycles
+- [Pricing & plans](/billing/plans/) — what's on each invoice
+- [Upgrading, downgrading, canceling](/billing/upgrading-canceling/) — what triggers an invoice

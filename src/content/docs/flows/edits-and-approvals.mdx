@@ -1,0 +1,159 @@
+---
+title: Edits & approvals
+description: Internal team approvals, handling client edit requests, and the audit trail — without slowing the cycle to a crawl.
+sidebar:
+  order: 4
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Internal approval is built in: briefs move through <strong>draft → pending_approval → approved → sent</strong> with a <strong>changes_requested</strong> side path. Reviewers are workspace members (Owners and Admins by default). Use approvals only where they're worth the friction — major accounts, high-stakes data, new client relationships.
+</aside>
+
+## When approvals are worth the friction
+
+Approval workflows trade speed for safety. They're worth it when:
+
+- The client is a **major account** where a mistake would cost the relationship.
+- The data is **high-stakes** (board-facing, regulatory, financial reporting).
+- You're **early in a relationship** and want extra eyes on the first 3-6 sends.
+- The **brief includes prose commentary** that benefits from a second editor's read.
+
+For routine work — established clients, well-tested templates, low-stakes commentary — send-without-approval and rely on the Friday review habit to catch issues.
+
+## How internal approval works
+
+The brief state machine has four primary states plus one side state:
+
+```
+draft ───► pending_approval ───► approved ───► sent
+              │      ▲
+              ▼      │
+         changes_requested
+```
+
+### Submitting for approval
+
+When a brief is ready, click **Submit for approval** in the editor (instead of **Send**). The brief moves to `pending_approval`. Designated approvers get a `report_submitted` notification (in-app + email by default).
+
+### Approver experience
+
+The approver opens the brief from their notification. They see the full rendered preview and can:
+
+- **Approve** — brief moves to `approved`. From here, you or any sender can move it to `sent`.
+- **Request changes** — brief moves to `changes_requested` with the approver's note. The author gets a notification.
+
+After **Request changes**, the brief is back with the author. They fix what was flagged, submit again, and it returns to `pending_approval`.
+
+### Who can approve
+
+Approval authority follows workspace roles:
+
+| Role | Can approve? |
+|---|---|
+| **Owner** | Yes |
+| **Admin** | Yes |
+| **Member** | No (unless the workspace explicitly assigns approver duties to a Member) |
+
+There's no per-client approver assignment in the current preview. If you need that level of granularity (e.g., "Sam approves all Acme briefs"), the closest path today is: assign Sam as an Admin, give them sole responsibility for Acme briefs by convention, and rely on the workspace MFA + audit trail for accountability.
+
+### Reverse transitions
+
+Briefs can also move backwards through the state machine:
+
+- `sent → draft` — you noticed an error after send and need to fix and resend.
+- `approved → draft` — approver caught something between approval and send.
+- `pending_approval → draft` — author wants to pull it back before review.
+
+These are deliberate "I changed my mind" paths. Each transition is logged.
+
+## Self-approval
+
+If you're the only person in the workspace and approvals are required, you'll still need to click Approve on your own brief before send.
+
+Most solo workspaces just leave approvals off — the friction isn't worth it when you're the only reviewer.
+
+## What's not in the product today
+
+Setting expectations honestly. These are common asks but aren't built yet:
+
+### External (client-side) approval
+
+There's no built-in "the client must approve before send" workflow. If a client wants to review briefs in advance, the manual workaround is:
+
+1. Use **Send test to me** to render the brief.
+2. Forward to the client with "preview — let me know if changes needed."
+3. Edit if needed; send the final via SendBriefs.
+
+When external approval ships, this page will document it.
+
+### Bulk approve
+
+Each brief in `pending_approval` is approved one at a time today. If you have 20 briefs queued and they all look fine, that's 20 clicks. For very large rosters, ask support — there's a CLI path that can handle bulk approve as a one-off.
+
+### Approval deadlines
+
+There's no "auto-approve after N hours of no response" today. Approvers either approve or the brief sits in `pending_approval` indefinitely. If a brief gets stuck, the author can transition it back to `draft` and reassign.
+
+### Approval comments per block
+
+Approvers leave one comment per "request changes" action. There's no inline-per-block comment thread yet. For more granular feedback, use the request-changes note to point at specific blocks ("the revenue table in section 3 looks off").
+
+## Handling client edit requests after send
+
+Sometimes a client replies after a brief has shipped: "this number is wrong" or "can you also include X?"
+
+### Option A: send a corrected version manually
+
+1. Open the brief.
+2. Move it back to `draft` (brief menu → **Move to draft**).
+3. Fix the issue.
+4. Add a clear note in the email body explaining the correction.
+5. Send.
+
+The corrected brief is a new send event — recipients get a fresh email, the engagement bar starts over for this send.
+
+> **Heads up:** the brief's history will show the previous `sent` state and the new send. Both versions remain in the audit trail.
+
+### Option B: fix it for next period
+
+Lower-friction. Make a note in the brief's comment thread (or your own notes): "Next period: fix the conversion source." Update the binding for next month. Move on.
+
+Most agencies prefer (B) unless the error materially misrepresents the period. Correction sends create more noise than they fix for minor issues.
+
+## Audit trail
+
+Every state transition on a brief is logged with timestamp + actor:
+
+- Created
+- Submitted for approval
+- Approved (with approver identity)
+- Changes requested (with approver note)
+- Sent (with recipient list and timestamp)
+- Reverted to draft (with reason if provided)
+
+Open the brief's **History** to see the full chronology. For workspace-wide audit reporting (e.g., compliance reviews), the audit log is accessible to Owners and Admins from the workspace settings.
+
+## Section-level approvals (multi-author briefs)
+
+For team briefs using [sections](/features/briefs/#sections-multi-author-briefs), each section has its own status and review workflow:
+
+- **Content status** — `to do` / `in progress` / `done` / `additional notes`. Used to track who's working on what.
+- **Review status** — `draft` / `in review` / `changes requested` / `approved`. Used to track per-section review independent of the brief as a whole.
+
+Sections must all be `done` (or `additional notes`) before the brief as a whole can move to `pending_approval`. This forces a check that no one's mid-edit when the brief goes to its broader approval.
+
+## Common gotchas
+
+- **Approval policy is workspace-wide.** You can't yet require approval on some templates and skip it on others. The closest path is to use the brief state machine manually — submit for approval when you want review, send directly when you don't.
+- **The author can't be the approver in practice.** Owners and Admins can technically approve their own briefs, but the audit trail will flag a single-person workflow. For solo workspaces, just leave approvals off rather than performing review theater.
+- **Reverting `sent → draft` doesn't unsend the email.** The brief in your dashboard is back to editable, but the original send is in the recipient's inbox. If you need to address what already went out, send a corrected version (see Option A above).
+- **`changes_requested` keeps the brief editable for the author.** The approver's note appears as an in-app notification + email. You don't need to reset state manually — just edit and resubmit.
+
+## See also
+
+- [Briefs → state machine](/features/briefs/#brief-state-machine) — the underlying transitions
+- [Notifications & delivery](/features/notifications/) — how approval notifications get delivered
+- [Monthly client reporting workflow](/flows/monthly-reporting/) — fitting approval into the cycle
