@@ -1,0 +1,24 @@
+astro.config.mjs
+  s_d804dd1fca0010::t_bea9e6cbb69e52 31
+.gitignore
+  s_d804dd1fca0010::t_c1c399198d09ab 9
+  s_d804dd1fca0010::t_5770964ddda4a1 40-45
+DELIVERY-NOTES.md
+  ai_agent 1-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.10",
+  "base_commit_sha": "b85504d8fa404933dc6c63a25d8368c8b4ace904",
+  "prompts": {},
+  "sessions": {
+    "s_d804dd1fca0010": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66bfbcda-0b92-463d-8153-853d12d2cdbc",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Peter Krzyzek <peter@chykalophia.com>"
+    }
+  }
+}
