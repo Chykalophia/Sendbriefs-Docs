@@ -50,7 +50,7 @@ Per-client steps after the first:
 
 1. **Clients → New client** — name, optional website, optional logo. ~30 seconds.
 2. **Contacts** — add the people who'll receive the brief. ~1 minute per contact.
-3. Skip the integration setup for clients on Google data (you already connected Google once at the workspace level — just pick the right GA4 property when you bind data in the brief).
+3. Skip the integration setup if your briefs don't need auto-ingested data (most don't in the current preview). Add a Brief integrations mapping later if you want a ClickUp list to auto-append into a brief template.
 
 Keep one client as your **smoke-test client** — the simplest setup, the most forgiving recipient. Use it to verify new templates or test new features before you roll changes out to your real client list.
 
@@ -106,11 +106,13 @@ This is internal team approval — for the workflow where your *client* approves
 
 [Edits & approvals →](/flows/edits-and-approvals/)
 
-### Connect Slack
+### Set up ClickUp ambient ingest
 
-Connect Slack from **Settings → Integrations** so you can post brief activity to a channel of your choice. Useful for "what went out today" team awareness without forcing everyone into the app.
+If your team tracks brief inputs in ClickUp, wire one ClickUp list to a brief template under **Settings → Integrations → Brief integrations**. New items in the list auto-append into the matching draft brief.
 
-[Integrations → Slack →](/features/integrations/#slack)
+This is the one data-ingest integration that actually flows today.
+
+[Integrations → ClickUp →](/features/integrations/#clickup-via-brief-integrations)
 
 ### Enforce MFA for the whole workspace
 

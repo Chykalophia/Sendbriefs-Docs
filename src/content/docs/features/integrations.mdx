@@ -1,6 +1,6 @@
 ---
 title: Integrations
-description: Available data sources and the roadmap. What scopes we request, how OAuth works, what to expect per integration.
+description: What's actually wired up, what's connection-only, and what's on the roadmap.
 sidebar:
   order: 5
 ---
@@ -9,125 +9,144 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-Available today: <strong>Google</strong> (for Analytics) and <strong>Slack</strong>. Everything else on the marketing site — HubSpot, Stripe, GA4 direct, Google Search Console, Google Ads, Meta Ads, Linear, PostHog, BigQuery, Calendly, webhook — is on the roadmap and not yet wired up. Connect from <strong>Settings → Integrations</strong>.
+The integration that actually moves data into briefs today is <strong>ClickUp</strong> — wired through the <strong>Brief integrations</strong> card. <strong>Google</strong> and <strong>Slack</strong> have OAuth connect/disconnect flows in the UI, but the stored credentials aren't used by any data-pull pipeline yet. Everything else on the marketing site is roadmap.
 </aside>
 
-## How integrations work
+> **Important context for the Founders Circle preview.** The marketing site lists several integrations as "live" (HubSpot, Stripe, Google Analytics, Google Ads, Meta Ads, etc.). Most of those aren't in the product code yet. This page reflects what's actually shipping, what's half-built (connect-only), and what's still roadmap.
 
-Every integration is connected at the **workspace level** — once per workspace, used across every client.
+## How integrations work today
 
-The OAuth flow:
+There are two separate integration patterns in the product:
 
-1. From **Settings → Integrations**, click **Connect [provider]**.
-2. We redirect you to the provider's authorization screen.
-3. You sign in (with your account that has access to the data you want) and grant the requested scope.
-4. Provider redirects back to SendBriefs with a code.
-5. We exchange the code for an access token + refresh token, encrypt them at rest, and store them against your workspace.
+### A) Ambient ingest (the working one)
 
-When you build a brief and add a data block, you pick which integration to pull from and which property/account/channel inside that integration to use. The per-client choice happens at the data-block level, not at the integration level.
+The **Brief integrations** card under **Settings → Integrations** lets you wire an external source to a brief template. When a new item appears in the source, it's auto-appended as a block in the matching draft brief's General section.
 
-To disconnect: **Settings → Integrations → [provider] → Disconnect**. We immediately delete our stored tokens. Any briefs bound to that integration will show a binding warning on next render until you reconnect.
+This is the integration system that's actually shipping. The setup is per-template: one mapping = one source selector → one brief template.
+
+### B) OAuth connection storage
+
+The **Integrations** card (also under Settings → Integrations) lets you complete an OAuth flow with Google or Slack. Credentials are stored encrypted; you'll see "Connected as: your.email@example.com."
+
+This card exists, the OAuth flows complete, but **no other code in the product currently uses the stored credentials**. Connecting Google doesn't make GA4 data show up in your briefs. Connecting Slack doesn't enable notification routing through Slack. These are placeholder connections for features in development.
 
 ---
 
-## Available now
+## Actually working today
 
-### Google
+### ClickUp (via Brief integrations)
 
-**What it gives you:** Read-only access to Google Analytics for any property the connected Google account can view.
-
-**Scopes requested:**
-- `https://www.googleapis.com/auth/analytics.readonly`
-- `userinfo.email` and `userinfo.profile` (so we can show which account is connected)
+**What it does:** Auto-pulls items from a ClickUp list and appends them as blocks in the matching brief template's draft. Items already ingested are tracked so re-runs don't duplicate.
 
 **Setup:**
 
-1. **Settings → Integrations → Connect Google**.
-2. Sign in with the Google account that has access to your clients' GA4 properties.
-3. Grant the read-only Analytics scope.
-4. The integration shows as **Connected** with the signed-in email.
+1. **Settings → Integrations → Brief integrations**.
+2. Click **Add mapping**.
+3. Enter:
+   - Your ClickUp API token.
+   - The ClickUp **list ID** to pull from.
+   - The brief **template** that should receive the items.
+4. Save. The mapping starts in `active` state.
 
-**Picking a property per client:** When you add a data block in the brief editor, you pick which GA4 property to pull from. The list shows every property the connected Google account can read.
+**How it runs:**
 
-**Gotcha — multi-client property access.** One Google account may not have access to every client's GA4 property. Two patterns:
+- An ambient ingest job runs on a schedule (in production, via Upstash QStash). For each active mapping, it pulls new items and appends them to the most recent draft brief for that template.
+- The job is idempotent — re-running on a set of items already ingested is a no-op.
+- Mappings can be paused or deleted at any time.
 
-- **Per-client Google account.** Disconnect and reconnect with a different account when working on different clients. Inconvenient but explicit.
-- **Shared agency Google account.** Add a single agency-owned Google account as a Viewer on every client's GA4 property. Connect once, see all of them. Recommended for agencies with more than three clients.
+**Status indicators:**
+
+- **Active** — mapping is enabled and the job will pull on its next tick.
+- **Paused** — mapping exists but the job skips it.
+- **Error** — last run failed; check the error detail on the mapping row.
+
+**Gotcha — schedule registration is a deploy step.** The ambient ingest job needs to be registered as a cron schedule (QStash or Vercel Cron) for it to actually run. If your workspace has mappings but nothing is ingesting, the schedule may not be wired up — let support know.
+
+---
+
+## Connection-only (no functional data flow yet)
+
+These are visible in the **Integrations** card. The OAuth flows complete; credentials are stored. But the product doesn't currently use them for anything user-facing.
+
+### Google
+
+**What the marketing card says:** "Connect Google Analytics to track report engagement and metrics."
+
+**What the OAuth scope requests:**
+
+- `analytics.readonly`
+- `userinfo.email`
+- `userinfo.profile`
+
+**What actually happens after you connect:** Credentials are stored against your workspace. No code path currently uses them — there is no GA4 data fetch in the product as of this preview. The integration is wired for a future Google-data-into-briefs feature.
+
+If you connect Google, expect a **green "Connected" badge** and the email address of the connected account. Don't expect GA4 data to appear in briefs as a result.
 
 ### Slack
 
-**What it gives you:** A connection to a Slack workspace for posting brief activity to a channel.
+**What the marketing card says:** "Send report notifications and updates to Slack channels."
 
-**Scopes requested:**
+**What the OAuth scope requests:**
+
 - `chat:write`
 - `channels:read`
 - `users:read`
 
-**Setup:**
+**What actually happens after you connect:** Same as Google — credentials are stored, no other code path uses them. There is no Slack-send code in the product today.
 
-1. **Settings → Integrations → Connect Slack**.
-2. Authorize the SendBriefs Slack app for your workspace.
-3. Pick which channel(s) to post to.
-
-**Gotcha — public channels only.** The current scope allows posting to public channels. Private channels need a different scope; let support know if you need it.
+The team's own code comment in the ingest service notes Slack adapter is on the to-do list ("*(Slack/Linear when their adapters land)*"). When the adapter ships, this page will be updated.
 
 ---
 
-## Coming soon
+## Roadmap
 
-These integrations are on the roadmap and listed on the marketing site. They are **not yet wired up**. If you plan a brief around any of them, the data block will fail to bind.
+These are on the public-facing list but not in the product code yet. The Brief integrations system's adapter pattern means each new one is an isolated addition — once the underlying data source has an adapter, it joins the same mapping UI as ClickUp.
 
-| Integration | What it'll give you | Status |
+| Integration | Type | Status |
 |---|---|---|
-| **HubSpot** | CRM data — companies, deals, pipeline | Roadmap |
-| **Stripe** | Revenue, subscriptions, MRR, churn | Roadmap |
-| **Google Search Console** | Organic search performance — queries, clicks, impressions | Roadmap |
-| **Google Ads** | Paid search performance — spend, conversions, ROAS | Roadmap |
-| **Meta Ads** | Facebook + Instagram campaigns — spend, reach, conversions | Roadmap |
-| **Linear** | Project status — issues shipped, in progress, blockers | Roadmap |
-| **PostHog** | Product analytics — events, funnels, retention | Roadmap |
-| **BigQuery** | Direct warehouse access for custom data | Roadmap |
-| **Calendly** | Meetings booked, kept, no-show rate | Roadmap |
-| **Webhook** | Generic inbound for anything we don't natively integrate | Roadmap |
+| **Linear** | Issue-tracking ingest | Adapter planned (referenced in code comments) |
+| **Slack send** | Outbound notification | Connect-only today; adapter on roadmap |
+| **Google Analytics data** | Read pipeline | Connect-only today; data adapter not built |
+| **HubSpot** | CRM ingest | Roadmap, not started |
+| **Stripe** | Revenue ingest | Roadmap, not started |
+| **Google Search Console** | Organic search data | Roadmap, not started |
+| **Google Ads** | Paid search data | Roadmap, not started |
+| **Meta Ads** | Facebook + Instagram | Roadmap, not started |
+| **PostHog** | Product analytics | Roadmap, not started |
+| **BigQuery** | Warehouse | Roadmap, not started |
+| **Calendly** | Meetings | Roadmap, not started |
+| **Generic webhook** | Anything we don't natively integrate | Roadmap, not started |
 
 We'll update this page as each ships. If a specific integration is blocking your workflow, [let us know](mailto:support@sendbriefs.com) — that informs the priority order.
 
 ---
 
-## Health, errors, and reconnects
+## Where this lives in the app
 
-Each connected integration shows a status indicator in **Settings → Integrations**:
+All integration management is under **Settings → Integrations**. Two cards live there:
 
-- **Green** — token is valid and tested recently.
-- **Red** — token is invalid, usually because the user reset access on the provider's side.
+- **Integrations** — the OAuth connect card (Google, Slack). Connect/disconnect, see status.
+- **Brief integrations** — the per-template ambient-ingest mappings (currently ClickUp only). Wire a source selector to a brief template.
 
-A red status means briefs bound to that integration will show binding warnings until you reconnect. Click **Reconnect** to re-run the OAuth flow with the same provider — your settings (channels, properties) are preserved.
+Visibility is gated by the `settings:update` permission — Owners and Admins see it; Members don't.
 
-## Workspace-level only (for now)
+## Security and credentials
 
-Some agencies ask about **per-client OAuth** — connecting a separate token per client so each client's data is fully isolated.
-
-We don't support that yet. All integrations are workspace-scoped, and the per-client filter happens when you bind data inside a brief. If you need true per-client isolation (e.g., for compliance reasons), the pattern is to run those clients in separate workspaces.
-
-## What's *not* on the roadmap
-
-To set honest expectations:
-
-- **Salesforce, Pipedrive** — no plans yet. Most agency CRM data lives in HubSpot.
-- **TikTok Ads, LinkedIn Ads** — interest depends on requests. Email support if these block your work.
-- **Plausible, Fathom, Matomo** — not planned. GA4 is the focus.
-- **QuickBooks, Xero** — not planned at this layer. If you need financial data in briefs, the path is Stripe → webhook → SendBriefs once that ships.
-
-Let support know what you're missing — that's how we set priorities.
+- **OAuth credentials** are encrypted at rest using AES-256-GCM with workspace-scoped keys.
+- **ClickUp API tokens** are stored alongside the mapping, encrypted.
+- **OAuth grants are audit-logged** — every `oauth.granted` event records who granted access, when, and which provider.
+- **Disconnecting Google or Slack** revokes our stored token immediately.
+- **Deleting a Brief integrations mapping** removes the stored API token from our system.
 
 ## Common gotchas
 
-- **OAuth tokens expire.** We refresh in the background using the provider's refresh token. If we can't refresh (e.g., user reset access), the integration goes red and the next brief render shows a warning.
-- **Workspace-scoped, not client-scoped.** One Google connection covers every GA4 property your account can read. To switch which property feeds a specific brief, change the block-level binding, not the integration.
-- **Disconnecting is irreversible from our side.** We delete the tokens immediately. The provider's revocation is also immediate. To re-enable, run the OAuth flow again.
+- **The Integrations card and the Brief integrations card are separate.** Connecting Google in the OAuth card doesn't create a Brief integrations mapping. You need ClickUp to set up an actual data flow today.
+- **OAuth tokens expire.** Google's refresh-token flow is wired (the OAuth service has a `refreshAccessToken` method). Slack tokens currently have no refresh path — if revoked, reconnect.
+- **The ambient ingest job needs a schedule.** If you set up a Brief integrations mapping and nothing ingests, ask support whether the QStash schedule is registered for your environment.
+- **There's no per-client integration scope.** All integrations are workspace-level. A Brief integrations mapping wires to a *template*, not a client — that template can be used across multiple clients, but the source data comes from the one ClickUp list you specified.
 
 ## See also
 
-- [Reports & data](/features/reports/) — what you see *after* a brief sends
-- [Briefs → block editor](/features/briefs/#the-block-editor) — where you bind integration data
+- [Reports & data](/features/reports/) — what you can see about a brief after it ships (delivery, opens, clicks, portal views)
+- [Briefs → block editor](/features/briefs/#the-block-editor) — where ingested content lands
 - [Connect your first client](/getting-started/connect-first-client/) — the end-to-end walkthrough

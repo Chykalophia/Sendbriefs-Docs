@@ -58,53 +58,21 @@ A few patterns worth noting:
 - **Billing contacts** typically have `receive reports` off — they only need to see things when something invoice-related happens.
 - **Technical contacts** are the people who handle the data connections (the ones who own the GA4 property, for example). Often `receive reports` off.
 
-## Connecting data sources
+## Connecting data sources (optional in the current preview)
 
-Briefs render from data. To get any meaningful number into a brief, you need at least one **integration** wired up.
+Briefs are written in the block editor — you can ship a brief with no integrations connected at all. Most content (text, headings, tables, callouts) is written directly.
 
-Important: integrations are connected **at the workspace level**, not per-client. One OAuth to Google covers every Google property you can access; the per-client choice happens when you bind a data block inside the brief.
+For automated content — auto-pulling items from an external tool into a brief's General section — there's a **Brief integrations** system under **Settings → Integrations → Brief integrations**. In the current preview, that supports **ClickUp** (configured with an API token + a ClickUp list ID, mapped to a brief template).
 
-Open **Settings → Integrations** to see what's available.
+> **Setting expectations honestly.** Several integrations on the marketing site (HubSpot, Stripe, Google Analytics, Google Ads, Meta Ads, etc.) aren't wired up yet. **Google** and **Slack** each have an OAuth connect flow in the **Settings → Integrations** card and the flow completes, but no functional data pipeline uses the stored credentials today. Treat them as placeholder connections for features in development.
 
-<Placeholder type="screenshot" caption="Integrations page with available providers grid" />
-
-### Available today
-
-- **Google** — connects your Google account for Analytics (read-only) and profile data. One OAuth covers every GA4 property the connected Google account has access to.
-- **Slack** — connects to a Slack workspace for posting brief activity to a channel.
-
-### Coming soon
-
-These are on the roadmap and will appear in the same place when they ship. None are wired up yet — don't plan a brief around them.
-
-- **HubSpot** — CRM data (companies, deals, pipeline).
-- **Stripe** — revenue, subscriptions, MRR.
-- **Google Search Console** — organic search performance.
-- **Google Ads** — paid search performance.
-- **Meta Ads** — Facebook and Instagram campaigns.
-- **Linear** — project status and shipped work.
-- **PostHog** — product analytics.
-- **BigQuery** — direct warehouse access for advanced setups.
-- **Calendly** — meetings booked and held.
-- **Webhook** — generic inbound for anything we don't natively integrate.
-
-Full per-integration setup steps live in [Integrations →](/features/integrations/).
-
-### Connecting Google (the typical first integration)
-
-1. From **Settings → Integrations**, click **Connect Google**.
-2. You'll redirect to Google's OAuth consent screen. Sign in with the Google account that has access to your client's GA4 property.
-3. Grant the read-only Analytics scope. We never request write.
-4. You'll bounce back to SendBriefs. The integration shows as **Connected** with the email of the signed-in Google account.
-5. The first brief you build for this client will let you pick which GA4 property to pull from.
-
-> **If the client's GA4 property isn't visible later**, the Google account you signed in with doesn't have access. Get a viewer-level role added to that GA4 property, then either reconnect or pull the property again. The simplest pattern: ask the client to add your agency's shared Google account as a Viewer in their GA4.
+For the full integration story — what works, what's connection-only, and what's roadmap — see [Integrations →](/features/integrations/).
 
 ## Common gotchas
 
-- **OAuth tokens expire.** Most providers issue refresh tokens. We refresh in the background and show a status warning if a token actually fails. Reconnect from **Settings → Integrations** if you see a red banner on the integration.
-- **One Google account, many properties.** Connect once; pick the property per-client when you bind data in the brief editor.
-- **No integration ≠ no brief.** You can write a brief entirely in the block editor without any integration connected — just no live numbers. Useful for narrative-only updates.
+- **You don't need an integration to ship a brief.** The block editor + your prose is enough for most monthly briefs in the current preview. Add integrations only when you want auto-ingest of external content.
+- **The Integrations card shows Google and Slack as "available."** Those OAuth flows complete and store credentials, but the product doesn't yet pull data from Google or send messages to Slack. The credentials sit there for features in development.
+- **ClickUp is the working integration today.** If your team tracks brief inputs in ClickUp, the Brief integrations system auto-appends new list items into the matching draft brief.
 
 ## Next: send your first brief
 

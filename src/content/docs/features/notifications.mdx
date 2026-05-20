@@ -88,7 +88,7 @@ The header bell shows unread in-app notifications. Click to see the list; click 
 
 Setting honest expectations on what's *not* in the product today:
 
-- **No Slack notifications for brief activity.** The Slack integration exists for posting brief summaries to a channel (when you wire it up), but the team-notification fan-out (brief submitted, brief sent, etc.) doesn't route to Slack yet. In-app and email only.
+- **No Slack notifications for brief activity.** Slack has an OAuth connect flow in the Integrations card and credentials are stored when you complete it, but no code in the current preview sends messages to Slack — not for notifications, not for digest, not for activity summaries. In-app and email are the only working channels.
 - **No SMS or push notifications.** Email + in-app are the only channels.
 - **No digest mode.** Notifications fire per event. If you want a quiet workspace, turn off email for routine events (`report_sent`, `section_comment`) and keep only the ones that demand attention.
 - **No custom event subscriptions.** You subscribe at the workspace level (every brief from any client), not per-client or per-template.
@@ -110,7 +110,7 @@ You can't disable the unsubscribe link — it's a legal requirement.
 
 - **Open rates lie.** Apple Mail Privacy Protection pre-loads tracking pixels via a proxy, inflating opens to ~95-100% for iPhone users. Read clicks and portal views as the real engagement signal.
 - **Bounced contacts stay bounced.** A hard bounce suppresses the contact. To re-enable, update their email on the client record. Adding the same email back without changes won't re-enable delivery.
-- **Slack is for posting *brief summaries*, not notifications.** If you connected Slack expecting "tell me in Slack when a brief gets approved," that doesn't exist yet. You'll see the approval in-app and over email.
+- **Connecting Slack doesn't do anything yet.** The OAuth flow completes and shows "Connected," but no product feature uses the connection in the current preview. Watch this space.
 - **Notification preferences are per-user, per-workspace.** If you belong to multiple workspaces, tune each one separately.
 
 ## See also
