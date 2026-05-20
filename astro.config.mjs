@@ -28,7 +28,7 @@ export default defineConfig({
       favicon: '/favicon.svg',
 
       editLink: {
-        baseUrl: 'https://github.com/PiotrKrzyzek/Sendbriefs-Docs/edit/main/',
+        baseUrl: 'https://github.com/Chykalophia/Sendbriefs-Docs/edit/main/',
       },
 
       // Match marketing's social presence; no GitHub here on purpose.
