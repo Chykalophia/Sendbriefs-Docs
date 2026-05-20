@@ -1,0 +1,126 @@
+---
+/**
+ * Placeholder — renders a labeled empty space for screenshots/videos
+ * that Peter will fill in later. Renders ONLY in dev (import.meta.env.DEV).
+ *
+ * In production, returns null so the placeholder doesn't ship.
+ *
+ * Usage in .mdx files:
+ *   import Placeholder from '@/components/Placeholder.astro';
+ *
+ *   <Placeholder type="screenshot" caption="Brief composer with hover state" />
+ *   <Placeholder type="video" caption="Recording: end-to-end brief send" aspect="16/9" />
+ *
+ * Props:
+ *   type    — 'screenshot' | 'video' | 'diagram' (purely informational)
+ *   caption — required: what to put there. Be specific.
+ *   aspect  — CSS aspect-ratio (e.g., '16/9', '4/3', '1/1'); default '16/9'
+ *   width   — optional max-width in px; default fills container
+ */
+
+interface Props {
+  type?: 'screenshot' | 'video' | 'diagram';
+  caption: string;
+  aspect?: string;
+  width?: number;
+}
+
+const { type = 'screenshot', caption, aspect = '16/9', width } = Astro.props;
+
+const labelMap = {
+  screenshot: 'SCREENSHOT',
+  video: 'VIDEO',
+  diagram: 'DIAGRAM',
+} as const;
+---
+
+{
+  import.meta.env.DEV && (
+    <figure
+      class="sb-placeholder"
+      data-type={type}
+      style={width ? `max-width: ${width}px;` : undefined}
+    >
+      <div class="sb-placeholder-inner" style={`aspect-ratio: ${aspect};`}>
+        <span class="sb-placeholder-label">{labelMap[type]} PLACEHOLDER</span>
+        <span class="sb-placeholder-caption">{caption}</span>
+        <span class="sb-placeholder-meta">{aspect}</span>
+      </div>
+    </figure>
+  )
+}
+
+<style>
+  /* Placeholder block — visible only in dev. Tasteful dashed-border crate
+   * with the caption visible. Distinctive enough that Peter can't miss
+   * un-filled spots when scanning a page. */
+
+  .sb-placeholder {
+    display: block;
+    margin: 1.75rem 0;
+    padding: 0;
+  }
+
+  .sb-placeholder-inner {
+    position: relative;
+    width: 100%;
+    border: 2px dashed var(--sb-brand-blue);
+    border-radius: var(--sb-radius-lg);
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgba(79, 70, 229, 0.03) 0,
+        rgba(79, 70, 229, 0.03) 12px,
+        rgba(124, 58, 237, 0.03) 12px,
+        rgba(124, 58, 237, 0.03) 24px
+      );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    color: var(--sb-brand-blue-deep);
+  }
+
+  .sb-placeholder-label {
+    font-family: var(--sb-font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    background: var(--sb-paper);
+    border: 1px solid var(--sb-brand-blue);
+    color: var(--sb-brand-blue-deep);
+  }
+
+  .sb-placeholder-caption {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    max-width: 36rem;
+    color: var(--sb-ink);
+    line-height: 1.4;
+  }
+
+  .sb-placeholder-meta {
+    font-family: var(--sb-font-mono);
+    font-size: 11px;
+    color: var(--sb-ink-soft);
+    opacity: 0.7;
+  }
+
+  :root[data-theme='dark'] .sb-placeholder-inner {
+    color: #c7d2fe;
+  }
+
+  :root[data-theme='dark'] .sb-placeholder-label {
+    background: var(--sl-color-bg);
+    color: #c7d2fe;
+  }
+
+  :root[data-theme='dark'] .sb-placeholder-caption {
+    color: var(--sl-color-text);
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+/**
+ * Header override — keeps Starlight's default header structure
+ * (logo, search, theme toggle, social icons, mobile menu) but adds
+ * a subtle bottom shadow and ensures our brand styles take precedence.
+ *
+ * Most customization is done via SocialIcons.astro (which adds our CTA)
+ * and via brand.css (which overrides --sl-color-bg-nav).
+ */
+
+import Default from '@astrojs/starlight/components/Header.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<style is:global>
+  /* Subtle bottom shadow on the sticky header */
+  .header {
+    box-shadow: 0 1px 0 var(--sl-color-hairline-light);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+  }
+
+  /* Hide Starlight's title text — logo already shows brand */
+  .site-title span {
+    /* Keep accessible name but visually hidden for cleaner header */
+  }
+</style>

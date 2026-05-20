@@ -1,0 +1,24 @@
+/*
+ * SendBriefs Docs — Self-hosted fonts.
+ * Imports from @fontsource/* npm packages (Vite resolves at build).
+ *
+ *   - Inter — primary brand font (matches marketing + app)
+ *   - Atkinson Hyperlegible — dyslexia-friendly toggle (Braille Institute)
+ *   - JetBrains Mono — code blocks
+ *
+ * Only the weights we actually use are imported (smaller bundle).
+ */
+
+/* Inter — body + headings */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
+/* Atkinson Hyperlegible — dyslexia mode */
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+
+/* JetBrains Mono — code */
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/700.css';

@@ -1,0 +1,625 @@
+---
+/**
+ * ComfortPanel — floating FAB + native <dialog> for reading-comfort settings.
+ *
+ * Mirrors marketing's ComfortPanel.tsx but built with native HTML <dialog>
+ * (modal, ESC-to-close, focus-trap built in) and vanilla JS — no Radix,
+ * no React. Total client JS for this component is ~2 KB.
+ *
+ * Behavior contract:
+ *   - localStorage key: 'sb-comfort-v1' (shape: { v: 1, textSize, density, ... })
+ *   - Applies CSS classes / data attrs to <html> on every change
+ *   - Pre-hydration script in <head> applies stored state before paint
+ *
+ * a11y:
+ *   - <dialog> gives us modal + focus trap + ESC
+ *   - Segmented controls use role="radiogroup" + role="radio" + aria-checked
+ *   - Toggles use role="switch" + aria-checked
+ *   - All controls keyboard-navigable
+ */
+---
+
+<button
+  type="button"
+  class="sb-comfort-fab"
+  aria-label="Open reading comfort settings"
+  data-sb-comfort-open
+>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+    ></path>
+    <circle cx="12" cy="12" r="3"></circle>
+  </svg>
+</button>
+
+<dialog class="sb-comfort-dialog" data-sb-comfort-dialog aria-labelledby="sb-comfort-title">
+  <div class="sb-comfort-header">
+    <div>
+      <h2 id="sb-comfort-title" class="sb-comfort-title">Reading comfort</h2>
+      <p class="sb-comfort-subtitle">
+        Adjust how this site reads for you. Saved on this device.
+      </p>
+    </div>
+    <button
+      type="button"
+      class="sb-comfort-close"
+      aria-label="Close"
+      data-sb-comfort-close
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sb-comfort-body">
+    <section>
+      <h3 class="sb-comfort-section-title">Reading</h3>
+      <div class="sb-comfort-controls">
+        <div class="sb-comfort-row">
+          <span id="sb-comfort-text-size-label">Text size</span>
+          <div
+            class="sb-segmented"
+            role="radiogroup"
+            aria-labelledby="sb-comfort-text-size-label"
+            data-sb-comfort-segmented="textSize"
+          >
+            <button type="button" role="radio" aria-checked="false" data-value="s">S</button>
+            <button type="button" role="radio" aria-checked="true" data-value="m">M</button>
+            <button type="button" role="radio" aria-checked="false" data-value="l">L</button>
+          </div>
+        </div>
+
+        <div class="sb-comfort-row">
+          <span id="sb-comfort-density-label">Density</span>
+          <div
+            class="sb-segmented"
+            role="radiogroup"
+            aria-labelledby="sb-comfort-density-label"
+            data-sb-comfort-segmented="density"
+          >
+            <button type="button" role="radio" aria-checked="false" data-value="compact"
+              >Compact</button
+            >
+            <button type="button" role="radio" aria-checked="true" data-value="comfort"
+              >Comfort</button
+            >
+            <button type="button" role="radio" aria-checked="false" data-value="spacious"
+              >Spacious</button
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3 class="sb-comfort-section-title">Sensory</h3>
+      <div class="sb-comfort-controls">
+        <div class="sb-comfort-row">
+          <span>Reduce motion</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked="false"
+            class="sb-switch"
+            data-sb-comfort-toggle="reduceMotion"
+            aria-label="Reduce motion"
+          >
+            <span class="sb-switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="sb-comfort-row">
+          <span>Dyslexia-friendly font</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked="false"
+            class="sb-switch"
+            data-sb-comfort-toggle="dyslexiaFont"
+            aria-label="Dyslexia-friendly font"
+          >
+            <span class="sb-switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="sb-comfort-row">
+          <span>High-contrast theme</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked="false"
+            class="sb-switch"
+            data-sb-comfort-toggle="highContrast"
+            aria-label="High-contrast theme"
+          >
+            <span class="sb-switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3 class="sb-comfort-section-title">Cognitive</h3>
+      <div class="sb-comfort-controls">
+        <div class="sb-comfort-row">
+          <span>Skim mode (collapse long prose)</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked="false"
+            class="sb-switch"
+            data-sb-comfort-toggle="skimMode"
+            aria-label="Skim mode"
+          >
+            <span class="sb-switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="sb-comfort-footer">
+    <span class="sb-comfort-footnote">Choices saved on this device.</span>
+    <button type="button" class="sb-comfort-reset" data-sb-comfort-reset>
+      Reset to defaults
+    </button>
+  </div>
+</dialog>
+
+<script>
+  // ============================================================
+  // Comfort Panel client logic — vanilla JS, no framework.
+  // ============================================================
+
+  type TextSize = 's' | 'm' | 'l';
+  type Density = 'compact' | 'comfort' | 'spacious';
+
+  interface ComfortSettings {
+    v: 1;
+    textSize: TextSize;
+    density: Density;
+    reduceMotion: boolean;
+    dyslexiaFont: boolean;
+    highContrast: boolean;
+    skimMode: boolean;
+  }
+
+  const STORAGE_KEY = 'sb-comfort-v1';
+
+  const DEFAULTS: ComfortSettings = {
+    v: 1,
+    textSize: 'm',
+    density: 'comfort',
+    reduceMotion: false,
+    dyslexiaFont: false,
+    highContrast: false,
+    skimMode: false,
+  };
+
+  function read(): ComfortSettings {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) return DEFAULTS;
+      const parsed = JSON.parse(raw) as Partial<ComfortSettings>;
+      if (parsed.v !== 1) return DEFAULTS;
+      return {
+        v: 1,
+        textSize: (['s', 'm', 'l'] as TextSize[]).includes(parsed.textSize as TextSize)
+          ? (parsed.textSize as TextSize)
+          : DEFAULTS.textSize,
+        density: (['compact', 'comfort', 'spacious'] as Density[]).includes(
+          parsed.density as Density,
+        )
+          ? (parsed.density as Density)
+          : DEFAULTS.density,
+        reduceMotion: !!parsed.reduceMotion,
+        dyslexiaFont: !!parsed.dyslexiaFont,
+        highContrast: !!parsed.highContrast,
+        skimMode: !!parsed.skimMode,
+      };
+    } catch {
+      return DEFAULTS;
+    }
+  }
+
+  function write(s: ComfortSettings): void {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+    } catch {
+      // ignore quota / security errors — settings still apply for this session
+    }
+  }
+
+  function apply(s: ComfortSettings): void {
+    const root = document.documentElement;
+    root.dataset['textSize'] = s.textSize;
+    root.classList.toggle('density-compact', s.density === 'compact');
+    root.classList.toggle('density-spacious', s.density === 'spacious');
+    root.classList.toggle('reduce-motion', s.reduceMotion);
+    root.classList.toggle('dyslexia-mode', s.dyslexiaFont);
+    root.classList.toggle('high-contrast', s.highContrast);
+    root.classList.toggle('skim-mode', s.skimMode);
+  }
+
+  function syncUI(s: ComfortSettings): void {
+    // Segmented controls
+    document
+      .querySelectorAll<HTMLElement>('[data-sb-comfort-segmented]')
+      .forEach((group) => {
+        const key = group.dataset['sbComfortSegmented'] as keyof ComfortSettings;
+        const current = s[key] as string;
+        group.querySelectorAll<HTMLButtonElement>('[role="radio"]').forEach((btn) => {
+          const isActive = btn.dataset['value'] === current;
+          btn.setAttribute('aria-checked', String(isActive));
+        });
+      });
+
+    // Switches
+    document
+      .querySelectorAll<HTMLButtonElement>('[data-sb-comfort-toggle]')
+      .forEach((btn) => {
+        const key = btn.dataset['sbComfortToggle'] as keyof ComfortSettings;
+        btn.setAttribute('aria-checked', String(Boolean(s[key])));
+      });
+  }
+
+  function update(patch: Partial<ComfortSettings>): void {
+    const next: ComfortSettings = { ...read(), ...patch, v: 1 } as ComfortSettings;
+    write(next);
+    apply(next);
+    syncUI(next);
+  }
+
+  // ---- Wire up DOM ----
+
+  const fab = document.querySelector<HTMLButtonElement>('[data-sb-comfort-open]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-sb-comfort-dialog]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-sb-comfort-close]');
+  const resetBtn = document.querySelector<HTMLButtonElement>('[data-sb-comfort-reset]');
+
+  if (!fab || !dialog) {
+    // ComfortPanel was not rendered — bail silently.
+  } else {
+    syncUI(read());
+
+    fab.addEventListener('click', () => {
+      if (typeof dialog.showModal === 'function') {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute('open', '');
+      }
+    });
+
+    closeBtn?.addEventListener('click', () => dialog.close());
+
+    // Click outside dialog content closes it (uses native ::backdrop)
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+
+    // Segmented controls
+    document
+      .querySelectorAll<HTMLElement>('[data-sb-comfort-segmented]')
+      .forEach((group) => {
+        const key = group.dataset['sbComfortSegmented'] as 'textSize' | 'density';
+        group.querySelectorAll<HTMLButtonElement>('[role="radio"]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const value = btn.dataset['value'];
+            if (value) update({ [key]: value } as Partial<ComfortSettings>);
+          });
+
+          // Arrow-key navigation within the radio group
+          btn.addEventListener('keydown', (e) => {
+            if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+            e.preventDefault();
+            const buttons = Array.from(
+              group.querySelectorAll<HTMLButtonElement>('[role="radio"]'),
+            );
+            const i = buttons.indexOf(btn);
+            const dir = e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 1;
+            const next = buttons[(i + dir + buttons.length) % buttons.length];
+            next?.focus();
+            next?.click();
+          });
+        });
+      });
+
+    // Switches
+    document
+      .querySelectorAll<HTMLButtonElement>('[data-sb-comfort-toggle]')
+      .forEach((btn) => {
+        const key = btn.dataset['sbComfortToggle'] as
+          | 'reduceMotion'
+          | 'dyslexiaFont'
+          | 'highContrast'
+          | 'skimMode';
+        btn.addEventListener('click', () => {
+          const current = btn.getAttribute('aria-checked') === 'true';
+          update({ [key]: !current } as Partial<ComfortSettings>);
+        });
+      });
+
+    resetBtn?.addEventListener('click', () => {
+      write(DEFAULTS);
+      apply(DEFAULTS);
+      syncUI(DEFAULTS);
+    });
+  }
+</script>
+
+<style>
+  /* FAB (floating action button) */
+  .sb-comfort-fab {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 40;
+    width: 3rem;
+    height: 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--sl-color-hairline);
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    border-radius: 9999px;
+    box-shadow: var(--sb-shadow-card);
+    cursor: pointer;
+    transition:
+      transform var(--sb-duration-fast) var(--sb-ease-out-quart),
+      box-shadow var(--sb-duration-base) var(--sb-ease-out-quart),
+      background var(--sb-duration-base) var(--sb-ease-out-quart);
+  }
+
+  .sb-comfort-fab:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--sb-shadow-card-hover);
+    background: var(--sb-paper-2);
+  }
+
+  :root[data-theme='dark'] .sb-comfort-fab:hover {
+    background: var(--sl-color-gray-7);
+  }
+
+  .sb-comfort-fab:focus-visible {
+    outline: 2px solid var(--sb-brand-blue-deep);
+    outline-offset: 2px;
+  }
+
+  @media print {
+    .sb-comfort-fab,
+    .sb-comfort-dialog {
+      display: none !important;
+    }
+  }
+
+  /* Dialog */
+  .sb-comfort-dialog {
+    width: min(420px, calc(100vw - 2rem));
+    max-height: calc(100vh - 4rem);
+    overflow: auto;
+    border: 1px solid var(--sl-color-hairline);
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    border-radius: var(--sb-radius-xl);
+    box-shadow: var(--sb-shadow-popover);
+    padding: 1.5rem;
+    margin: auto;
+  }
+
+  .sb-comfort-dialog::backdrop {
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+  }
+
+  .sb-comfort-dialog:focus-visible {
+    outline: none;
+  }
+
+  .sb-comfort-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .sb-comfort-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+    line-height: 1.25;
+  }
+
+  .sb-comfort-subtitle {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-4);
+  }
+
+  .sb-comfort-close {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: -0.5rem;
+    background: transparent;
+    border: 0;
+    border-radius: var(--sb-radius-md);
+    color: var(--sl-color-gray-3);
+    cursor: pointer;
+  }
+
+  .sb-comfort-close:hover {
+    background: var(--sb-paper-2);
+    color: var(--sl-color-text);
+  }
+
+  :root[data-theme='dark'] .sb-comfort-close:hover {
+    background: var(--sl-color-gray-7);
+  }
+
+  .sb-comfort-body {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .sb-comfort-section-title {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-4);
+  }
+
+  .sb-comfort-controls {
+    margin-top: 0.625rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .sb-comfort-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Segmented control */
+  .sb-segmented {
+    display: inline-flex;
+    gap: 0.125rem;
+    padding: 0.125rem;
+    background: var(--sb-paper-2);
+    border-radius: var(--sb-radius-md);
+  }
+
+  :root[data-theme='dark'] .sb-segmented {
+    background: var(--sl-color-gray-7);
+  }
+
+  .sb-segmented button {
+    min-height: 2.25rem;
+    min-width: 2.625rem;
+    padding: 0 0.625rem;
+    background: transparent;
+    border: 0;
+    border-radius: var(--sb-radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--sl-color-gray-4);
+    cursor: pointer;
+    transition:
+      background var(--sb-duration-fast) var(--sb-ease-out-quart),
+      color var(--sb-duration-fast) var(--sb-ease-out-quart);
+  }
+
+  .sb-segmented button:hover {
+    background: var(--sb-paper-3);
+    color: var(--sl-color-text);
+  }
+
+  :root[data-theme='dark'] .sb-segmented button:hover {
+    background: var(--sl-color-gray-6);
+  }
+
+  .sb-segmented button[aria-checked='true'] {
+    background: var(--sb-ink);
+    color: var(--sb-paper);
+  }
+
+  :root[data-theme='dark'] .sb-segmented button[aria-checked='true'] {
+    background: var(--sl-color-text);
+    color: var(--sl-color-bg);
+  }
+
+  /* Switch */
+  .sb-switch {
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--sb-line-strong);
+    cursor: pointer;
+    transition: background var(--sb-duration-fast) var(--sb-ease-out-quart);
+  }
+
+  .sb-switch[aria-checked='true'] {
+    background: var(--sb-brand-emerald-deep);
+  }
+
+  .sb-switch-thumb {
+    position: absolute;
+    top: 0.125rem;
+    left: 0.125rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--sb-paper);
+    border-radius: 9999px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: transform var(--sb-duration-fast) var(--sb-ease-out-quart);
+  }
+
+  .sb-switch[aria-checked='true'] .sb-switch-thumb {
+    transform: translateX(1.25rem);
+  }
+
+  /* Footer */
+  .sb-comfort-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-hairline);
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-4);
+  }
+
+  .sb-comfort-reset {
+    background: transparent;
+    border: 0;
+    color: var(--sl-color-gray-3);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    border-radius: var(--sb-radius-sm);
+  }
+
+  .sb-comfort-reset:hover {
+    color: var(--sl-color-text);
+  }
+</style>

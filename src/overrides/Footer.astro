@@ -1,0 +1,367 @@
+---
+/**
+ * Footer override — wraps Starlight's default footer (which contains
+ * "Edit this page" + prev/next pagination + last-updated) with:
+ *   1. SendBriefs brand footer (logo, tagline, links, copyright)
+ *   2. ComfortPanel (floating FAB + dialog) — mounted once per page
+ *
+ * Layout matches marketing/components/nav/Footer.tsx in spirit:
+ *   tagline + newsletter card top, link columns, bottom strip.
+ */
+
+import Default from '@astrojs/starlight/components/Footer.astro';
+import SendBriefsMark from '../components/SendBriefsMark.astro';
+import ComfortPanel from '../components/ComfortPanel.astro';
+
+const year = new Date().getFullYear();
+
+const productLinks = [
+  { href: 'https://sendbriefs.com/features', label: 'Features' },
+  { href: 'https://sendbriefs.com/pricing', label: 'Pricing' },
+  { href: 'https://sendbriefs.com/changelog', label: 'Changelog' },
+];
+
+const docsLinks = [
+  { href: '/getting-started/welcome/', label: 'Getting started' },
+  { href: '/features/briefs/', label: 'Core features' },
+  { href: '/flows/monthly-reporting/', label: 'Workflows' },
+  { href: '/billing/plans/', label: 'Billing' },
+];
+
+const resourcesLinks = [
+  { href: 'https://sendbriefs.com/blog', label: 'Friday Brief' },
+  { href: 'https://sendbriefs.com/research', label: 'Research' },
+  { href: 'https://sendbriefs.com/status', label: 'Status' },
+  { href: 'mailto:support@sendbriefs.com', label: 'Support' },
+];
+
+const companyLinks = [
+  { href: 'https://sendbriefs.com/about', label: 'About' },
+  { href: 'https://sendbriefs.com/legal/privacy', label: 'Privacy' },
+  { href: 'https://sendbriefs.com/legal/terms', label: 'Terms' },
+  { href: 'https://sendbriefs.com/legal/dpa', label: 'DPA' },
+];
+---
+
+<!-- Starlight's default footer: prev/next, edit-link, last-updated -->
+<Default {...Astro.props}><slot /></Default>
+
+<!-- SendBriefs brand footer -->
+<footer class="sb-footer" role="contentinfo">
+  <div class="sb-footer-orb" aria-hidden="true"></div>
+
+  <div class="sb-footer-inner">
+    <!-- Brand zone -->
+    <div class="sb-footer-brand-row">
+      <div class="sb-footer-brand">
+        <a href="/" class="sb-footer-brand-link" aria-label="SendBriefs Docs home">
+          <SendBriefsMark size={32} decorative />
+          <span>SendBriefs Docs</span>
+        </a>
+        <p class="sb-footer-tagline">
+          The reporting platform agencies actually finish on Friday. Templatize the brief once — render
+          forever.
+        </p>
+        <div class="sb-footer-badges">
+          <span class="sb-footer-badge">Built for agencies</span>
+          <a class="sb-footer-status" href="https://sendbriefs.com/status">
+            <span class="sb-footer-status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+      </div>
+
+      <div class="sb-footer-newsletter">
+        <p class="type-eyebrow sb-footer-newsletter-eyebrow">Friday Brief</p>
+        <p class="sb-footer-newsletter-headline">
+          One short essay per month on agency operations.
+        </p>
+        <p class="sb-footer-newsletter-body">
+          No drip campaigns, no upsells. Sourced research and one opinion. Unsubscribe in one click.
+        </p>
+        <a class="sb-cta-secondary sb-footer-newsletter-cta" href="https://sendbriefs.com/#newsletter">
+          Subscribe on sendbriefs.com
+        </a>
+      </div>
+    </div>
+
+    <!-- Link columns -->
+    <div class="sb-footer-cols">
+      <div>
+        <p class="type-eyebrow sb-footer-col-heading">Product</p>
+        <ul>
+          {productLinks.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="type-eyebrow sb-footer-col-heading">Docs</p>
+        <ul>
+          {docsLinks.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="type-eyebrow sb-footer-col-heading">Resources</p>
+        <ul>
+          {resourcesLinks.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="type-eyebrow sb-footer-col-heading">Company</p>
+        <ul>
+          {companyLinks.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom strip -->
+    <div class="sb-footer-strip">
+      <span>© {year} Chykalophia Group, LLC. SendBriefs is a product of Chykalophia Group, LLC.</span>
+      <div class="sb-footer-strip-links">
+        <a href="https://sendbriefs.com/legal/privacy">Privacy</a>
+        <a href="https://sendbriefs.com/legal/terms">Terms</a>
+        <a href="mailto:hello@sendbriefs.com">hello@sendbriefs.com</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Comfort panel mounts once at the bottom; FAB is position:fixed -->
+<ComfortPanel />
+
+<style>
+  .sb-footer {
+    position: relative;
+    margin-top: 4rem;
+    border-top: 1px solid var(--sl-color-hairline);
+    background: var(--sl-color-bg-sidebar);
+    overflow: hidden;
+  }
+
+  .sb-footer-orb {
+    position: absolute;
+    top: -8rem;
+    right: -8rem;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 9999px;
+    background: var(--sb-gradient-featured);
+    filter: blur(100px);
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .sb-footer-inner {
+    position: relative;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 2.5rem;
+  }
+
+  /* Brand row */
+  .sb-footer-brand-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .sb-footer-brand-row {
+      grid-template-columns: 1.3fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .sb-footer-brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--sl-color-text);
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .sb-footer-brand-link:focus-visible {
+    outline: 2px solid var(--sb-brand-blue-deep);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  .sb-footer-tagline {
+    max-width: 28rem;
+    margin: 0.75rem 0 0;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--sl-color-gray-3);
+  }
+
+  .sb-footer-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .sb-footer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--sb-brand-emerald-deep) 12%, transparent);
+    color: var(--sb-brand-emerald-deep);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  :root[data-theme='dark'] .sb-footer-badge {
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+  }
+
+  .sb-footer-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+
+  .sb-footer-status:hover {
+    color: var(--sl-color-text);
+  }
+
+  .sb-footer-status-dot {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background: var(--sb-brand-emerald-deep);
+  }
+
+  /* Newsletter card */
+  .sb-footer-newsletter {
+    padding: 1.5rem;
+    background: var(--sl-color-bg);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: var(--sb-radius-2xl);
+    box-shadow: var(--sb-shadow-card);
+  }
+
+  .sb-footer-newsletter-eyebrow {
+    color: var(--sb-brand-blue-deep);
+    margin: 0;
+  }
+
+  :root[data-theme='dark'] .sb-footer-newsletter-eyebrow {
+    color: #c7d2fe;
+  }
+
+  .sb-footer-newsletter-headline {
+    margin: 0.5rem 0 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--sl-color-text);
+  }
+
+  .sb-footer-newsletter-body {
+    margin: 0.5rem 0 0;
+    font-size: 0.875rem;
+    color: var(--sl-color-gray-3);
+    line-height: 1.5;
+  }
+
+  .sb-footer-newsletter-cta {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+  }
+
+  /* Link columns */
+  .sb-footer-cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+
+  @media (min-width: 48rem) {
+    .sb-footer-cols {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .sb-footer-col-heading {
+    margin: 0 0 0.625rem;
+    color: var(--sl-color-gray-4);
+  }
+
+  .sb-footer-cols ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sb-footer-cols li {
+    margin: 0 0 0.5rem;
+  }
+
+  .sb-footer-cols a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+
+  .sb-footer-cols a:hover {
+    color: var(--sl-color-text);
+  }
+
+  /* Bottom strip */
+  .sb-footer-strip {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sl-color-hairline);
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-4);
+  }
+
+  @media (min-width: 40rem) {
+    .sb-footer-strip {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .sb-footer-strip-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sb-footer-strip-links a {
+    color: var(--sl-color-gray-4);
+    text-decoration: none;
+  }
+
+  .sb-footer-strip-links a:hover {
+    color: var(--sl-color-text);
+  }
+</style>

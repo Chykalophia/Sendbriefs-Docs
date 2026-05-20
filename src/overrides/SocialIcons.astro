@@ -1,0 +1,53 @@
+---
+/**
+ * SocialIcons override — replaces Starlight's default GitHub icon row with:
+ *   1. SendBriefs social/contact links (LinkedIn, email)
+ *   2. "Open dashboard" primary CTA (right side of nav)
+ *
+ * The header doesn't need to be wholly replaced; injecting our CTA here
+ * lets Starlight handle search, theme toggle, mobile menu, etc.
+ */
+
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+---
+
+<Default />
+
+<!-- Primary CTA to the app dashboard -->
+<a
+  class="sb-nav-cta sb-cta-primary"
+  href="https://app.sendbriefs.com"
+  rel="noopener"
+>
+  Open dashboard
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M7 17 17 7"></path>
+    <path d="M7 7h10v10"></path>
+  </svg>
+</a>
+
+<style>
+  .sb-nav-cta {
+    margin-inline-start: 0.5rem;
+    padding: 0.4375rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  /* Hide on the smallest screens — fits in the mobile menu instead */
+  @media (max-width: 50rem) {
+    .sb-nav-cta {
+      display: none;
+    }
+  }
+</style>

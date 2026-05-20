@@ -1,0 +1,155 @@
+/*
+ * SendBriefs Docs — Comfort modes.
+ * Matches sendbriefs_marketing/components/comfort/ behavior.
+ *
+ * Classes are applied to <html> by:
+ *   - The pre-hydration script in <head> (synchronous, no FOUC)
+ *   - The ComfortPanel component (on user interaction)
+ *
+ * State persists in localStorage under key `sb-comfort-v1`.
+ *
+ * Toggles:
+ *   - data-text-size="s|m|l"     → base font-size override
+ *   - .density-compact            → tighter line-height
+ *   - .density-spacious           → looser line-height
+ *   - .reduce-motion              → kill all animations + transitions
+ *   - .dyslexia-mode              → Atkinson Hyperlegible everywhere
+ *   - .high-contrast              → pure black on pure white
+ *   - .skim-mode                  → hide non-essential prose, highlight key elements
+ */
+
+/* ---- Text size (default 'm' = 17px from brand.css) ---- */
+html[data-text-size='s'] {
+  font-size: 15px;
+}
+html[data-text-size='l'] {
+  font-size: 19px;
+}
+
+@media (max-width: 640px) {
+  html[data-text-size='s'] {
+    font-size: 14px;
+  }
+  html[data-text-size='l'] {
+    font-size: 18px;
+  }
+}
+
+/* ---- Density ---- */
+html.density-compact {
+  line-height: 1.45;
+}
+html.density-spacious {
+  line-height: 1.85;
+}
+
+html.density-compact .sl-markdown-content {
+  --sl-line-height: 1.45;
+}
+html.density-spacious .sl-markdown-content {
+  --sl-line-height: 1.85;
+}
+
+html.density-compact .sl-markdown-content > * + * {
+  margin-top: 0.75em;
+}
+html.density-spacious .sl-markdown-content > * + * {
+  margin-top: 1.5em;
+}
+
+/* ---- Reduce motion (Comfort panel toggle) ---- */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---- Dyslexia-friendly font (Atkinson Hyperlegible) ---- */
+html.dyslexia-mode,
+html.dyslexia-mode body,
+html.dyslexia-mode .sl-markdown-content {
+  font-family: var(--sb-font-dyslexic);
+  letter-spacing: 0.01em;
+}
+
+html.dyslexia-mode :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--sb-font-dyslexic);
+  letter-spacing: 0;
+}
+
+/* ---- High-contrast theme ---- */
+html.high-contrast {
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-nav: #ffffff;
+  --sl-color-bg-sidebar: #ffffff;
+  --sl-color-bg-inline-code: #f5f5f5;
+  --sl-color-text: #000000;
+  --sl-color-text-accent: #000000;
+  --sl-color-hairline-light: #000000;
+  --sl-color-hairline: #000000;
+  --sl-color-hairline-shade: #000000;
+  --sl-color-accent: #0000ee; /* canonical link blue */
+  --sl-color-accent-high: #0000aa;
+  --sl-color-accent-low: #ffffff;
+}
+
+html.high-contrast :is(.sb-cta-primary, .sb-surface-featured) {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.high-contrast .sb-cta-secondary {
+  border-color: #000000;
+  color: #000000;
+}
+
+html.high-contrast :is(a, .sl-link-card) {
+  text-decoration: underline;
+}
+
+/* ---- Skim mode ----
+ * Collapses long prose to first sentence preview, keeps structure visible.
+ * Headers, lists, code blocks, tables, callouts stay fully visible.
+ * Implementation: clamp paragraphs in .sl-markdown-content to 1 line + ellipsis,
+ * with a hover reveal. Lists/code/headers/callouts are exempt.
+ */
+html.skim-mode .sl-markdown-content p:not(.sb-tldr):not(.sb-tldr-label) {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+  cursor: help;
+  border-left: 2px dashed var(--sl-color-hairline-shade);
+  padding-left: 0.625rem;
+  margin-left: -0.625rem;
+  transition: -webkit-line-clamp var(--sb-duration-base) var(--sb-ease-out-quart);
+}
+
+html.skim-mode .sl-markdown-content p:not(.sb-tldr):hover,
+html.skim-mode .sl-markdown-content p:not(.sb-tldr):focus-within {
+  -webkit-line-clamp: 99;
+  line-clamp: 99;
+}
+
+/* Visual indicator that skim mode is active */
+html.skim-mode body::before {
+  content: 'Skim mode on — hover a paragraph to expand';
+  position: fixed;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 0.25rem 0.75rem;
+  background: var(--sb-brand-blue-deep);
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}

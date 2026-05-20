@@ -1,0 +1,39 @@
+{
+  "name": "sendbriefs-docs",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SendBriefs documentation site (docs.sendbriefs.com) — Astro + Starlight static site",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.12.3",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "playwright test",
+    "test:a11y": "playwright test --project=a11y",
+    "test:smoke": "playwright test --project=smoke",
+    "test:install": "playwright install chromium --with-deps",
+    "validate": "pnpm build && pnpm test"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.39.2",
+    "@fontsource/atkinson-hyperlegible": "^5.2.8",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "astro": "^6.3.5",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@playwright/test": "^1.60.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1"
+  }
+}
