@@ -1,0 +1,31 @@
+src/content/docs/features/notifications.mdx
+  s_d804dd1fca0010::t_f39012a02050d7 113
+  s_d804dd1fca0010::t_b4252279eeb3fe 91
+src/content/docs/features/integrations.mdx
+  s_d804dd1fca0010::t_c08d29f90ff53b 3,12,15,17,19,21,23,25,27,29,31-33,35,37-39,43-67,69,71-79,81-83,87-89,95,97,101,103,105,107-118,124,126,128-129,131,133,135-139,143-146,150-151
+src/content/docs/flows/client-onboarding.mdx
+  s_d804dd1fca0010::t_e4a9da1f2e5bed 23
+src/content/docs/getting-started/whats-next.md
+  s_d804dd1fca0010::t_349b0cfb20e178 53
+  s_d804dd1fca0010::t_d27c50cb5d0135 109,111,113-115
+src/content/docs/features/reports.mdx
+  s_d804dd1fca0010::t_fb4190d4e12f94 82,84-85,88
+src/content/docs/getting-started/connect-first-client.mdx
+  s_d804dd1fca0010::t_9a3a0624cecf69 61,63,65,67,69,73-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "4eab1683ebcb64085209453656ffd4a1cd7326f8",
+  "prompts": {},
+  "sessions": {
+    "s_d804dd1fca0010": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66bfbcda-0b92-463d-8153-853d12d2cdbc",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Peter Krzyzek <peter@chykalophia.com>"
+    }
+  }
+}
