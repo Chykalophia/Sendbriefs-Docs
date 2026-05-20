@@ -1,0 +1,28 @@
+src/content/docs/features/clients.mdx
+  s_d804dd1fca0010::t_9f716fd4315ebf 87-97
+  s_d804dd1fca0010::t_3a91902f271df7 115
+src/content/docs/features/briefs.mdx
+  s_d804dd1fca0010::t_b468fda22f9fd5 72-80
+src/content/docs/flows/edits-and-approvals.mdx
+  s_d804dd1fca0010::t_0095b1f29b1cb4 37-46
+src/content/docs/getting-started/first-workspace.mdx
+  s_d804dd1fca0010::t_ccb562262153a2 45
+src/content/docs/features/notifications.mdx
+  s_d804dd1fca0010::t_1c18c4d3554496 56-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "9f32f3728a370f84c467c88d69c56b249ebaed54",
+  "prompts": {},
+  "sessions": {
+    "s_d804dd1fca0010": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66bfbcda-0b92-463d-8153-853d12d2cdbc",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Peter Krzyzek <peter@chykalophia.com>"
+    }
+  }
+}
