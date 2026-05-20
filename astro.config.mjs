@@ -27,10 +27,8 @@ export default defineConfig({
 
       favicon: '/favicon.svg',
 
-      // The "Edit this page" link points at the marketing repo's docs editor,
-      // not GitHub, so non-engineers can fix typos. Update if you move repos.
       editLink: {
-        baseUrl: 'https://github.com/sendbriefs/sendbriefs-docs/edit/main/',
+        baseUrl: 'https://github.com/PiotrKrzyzek/Sendbriefs-Docs/edit/main/',
       },
 
       // Match marketing's social presence; no GitHub here on purpose.
