@@ -1,0 +1,113 @@
+---
+title: Connect your first client
+description: Add a client, attach the people who'll receive briefs, and decide how data flows in. About 10 minutes.
+sidebar:
+  order: 4
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+In <strong>Clients → New client</strong>, give the client a name and (optional) website + logo. Add at least one contact. Connect a data source for them from <strong>Settings → Integrations</strong>. That's the minimum needed to render a brief.
+</aside>
+
+## What a client is in SendBriefs
+
+A "client" is the organization that receives your briefs. Each client record holds:
+
+- **Basic profile** — name, optional website, optional logo.
+- **Contacts** — the actual people on the client side. One is marked Primary; others can be Billing, Stakeholder, or Technical. Each contact has a `receive reports` toggle so you can list someone as a stakeholder without spamming them.
+- **Status** — active, inactive, or archived. Lets you keep historical clients findable without cluttering the active list.
+
+Clients **do not log in**. When a brief is sent, recipients get an email with a signed link to a hosted client portal — no password required.
+
+## Adding the client
+
+Open **Clients → New client** in the sidebar (or hit the **Add client** button on the dashboard).
+
+<Placeholder type="screenshot" caption="New-client form with name, website, logo fields" />
+
+You'll see:
+
+| Field | Required? | Notes |
+|---|---|---|
+| **Client name** | Yes | What you call them internally. Shows up everywhere in the app. |
+| **Website** | No | Helps you orient when you have many clients with similar names. |
+| **Logo** | No | Used in the client portal header and on white-label briefs. PNG, JPG, or SVG. Square works best. |
+| **Primary contact name** | No (recommended) | The default "Send to" person. |
+| **Primary contact email** | No (recommended) | Same. Required before you can actually send a brief to this client. |
+
+Click **Create client**. You'll land on the client detail page.
+
+## Adding contacts
+
+You can add as many contacts as you need. Each contact has:
+
+- **Name + email** — required.
+- **Role** — one of `Primary`, `Billing`, `Stakeholder`, `Technical`. Used for organization; doesn't change permissions.
+- **Receive reports** — toggle. On = this person gets briefs when you send. Off = they're listed on the account but kept off the recipient list.
+
+From the client detail page, click **Contacts → Add contact** and fill in the form.
+
+<Placeholder type="screenshot" caption="Contact form with role selector and 'receive reports' toggle" />
+
+A few patterns worth noting:
+
+- **One Primary, many Stakeholders.** Most agencies have one main day-to-day contact (Primary) and a handful of executives or specialists who want to see what's going on (Stakeholders with `receive reports` on).
+- **Billing contacts** typically have `receive reports` off — they only need to see things when something invoice-related happens.
+- **Technical contacts** are the people who handle the data connections (the ones who own the GA4 property, for example). Often `receive reports` off.
+
+## Connecting data sources
+
+Briefs render from data. To get any meaningful number into a brief, you need at least one **integration** wired up.
+
+Important: integrations are connected **at the workspace level**, not per-client. One OAuth to Google covers every Google property you can access; the per-client choice happens when you bind a data block inside the brief.
+
+Open **Settings → Integrations** to see what's available.
+
+<Placeholder type="screenshot" caption="Integrations page with available providers grid" />
+
+### Available today
+
+- **Google** — connects your Google account for Analytics (read-only) and profile data. One OAuth covers every GA4 property the connected Google account has access to.
+- **Slack** — connects to a Slack workspace for posting brief activity to a channel.
+
+### Coming soon
+
+These are on the roadmap and will appear in the same place when they ship. None are wired up yet — don't plan a brief around them.
+
+- **HubSpot** — CRM data (companies, deals, pipeline).
+- **Stripe** — revenue, subscriptions, MRR.
+- **Google Search Console** — organic search performance.
+- **Google Ads** — paid search performance.
+- **Meta Ads** — Facebook and Instagram campaigns.
+- **Linear** — project status and shipped work.
+- **PostHog** — product analytics.
+- **BigQuery** — direct warehouse access for advanced setups.
+- **Calendly** — meetings booked and held.
+- **Webhook** — generic inbound for anything we don't natively integrate.
+
+Full per-integration setup steps live in [Integrations →](/features/integrations/).
+
+### Connecting Google (the typical first integration)
+
+1. From **Settings → Integrations**, click **Connect Google**.
+2. You'll redirect to Google's OAuth consent screen. Sign in with the Google account that has access to your client's GA4 property.
+3. Grant the read-only Analytics scope. We never request write.
+4. You'll bounce back to SendBriefs. The integration shows as **Connected** with the email of the signed-in Google account.
+5. The first brief you build for this client will let you pick which GA4 property to pull from.
+
+> **If the client's GA4 property isn't visible later**, the Google account you signed in with doesn't have access. Get a viewer-level role added to that GA4 property, then either reconnect or pull the property again. The simplest pattern: ask the client to add your agency's shared Google account as a Viewer in their GA4.
+
+## Common gotchas
+
+- **OAuth tokens expire.** Most providers issue refresh tokens. We refresh in the background and show a status warning if a token actually fails. Reconnect from **Settings → Integrations** if you see a red banner on the integration.
+- **One Google account, many properties.** Connect once; pick the property per-client when you bind data in the brief editor.
+- **No integration ≠ no brief.** You can write a brief entirely in the block editor without any integration connected — just no live numbers. Useful for narrative-only updates.
+
+## Next: send your first brief
+
+You have a client with at least one contact and (optionally) a data source. Time to actually write and send a brief.
+
+[Send your first brief →](/getting-started/send-first-brief/)

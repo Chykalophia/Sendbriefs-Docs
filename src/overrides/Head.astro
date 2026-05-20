@@ -39,6 +39,73 @@ const comfortInit = `
 <!-- Comfort pre-hydration script — must run before first paint -->
 <script is:inline set:html={comfortInit}></script>
 
+<!-- Banner height sync — keep --sb-banner-h matched to the banner's actual
+     rendered height. The sidebar/TOC use --sl-nav-height + --sb-banner-h
+     as their sticky top offset (see brand.css), so the page chrome stays
+     visually under the full sticky header even when the banner wraps. -->
+<script is:inline>
+  (function () {
+    if (typeof window === 'undefined') return;
+    function sync() {
+      var b = document.querySelector('.sb-prelaunch-banner');
+      var px = b ? b.getBoundingClientRect().height : 0;
+      document.documentElement.style.setProperty('--sb-banner-h', px + 'px');
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', sync, { once: true });
+    } else {
+      sync();
+    }
+    if ('ResizeObserver' in window) {
+      window.addEventListener('load', function () {
+        var b = document.querySelector('.sb-prelaunch-banner');
+        if (!b) return;
+        new ResizeObserver(sync).observe(b);
+      }, { once: true });
+    } else {
+      window.addEventListener('resize', sync);
+    }
+  })();
+</script>
+
+<!-- Scroll-reveal microinteraction — IntersectionObserver, opt-out via prefers-reduced-motion or .reduce-motion -->
+<script is:inline>
+  (function () {
+    if (typeof window === 'undefined') return;
+    var mql = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+    var reduced = (mql && mql.matches) || document.documentElement.classList.contains('reduce-motion');
+
+    function reveal(el) { el.classList.add('is-visible'); }
+
+    function init() {
+      var nodes = document.querySelectorAll('[data-sb-reveal]');
+      if (!nodes.length) return;
+
+      if (reduced || !('IntersectionObserver' in window)) {
+        nodes.forEach(reveal);
+        return;
+      }
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+
+      nodes.forEach(function (el) { io.observe(el); });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+  })();
+</script>
+
 <!-- Theme color (browser chrome) — indigo to match brand -->
 <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)" />

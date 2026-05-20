@@ -1,0 +1,80 @@
+---
+title: Create your account
+description: Sign up for SendBriefs in about 3 minutes. No credit card needed for the trial.
+sidebar:
+  order: 2
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Visit <a href="https://app.sendbriefs.com/signup">app.sendbriefs.com/signup</a>, enter your email, full name, and a strong password. Verify the email. You're in — 14-day trial, no credit card.
+</aside>
+
+## Before you start
+
+You'll need:
+
+- A **work email address** (recommended — see [Why work email matters](#why-work-email-matters) below).
+- About **3 minutes**.
+
+You will **not** need:
+
+- A credit card. The trial runs 14 days, no card.
+- Your team's invitation list. You can invite them later.
+- Your client list. You'll set up your first client in the next step.
+
+## The signup flow
+
+<Placeholder type="screenshot" caption="The /signup page with email, name, and password fields visible" />
+
+1. Go to [app.sendbriefs.com/signup](https://app.sendbriefs.com/signup).
+2. Enter your email, your full name, and a password (12+ characters).
+3. *Optional*: add your agency name now. You can fill or change it later.
+4. Submit. Check your inbox for the verification email.
+5. Click the verification link. It expires in 30 minutes — request a new one from the login screen if it's stale.
+6. You're signed in.
+
+> **Password policy.** We require 12+ characters and check it against the [Have I Been Pwned](https://haveibeenpwned.com/) breach database. If your password has shown up in a known breach, the signup form will reject it and ask for a different one. This is non-negotiable: a reused password protects nothing.
+
+## Signing up with Google
+
+If your workspace has Google sign-in enabled, you'll also see a **Continue with Google** button on the signup screen. Pick that to skip the password setup — your Google account becomes the login. You can later set a password in **Settings → Profile** if you want a fallback.
+
+If you don't see the Google button, your workspace doesn't have it enabled. Email is the only option for now.
+
+## Why work email matters
+
+Two reasons:
+
+- **Billing and account recovery** route through this email. A personal Gmail you'll lose access to when you change jobs is a bad anchor.
+- **Team identification** is easier when colleagues share a domain. Future invitations and workspace-level controls expect a consistent email pattern.
+
+If you signed up with a personal email by mistake, you can change it later from **Settings → Profile**, but it's faster to use the right one from the start.
+
+## Verify your email
+
+Until you click the verification link, your account can read its own settings but can't send briefs. The link lands you back in the app — pick up the onboarding wizard from there.
+
+Didn't get the email? Check spam. If it's truly missing, request a new one from the login page — old links expire in 30 minutes anyway.
+
+## Turn on two-factor authentication
+
+Highly recommended. You can do it now or after the workspace setup:
+
+1. Go to **Settings → Profile → Security**.
+2. Click **Enable two-factor authentication**.
+3. Scan the QR code with your authenticator app (1Password, Authy, Google Authenticator, anything TOTP-compatible).
+4. Enter the 6-digit code to confirm.
+5. **Save the recovery codes somewhere safe.** If you lose your phone, these are how you get back in.
+
+<Placeholder type="screenshot" caption="TOTP enrollment screen with QR code and recovery codes" />
+
+If your workspace owner has **enforced MFA** for the workspace, the system will require you to enroll at next login before you can do anything else. If you see that prompt, this is the same flow.
+
+## Next: set up your first workspace
+
+Workspaces are how SendBriefs separates one agency's clients, team, and billing from another. Even if you're a solo operator, you'll have at least one workspace.
+
+[Set up your first workspace →](/getting-started/first-workspace/)

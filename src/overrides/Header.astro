@@ -11,18 +11,144 @@
 import Default from '@astrojs/starlight/components/Header.astro';
 ---
 
+{/* Pre-launch banner — remove the whole element when SendBriefs goes GA */}
+<div class="sb-prelaunch-banner" role="region" aria-label="Product status">
+  <div class="sb-prelaunch-banner-inner">
+    <span class="sb-prelaunch-dot" aria-hidden="true"></span>
+    <span>
+      <strong>Founders Circle preview.</strong>
+      SendBriefs is rolling out to a small group of agencies first; some features ship over the next few weeks.
+      <a href="https://sendbriefs.com/early-access" rel="noopener">Join the waitlist →</a>
+    </span>
+  </div>
+</div>
+
 <Default {...Astro.props}><slot /></Default>
 
 <style is:global>
-  /* Subtle bottom shadow on the sticky header */
-  .header {
+  /* The outer <header> from PageFrame has a fixed height of --sl-nav-height
+   * by default. We pack a banner + Starlight's inner header inside it, so the
+   * inner header overflows by ~24px and produces a visible "line through the
+   * middle." Letting the outer header size to its content fixes both the
+   * overflow and the visual misalignment. */
+  .page > .header {
+    height: auto;
+    min-height: var(--sl-nav-height);
+    padding: 0;
     box-shadow: 0 1px 0 var(--sl-color-hairline-light);
     backdrop-filter: saturate(180%) blur(10px);
     -webkit-backdrop-filter: saturate(180%) blur(10px);
   }
 
-  /* Hide Starlight's title text — logo already shows brand */
-  .site-title span {
-    /* Keep accessible name but visually hidden for cleaner header */
+  /* Restore Starlight's inline padding on the inner header now that the
+   * outer header no longer applies it. */
+  .page > .header > .header {
+    padding-inline: var(--sl-nav-pad-x, 1rem);
+    padding-block: var(--sl-nav-pad-y, 1rem);
+  }
+
+  /* The banner sits inside the sticky <header>, so the real header is
+   * taller than --sl-nav-height. Push the sidebar + TOC down by the
+   * measured banner height (set by the script in Head.astro) so their
+   * sticky top lands under the actual header, not the assumed one. */
+  :root { --sb-banner-h: 0px; }
+
+  @media (min-width: 50em) {
+    .sidebar-pane {
+      top: calc(var(--sl-nav-height) + var(--sb-banner-h) + 0.5rem);
+      height: calc(100vh - var(--sl-nav-height) - var(--sb-banner-h));
+    }
+    .right-sidebar {
+      top: calc(var(--sl-nav-height) + var(--sb-banner-h));
+      padding-block-start: 0.75rem;
+    }
+  }
+
+  /* Same accommodation for in-page scroll anchors. */
+  html {
+    scroll-padding-top: calc(var(--sl-nav-height) + var(--sb-banner-h) + 0.5rem);
+  }
+
+  /* Dark-mode active sidebar item — Starlight 0.39 uses --sl-color-text-accent
+   * for the active item BACKGROUND (not just the text), which collides with our
+   * dark-mode link color override. Force a deeper indigo so light text on the
+   * active row stays readable. */
+  :root[data-theme='dark'] .sidebar-content a[aria-current='page'] {
+    background-color: rgba(79, 70, 229, 0.22);
+    color: #e0e7ff;
+  }
+  :root[data-theme='dark'] .sidebar-content a[aria-current='page']:hover,
+  :root[data-theme='dark'] .sidebar-content a[aria-current='page']:focus {
+    background-color: rgba(79, 70, 229, 0.3);
+  }
+
+  /* Pre-launch banner */
+  .sb-prelaunch-banner {
+    background: linear-gradient(90deg, rgba(79, 70, 229, 0.06), rgba(124, 58, 237, 0.06));
+    border-bottom: 1px solid var(--sl-color-hairline-light);
+    color: var(--sl-color-text);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .sb-prelaunch-banner-inner {
+    max-width: 96rem;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    text-align: center;
+  }
+
+  .sb-prelaunch-banner strong {
+    color: var(--sb-brand-blue-deep);
+    font-weight: 600;
+  }
+  :root[data-theme='dark'] .sb-prelaunch-banner strong {
+    color: #c7d2fe;
+  }
+
+  .sb-prelaunch-banner a {
+    color: var(--sb-brand-blue-deep);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  :root[data-theme='dark'] .sb-prelaunch-banner a {
+    color: #c7d2fe;
+  }
+  .sb-prelaunch-banner a:hover,
+  .sb-prelaunch-banner a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .sb-prelaunch-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--sb-brand-blue);
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.55);
+    animation: sb-prelaunch-pulse 2.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes sb-prelaunch-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.55); }
+    50%      { box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sb-prelaunch-dot { animation: none; }
+  }
+
+  @media (max-width: 50rem) {
+    .sb-prelaunch-banner-inner {
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.5rem 0.875rem;
+    }
+    .sb-prelaunch-dot { display: none; }
   }
 </style>

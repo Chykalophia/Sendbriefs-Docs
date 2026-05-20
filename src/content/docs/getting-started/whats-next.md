@@ -1,58 +1,96 @@
 ---
 title: What's next
-description: You sent your first brief. Here are the three highest-leverage things to do next.
+description: You sent your first brief. Here are the highest-leverage things to do next.
 sidebar:
   order: 6
 ---
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-Three things to do next, in order of leverage: (1) templatize your most common brief, (2) connect the rest of your clients, (3) schedule recurring sends so they fire without you.
+Five things to do next, in order of leverage: (1) save the brief you just sent as a template, (2) invite your team and assign sections, (3) connect the rest of your clients, (4) tune notifications so the right people get pinged, (5) move briefs onto a recurring schedule.
 </aside>
 
 You sent your first brief. Now compound the value.
 
-## 1. Templatize the brief you send most often
+## 1. Save the brief as a template
 
-The starter templates are fine. But every agency has a "house style" — the order, the framing, the specific bullets you always include.
+The starter templates are fine, but the brief you just shipped is closer to your house style than anything we ship by default.
 
-Open the brief you just sent and click **Save as template**. Give it a name like "Monthly performance — Studio house style." Now every new client gets that template as a starter.
+From the brief detail page, open the menu and click **Save as template**. Give it a name like "Monthly performance — house style." It'll show up in the template picker for every new brief.
 
-Even better: add **variables** to the template so the same template works across clients with different KPIs:
+Templates remember:
 
-```
-The {{client.industry}} benchmark for {{period}} was {{benchmark.value}}.
-Your {{primary_metric.name}} was {{primary_metric.value}}, a
-{{primary_metric.change_pct}}% change from {{period.previous}}.
-```
+- The block structure (text, data tokens, charts, callouts).
+- The default cadence (daily, weekly, biweekly, monthly, quarterly, milestone, ad-hoc, or custom).
+- The sections, status defaults, and assignment defaults.
 
-Variables resolve at render time from the client's bindings. One template, every client.
+What templates *don't* lock in: the specific data values (those re-resolve each period) or the client (you pick that when you create a new brief from the template).
 
 Full guide: [Templating a recurring brief →](/flows/templating-recurring/)
 
-## 2. Connect the rest of your clients
+## 2. Invite your team
 
-The first client took you ~10 minutes. The next 9 will average closer to 4 minutes each — most of the work was understanding the integration flow.
+If you're the only person writing briefs, skip this. If anyone else contributes — even one teammate doing edits — bring them in now.
 
-**Speed tips:**
+From **Settings → Team**, click **Invite member**. Add their email and pick a role:
 
-- Connect integrations at the workspace level when possible (e.g., one OAuth to Stripe covers all clients you bill through it).
-- Use the **CSV import** option (Settings → Bulk client import) if you have 20+ clients with consistent metadata.
-- Keep a "first client" you check first when something breaks. We use the one with the simplest data setup as our smoke-test client.
+- **Owner** — full control, including billing and workspace deletion.
+- **Admin** — full control except deleting the workspace.
+- **Member** — can create and edit briefs they own; can read briefs from teammates and the client directory; can't manage billing, team, or workspace settings.
 
-Full guide: [Onboarding a new client in 10 minutes →](/flows/client-onboarding/)
+Once they accept the invite, you can assign brief sections to them. This is the unlock for "I write the strategy section, you write the analytics section" without anyone stepping on anyone's toes.
 
-## 3. Schedule recurring sends
+[Workspaces & teams →](/features/workspaces/)
 
-Open the brief you sent. Click **Set up recurring** at the top.
+## 3. Connect the rest of your clients
 
-Pick:
+The first client took you ~10 minutes. The next ones will be much faster — most of the time was understanding the integration flow, which only happens once.
 
-- **Cadence** — weekly, monthly, quarterly, custom (e.g., every other Tuesday).
-- **Send time** — recommended: 9–10am in the client's time zone.
-- **Approval step** — optional: requires a teammate to review before send.
+Per-client steps after the first:
 
-The brief now fires automatically. You'll get a Slack/email digest after each send showing what went out.
+1. **Clients → New client** — name, optional website, optional logo. ~30 seconds.
+2. **Contacts** — add the people who'll receive the brief. ~1 minute per contact.
+3. Skip the integration setup for clients on Google data (you already connected Google once at the workspace level — just pick the right GA4 property when you bind data in the brief).
+
+Keep one client as your **smoke-test client** — the simplest setup, the most forgiving recipient. Use it to verify new templates or test new features before you roll changes out to your real client list.
+
+Full guide: [Onboarding a new client →](/flows/client-onboarding/)
+
+## 4. Tune notifications
+
+Once you have teammates and clients, you'll start getting notified about brief activity. Out of the box:
+
+- **In-app notifications** are on for most events.
+- **Email notifications** are limited to approvals and mentions.
+
+You can change this per event type from **Settings → Notifications** (or your profile **Notifications** page):
+
+| Event | What it means |
+|---|---|
+| `report_submitted` | A brief is waiting for your approval. |
+| `report_approved` | A brief you authored was approved. |
+| `report_rejected` | A brief you authored had changes requested. |
+| `report_sent` | A brief you authored or co-authored was sent. |
+| `section_assigned` | You were assigned a section in a brief. |
+| `section_comment` | Someone commented on a section you're involved with. |
+| `member_joined` | A new teammate joined the workspace. |
+| `mention` | Someone @mentioned you. |
+
+For each event, you have separate in-app and email toggles. Tune aggressively — silence what you don't need.
+
+[Notifications & delivery →](/features/notifications/)
+
+## 5. Move briefs onto a recurring schedule
+
+The whole point of SendBriefs is to stop assembling the same brief by hand every month.
+
+From the brief detail page (after the brief is built and proven), set up a **recurring schedule** matching the template's cadence. Each cycle, SendBriefs:
+
+1. Creates a new brief from the template with the new period's data.
+2. Routes it through your approval workflow (if enabled).
+3. Sends it on the scheduled day.
+
+You get notified at each step so you can catch issues, but you're not the bottleneck for the standard path.
 
 Full guide: [Monthly client reporting workflow →](/flows/monthly-reporting/)
 
@@ -60,30 +98,38 @@ Full guide: [Monthly client reporting workflow →](/flows/monthly-reporting/)
 
 ## Things that aren't urgent but pay off later
 
-### Set up edit + approval workflows
+### Set up approval workflows
 
-If your clients want to review briefs before send, turn on approval. The recipient gets a link to "Approve" or "Request changes" — and the brief doesn't go out until they approve.
+If your briefs need a second pair of eyes before they go out, turn on workspace-level approval enforcement. Briefs can't move to `sent` until they're `approved` by an authorized teammate.
+
+This is internal team approval — for the workflow where your *client* approves before send, see the [edits & approvals flow](/flows/edits-and-approvals/).
 
 [Edits & approvals →](/flows/edits-and-approvals/)
 
-### Tighten your branding
+### Connect Slack
 
-Every client can have their own logo, color, and "from name." For white-label work this is critical. Five minutes per client.
+Connect Slack from **Settings → Integrations** so you can post brief activity to a channel of your choice. Useful for "what went out today" team awareness without forcing everyone into the app.
+
+[Integrations → Slack →](/features/integrations/#slack)
+
+### Enforce MFA for the whole workspace
+
+If your team handles client data, requiring multi-factor authentication is table stakes. From **Settings → Workspace → Security**, flip on **Require MFA**. Members will be required to enroll TOTP at next login.
+
+[Workspaces & teams → Security →](/features/workspaces/#security)
+
+### Tune per-client branding
+
+Every client can have their own logo. White-label work depends on this. Five minutes per client.
 
 [Workspaces & teams → Branding →](/features/workspaces/#branding)
-
-### Connect Slack for delivery digests
-
-You don't need to babysit every send. Connect Slack and we'll post a daily digest in a channel you pick: how many briefs sent, how many opened, anything that failed.
-
-[Notifications & delivery →](/features/notifications/)
 
 ---
 
 ## When you get stuck
 
 - **Read the workflow docs.** Most "how do I…" questions are answered in [Processes & flows](/flows/monthly-reporting/).
-- **Email support@sendbriefs.com.** Response in under 4 business hours, often much less.
-- **In-app chat.** Bottom-right inside the dashboard (not on this docs site). We answer it live during business hours.
+- **Email <a href="mailto:support@sendbriefs.com">support@sendbriefs.com</a>.** Real humans, four-hour response time, often much less.
+- **Help center on the marketing site.** Quick reference at [sendbriefs.com/help](https://sendbriefs.com/help).
 
 You're done with onboarding. The rest of these docs are reference — pull them up when you need them, ignore them otherwise.

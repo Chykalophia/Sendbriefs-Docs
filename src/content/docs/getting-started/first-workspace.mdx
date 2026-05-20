@@ -1,0 +1,107 @@
+---
+title: Set up your first workspace
+description: The four-step onboarding wizard — personalization, logo, brand colors, first client. About 5 minutes.
+sidebar:
+  order: 3
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+After signup, you'll see a 4-step wizard: tell us about you and the agency, upload a logo, pick brand colors (we suggest indigo + violet), add your first client. Every step is skippable. You can edit any of it later from <strong>Settings</strong>.
+</aside>
+
+## What a workspace is
+
+A workspace is your agency's container. Inside it lives:
+
+- **Clients** — the organizations you report to.
+- **Briefs** — your reports and templates. (App sidebar calls them *Reports*.)
+- **Members** — your team (roles: Owner, Admin, Member).
+- **Integrations** — data sources connected at the workspace level.
+- **Billing** — the subscription paying for it all.
+
+Most agencies need exactly one workspace. You'd only want multiple if you operate two distinct brands that don't share clients or team members.
+
+## The onboarding wizard
+
+When you land in the app right after signup, you'll see a 4-step wizard. You can click **Skip** at the bottom of any step and finish it later from **Settings**.
+
+<Placeholder type="screenshot" caption="Onboarding wizard, step 1 of 4 with progress indicator at the top" />
+
+### Step 1 — Tell us about you
+
+Three quick questions:
+
+- **Your role** — Agency Owner, Project Manager, or Team Member. Used to tune the dashboard hints; doesn't change permissions.
+- **How many clients** — 1–5, 6–20, or 20+. Used to recommend a starting plan when your trial ends.
+- **Agency name** — what your workspace will be called. Editable later from **Settings → Workspace**.
+
+### Step 2 — Upload your logo
+
+PNG, JPG, or SVG. Square works best (we display at 32 × 32 in the nav and scale to the brief header).
+
+Skip if you don't have one yet. You can upload from **Settings → Workspace → Branding** any time.
+
+### Step 3 — Pick brand colors
+
+Two hex inputs with color pickers:
+
+- **Primary** — the main brand color. Used for CTAs, links, the highlighted state of nav items. Default: `#6366f1` (indigo).
+- **Accent** — the secondary brand color. Used for gradient accents and section dividers. Default: `#8b5cf6` (violet).
+
+These show up in your client portal and (when configured) in branded briefs. If you don't know what to pick, the defaults are fine — they're the SendBriefs brand and look clean on a white surface.
+
+### Step 4 — Add your first client
+
+- **Client name** — required.
+- **Primary contact email** — optional, but we recommend filling it now so the wizard wires up a complete example.
+
+We'll go deep on clients on the next page. For now, the wizard creates a minimal client record so the dashboard isn't empty when you land.
+
+Click **Finish** and you'll be dropped on the dashboard. The Onboarding checklist card stays visible until everything's wired — you can come back to any of these steps from there.
+
+## What happens after the wizard
+
+You'll see the dashboard with:
+
+- The onboarding checklist showing what's done and what's left.
+- A product tour highlighting where to find Reports, Clients, Settings, and the Comfort Panel.
+- An empty Recent Briefs feed (it'll fill in once you send one).
+
+The wizard does NOT cover team invites or billing — those have their own dedicated screens, and most agencies don't need either on day one.
+
+## Inviting your team
+
+Open **Settings → Team** and click **Invite member**. Add their email and pick a role:
+
+| Role | What they can do | What they can't do |
+|---|---|---|
+| **Owner** | Everything. Manage billing. Delete the workspace. | n/a |
+| **Admin** | Everything except delete the workspace. | Delete workspace |
+| **Member** | Create and edit briefs they own. Read briefs from teammates. Read clients and team directory. | Manage billing, team, or workspace settings |
+
+Invitations are valid for **7 days**. If someone misses theirs, resend from the same screen.
+
+Roles are editable later from **Settings → Team** if you need to promote or demote someone.
+
+> SendBriefs also has a **Client** role internally, but that's for portal recipients — not for your team members. Client recipients see briefs through a signed link in their email; they don't log in.
+
+## Multi-factor authentication (optional, recommended)
+
+If you want everyone in the workspace to use 2FA, an Owner can turn this on from **Settings → Workspace → Security**. Once enforced, members will be required to enroll TOTP at next login before they can do anything else in the app.
+
+For the personal MFA setup flow, see [Create your account → Turn on two-factor authentication](/getting-started/create-account/#turn-on-two-factor-authentication).
+
+## Pick a plan (when the trial ends)
+
+The 14-day trial unlocks everything. Don't pick a plan now unless you're sure.
+
+When you're ready, go to **Settings → Billing** to start a Stripe Checkout session. See [Billing & plans](/billing/plans/) for what each tier includes.
+
+## Next: connect your first client
+
+You now have a workspace with one stub client. Time to flesh that client out and connect the data behind their brief.
+
+[Connect your first client →](/getting-started/connect-first-client/)

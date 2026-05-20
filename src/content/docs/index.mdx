@@ -1,9 +1,9 @@
 ---
 title: SendBriefs Docs
-description: How to send client briefs that don't wreck your Friday. Guides, workflow recipes, and reference for the SendBriefs platform.
+description: Client briefs, sent on Friday. Without writing them. Guides, workflows, and reference for the SendBriefs platform.
 template: splash
 hero:
-  tagline: Guides, workflow recipes, and reference for the SendBriefs platform. Built so you can find what you need in under a minute.
+  tagline: Templatize the brief once. Render and send a fresh version every period from your live data. These docs walk you from signup to your first sent brief in about 35 minutes.
   actions:
     - text: Start at the beginning
       link: /getting-started/welcome/
@@ -17,47 +17,74 @@ hero:
         rel: noopener
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import Placeholder from '../../components/Placeholder.astro';
+import StartCardGrid from '../../components/StartCardGrid.astro';
 
-## Pick your starting point
+<section class="sb-home-section" data-sb-reveal>
+  <p class="type-eyebrow sb-home-eyebrow">Start anywhere</p>
+  <h2 class="sb-home-h2">Pick your starting point</h2>
+  <p class="sb-home-lede">
+    Four tracks, depending on what you came here for. Pick one — you can always wander.
+  </p>
 
-<CardGrid stagger>
-  <Card title="New here?" icon="rocket">
-    Get from signup to your first sent brief in about 35 minutes. [Start the Getting Started track →](/getting-started/welcome/)
-  </Card>
-  <Card title="Building a workflow?" icon="setting">
-    Recipes for the standard cycles: monthly reporting, client onboarding, recurring templates, approvals, year-end reviews. [Browse workflows →](/flows/monthly-reporting/)
-  </Card>
-  <Card title="Looking for a feature?" icon="open-book">
-    Reference for briefs, clients, reports, workspaces, integrations, and notifications. [Browse features →](/features/briefs/)
-  </Card>
-  <Card title="Billing question?" icon="document">
-    Plans, invoices, payment, plan changes, cancellation. [See billing docs →](/billing/plans/)
-  </Card>
-</CardGrid>
+  <StartCardGrid />
+</section>
 
-## How these docs are organized
+<section class="sb-home-section" data-sb-reveal>
+  <p class="type-eyebrow sb-home-eyebrow">Map of the docs</p>
+  <h2 class="sb-home-h2">How these docs are organized</h2>
 
-- **Getting started** is a sequential track. Read it in order the first time.
-- **Core features** is a reference. Skim to the page you need.
-- **Processes & flows** is recipes for common workflows. Pull one up when you're setting up that workflow for the first time.
-- **Billing & plans** is reference for the subscription side.
-- **API & developers** is a placeholder for now — public API is in development.
+  <dl class="sb-home-deflist">
+    <div>
+      <dt>Getting started</dt>
+      <dd>A sequential track. Read it in order the first time.</dd>
+    </div>
+    <div>
+      <dt>Core features</dt>
+      <dd>Reference. Skim to the page you need.</dd>
+    </div>
+    <div>
+      <dt>Processes & flows</dt>
+      <dd>Recipes for the cycles you'll run again and again. Pull one up when you're wiring that workflow for the first time.</dd>
+    </div>
+    <div>
+      <dt>Billing & plans</dt>
+      <dd>Reference for the subscription side.</dd>
+    </div>
+    <div>
+      <dt>API & developers</dt>
+      <dd>Placeholder for now — public API is in development.</dd>
+    </div>
+  </dl>
+</section>
 
-## Reading comfort
+<section class="sb-home-section" data-sb-reveal>
+  <p class="type-eyebrow sb-home-eyebrow">Built for the way you read</p>
+  <h2 class="sb-home-h2">Reading comfort, on tap</h2>
+  <p class="sb-home-lede">
+    There's a Comfort Panel button in the bottom-right of every page. Built for ADHD and dyslexic readers — useful for everyone.
+  </p>
 
-There's a Comfort Panel button in the bottom-right of every page. Use it to:
+  <ul class="sb-home-feature-list" role="list">
+    <li><span class="sb-home-feature-dot" aria-hidden="true"></span>Text size — Small / Medium / Large</li>
+    <li><span class="sb-home-feature-dot" aria-hidden="true"></span>Density — Compact / Comfort / Spacious</li>
+    <li><span class="sb-home-feature-dot" aria-hidden="true"></span>Dyslexia-friendly font (Atkinson Hyperlegible)</li>
+    <li><span class="sb-home-feature-dot" aria-hidden="true"></span>High-contrast theme</li>
+    <li><span class="sb-home-feature-dot" aria-hidden="true"></span>Reduce motion</li>
+    <li><span class="sb-home-feature-dot" aria-hidden="true"></span>Skim mode — collapses paragraphs; hover to expand</li>
+  </ul>
 
-- Adjust text size (Small / Medium / Large)
-- Adjust density (Compact / Comfort / Spacious)
-- Enable a dyslexia-friendly font (Atkinson Hyperlegible)
-- Enable a high-contrast theme
-- Reduce motion
-- Toggle Skim mode (collapse long prose paragraphs to one line each — hover to expand)
+  <p class="sb-home-foot">
+    Your choices save on this device. They follow you across pages.
+  </p>
+</section>
 
-Your choices save on this device. They follow you across pages.
-
-## Still missing something?
-
-Email [support@sendbriefs.com](mailto:support@sendbriefs.com). Real humans, four-hour response time, often much less.
+<section class="sb-home-cta" data-sb-reveal>
+  <div class="sb-home-cta-inner">
+    <p class="type-eyebrow sb-home-cta-eyebrow">Still missing something?</p>
+    <h2 class="sb-home-cta-headline">Talk to a real human.</h2>
+    <p class="sb-home-cta-body">
+      Email <a href="mailto:support@sendbriefs.com">support@sendbriefs.com</a>. Four-hour response time, often much less.
+    </p>
+  </div>
+  <span class="sb-home-cta-orb" aria-hidden="true"></span>
+</section>

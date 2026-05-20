@@ -99,16 +99,20 @@
   --sl-color-accent: #4f46e5; /* indigo-600 */
   --sl-color-accent-high: #312e81; /* indigo-900 */
 
-  /* Grays (light mode) */
-  --sl-color-white: #ffffff;
-  --sl-color-gray-1: #0f172a;
-  --sl-color-gray-2: #1e293b;
-  --sl-color-gray-3: #334155;
-  --sl-color-gray-4: #475569;
-  --sl-color-gray-5: #64748b;
-  --sl-color-gray-6: #94a3b8;
-  --sl-color-gray-7: #cbd5e1;
-  --sl-color-black: #f8fafc;
+  /* Grays (light mode) — Starlight uses --sl-color-white as the HIGHEST
+   * contrast text color (dark in light mode, light in dark mode) and
+   * --sl-color-black as the surface furthest from text. Don't take the
+   * names literally — match Starlight's inversion convention or H1s end
+   * up white on white. */
+  --sl-color-white: #0f172a;       /* slate-900 — H1 / primary text */
+  --sl-color-gray-1: #1e293b;      /* slate-800 */
+  --sl-color-gray-2: #334155;      /* slate-700 */
+  --sl-color-gray-3: #475569;      /* slate-600 — body text */
+  --sl-color-gray-4: #64748b;      /* slate-500 — muted */
+  --sl-color-gray-5: #94a3b8;      /* slate-400 */
+  --sl-color-gray-6: #cbd5e1;      /* slate-300 — hairlines */
+  --sl-color-gray-7: #f1f5f9;      /* slate-100 — surfaces */
+  --sl-color-black: #ffffff;       /* page background */
 
   /* Text + bg (resolved values) */
   --sl-color-text: var(--sb-ink);
@@ -469,3 +473,354 @@ body {
 :root[data-theme='dark'] .sb-meta-pill {
   background: var(--sl-color-gray-7);
 }
+
+/* ============================================================
+ * 6. Homepage — splash hero + section primitives
+ * ============================================================ */
+
+/* Splash hero: gradient text on the headline, ambient orb, refined CTAs */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.hero::before {
+  top: -4rem;
+  left: -6rem;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle at 30% 30%, rgba(79, 70, 229, 0.32), transparent 60%);
+  opacity: 0.65;
+  animation: sb-orb-drift 18s ease-in-out infinite;
+}
+
+.hero::after {
+  bottom: -6rem;
+  right: -4rem;
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.28), transparent 60%);
+  opacity: 0.55;
+  animation: sb-orb-drift 22s ease-in-out -6s infinite reverse;
+}
+
+:root[data-theme='dark'] .hero::before {
+  background: radial-gradient(circle at 30% 30%, rgba(129, 140, 248, 0.32), transparent 60%);
+  opacity: 0.5;
+}
+:root[data-theme='dark'] .hero::after {
+  background: radial-gradient(circle at 70% 70%, rgba(167, 139, 250, 0.28), transparent 60%);
+  opacity: 0.4;
+}
+
+@keyframes sb-orb-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(2rem, -1rem, 0) scale(1.05); }
+}
+
+.hero h1 {
+  background: var(--sb-gradient-text-sweep);
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sb-text-sweep 9s ease-in-out infinite;
+}
+
+.hero .tagline {
+  max-width: 38rem;
+  color: var(--sl-color-gray-3);
+}
+
+/* Refine Starlight's hero action buttons to match marketing CTA style */
+.hero .actions a {
+  border-radius: 9999px;
+  transition:
+    transform var(--sb-duration-base) var(--sb-ease-out-quart),
+    box-shadow var(--sb-duration-base) var(--sb-ease-out-quart),
+    background-position var(--sb-duration-slow) var(--sb-ease-out-quart);
+  background-size: 200% 100%;
+}
+
+.hero .actions a[data-variant='primary'] {
+  background: var(--sb-gradient-featured);
+  background-size: 200% 100%;
+  border-color: transparent;
+  color: #fff;
+}
+
+.hero .actions a[data-variant='primary']:hover,
+.hero .actions a[data-variant='primary']:focus-visible {
+  background-position: 100% 50%;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -8px rgba(79, 70, 229, 0.5);
+}
+
+.hero .actions a:not([data-variant='primary']):hover,
+.hero .actions a:not([data-variant='primary']):focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--sb-brand-blue-deep);
+}
+
+/* Home-page section primitives (used in index.mdx) */
+.sb-home-section {
+  max-width: 64rem;
+  margin: 4rem auto 0;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 64rem) {
+  .sb-home-section {
+    margin-top: 5.5rem;
+  }
+}
+
+.sb-home-eyebrow {
+  margin: 0 0 0.625rem;
+  color: var(--sb-brand-blue-deep);
+}
+
+:root[data-theme='dark'] .sb-home-eyebrow {
+  color: #c7d2fe;
+}
+
+.sb-home-h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  color: var(--sl-color-text);
+}
+
+.sb-home-lede {
+  margin: 0.75rem 0 0;
+  max-width: 42rem;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--sl-color-gray-3);
+}
+
+.sb-home-foot {
+  margin-top: 1.25rem;
+  color: var(--sl-color-gray-4);
+  font-size: 0.875rem;
+}
+
+/* Definition list used on the "How these docs are organized" section */
+.sb-home-deflist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.875rem;
+  margin: 1.5rem 0 0;
+  padding: 1.5rem;
+  border-radius: var(--sb-radius-xl);
+  background: var(--sl-color-bg-sidebar);
+  border: 1px solid var(--sl-color-hairline);
+}
+
+@media (min-width: 48rem) {
+  .sb-home-deflist {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.5rem;
+  }
+}
+
+.sb-home-deflist > div {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--sl-color-hairline);
+}
+
+.sb-home-deflist > div:last-child {
+  border-bottom: 0;
+}
+
+@media (min-width: 48rem) {
+  .sb-home-deflist > div:nth-last-child(2) {
+    border-bottom: 0;
+  }
+}
+
+.sb-home-deflist dt {
+  margin: 0;
+  font-weight: 600;
+  color: var(--sl-color-text);
+  font-size: 0.9375rem;
+}
+
+.sb-home-deflist dd {
+  margin: 0;
+  color: var(--sl-color-gray-3);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Comfort feature checklist */
+.sb-home-feature-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.625rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .sb-home-feature-list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+  }
+}
+
+.sb-home-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.9375rem;
+  color: var(--sl-color-text);
+}
+
+.sb-home-feature-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--sb-gradient-featured);
+  flex-shrink: 0;
+}
+
+/* Final CTA card */
+.sb-home-cta {
+  position: relative;
+  max-width: 64rem;
+  margin: 5rem auto 4rem;
+  padding: 2.5rem 1.5rem;
+  margin-inline: 1.5rem;
+  border-radius: var(--sb-radius-2xl);
+  background:
+    radial-gradient(120% 100% at 0% 0%, rgba(79, 70, 229, 0.08), transparent 60%),
+    var(--sl-color-bg-sidebar);
+  border: 1px solid var(--sl-color-hairline);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 64rem) {
+  .sb-home-cta {
+    margin: 5rem auto 4rem;
+    padding: 3rem;
+  }
+}
+
+.sb-home-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 36rem;
+}
+
+.sb-home-cta-eyebrow {
+  margin: 0;
+  color: var(--sb-brand-blue-deep);
+}
+
+:root[data-theme='dark'] .sb-home-cta-eyebrow {
+  color: #c7d2fe;
+}
+
+.sb-home-cta-headline {
+  margin: 0.625rem 0 0;
+  font-size: clamp(1.625rem, 2.6vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--sl-color-text);
+}
+
+.sb-home-cta-body {
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--sl-color-gray-3);
+}
+
+.sb-home-cta-body a {
+  color: var(--sb-brand-blue-deep);
+  font-weight: 600;
+}
+
+:root[data-theme='dark'] .sb-home-cta-body a {
+  color: #c7d2fe;
+}
+
+.sb-home-cta-orb {
+  position: absolute;
+  top: -6rem;
+  right: -6rem;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 9999px;
+  background: var(--sb-gradient-featured);
+  filter: blur(80px);
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 0;
+}
+
+:root[data-theme='dark'] .sb-home-cta-orb {
+  opacity: 0.2;
+}
+
+/* ============================================================
+ * 7. Scroll-reveal microinteraction
+ * ============================================================ */
+
+[data-sb-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms var(--sb-ease-out-expo),
+    transform 700ms var(--sb-ease-out-expo);
+  will-change: opacity, transform;
+}
+
+[data-sb-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-sb-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.reduce-motion [data-sb-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Sections 8 (content-link underline animation), 9 (sidebar active-item
+ * gradient accent), and 10 (H2 underline accent) removed 2026-05-20 —
+ * those overrode Starlight's default chrome CSS and produced layout
+ * misalignment with the sidebar/header grid. Re-introduce only as
+ * scoped, non-Starlight-overriding rules if needed. */
