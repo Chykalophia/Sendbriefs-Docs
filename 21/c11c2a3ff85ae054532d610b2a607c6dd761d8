@@ -1,0 +1,53 @@
+src/content/docs/getting-started/create-account.mdx
+  ai_agent 12,19,24,30,33-45,49-56,58,60,62,64,66-70,72,74,78
+src/content/docs/getting-started/first-workspace.mdx
+  ai_agent 3,12,20-22,25,27,29,31,33,35,37-39,41,43,45,47,49,51-52,54,56,58-67,69-83,85,87,89,91,93,95,97,99,101,105
+src/styles/brand.css
+  s_d804dd1fca0010::t_fa4fd5b53564ad 606
+  s_d804dd1fca0010::t_3b4313e63a126e 822-826
+  s_d804dd1fca0010::t_eaf9142a1a70e0 476-605,607-752,754-821
+  s_d804dd1fca0010::t_a2798e86b6f98b 102-115
+  s_d804dd1fca0010::t_ef563922786455 753
+src/content/docs/getting-started/connect-first-client.mdx
+  ai_agent 3,12,17,19-21,23,27,29,31,33-39,41,43,45,47-49,51,53,55,57-59,61,63,65,67,69,71,73-74,76,78,80-89,91,93,95-99,101,105-107,111
+src/content/docs/getting-started/whats-next.md
+  s_d804dd1fca0010::t_a97cab1d188a6b 3,10,15,17,19,21,23-25,27,31,33,35,37-39,41,43,45,47,49,51-93,101-103,105,109,111,113,115,117,119-125,132-133
+pnpm-lock.yaml
+  ai_agent 1-4083
+src/content/docs/getting-started/welcome.md
+  s_d804dd1fca0010::t_7e5c4bbf19ec9d 3,10,16,21,23-27,29-31,36-37,43-44,58
+src/components/StartCardGrid.astro
+  s_d804dd1fca0010::t_f1d45ea1da0033 1-339
+src/content/docs/getting-started/send-first-brief.mdx
+  ai_agent 3,12,17,19,21-25,27,29,31-32,34,36,38,40,42-45,47,49,51,53,55,57-63,65,67,69,71,73-74,76,78,80-82,86,88-97,99-100,102,104-112,116,121-122,125,127,129,131-134,136,140
+src/content/docs/index.mdx
+  s_d804dd1fca0010::t_ab92c80b0d8fde 3,6
+  s_d804dd1fca0010::t_d49ad87ab64651 20,22-27,29-30,32-34,36-58,60-65,67-74,76-79,81-90
+src/overrides/Head.astro
+  s_d804dd1fca0010::t_0a5e60fb42107b 71-108
+  s_d804dd1fca0010::t_0e25ffdb5fe1b8 46-49,53-60,64-70
+  s_d804dd1fca0010::t_ce472186b7560d 42-45,50-52,61-63
+src/overrides/Header.astro
+  s_d804dd1fca0010::t_12b8c60e0af4fd 138-139,143,152
+  s_d804dd1fca0010::t_d5c7d8ecde0602 72-84
+  s_d804dd1fca0010::t_9e2fd44bdbe9f0 29-37,43-47
+  s_d804dd1fca0010::t_a69377c4221d2d 50-71
+  s_d804dd1fca0010::t_92603ac66fa3ab 14-25,48-49,86-94,96,98-137,140-142,146-149,151
+  s_d804dd1fca0010::t_5562f50ca18e4c 85,95,97,150
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "21c11c2a3ff85ae054532d610b2a607c6dd761d8",
+  "prompts": {},
+  "sessions": {
+    "s_d804dd1fca0010": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66bfbcda-0b92-463d-8153-853d12d2cdbc",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Peter Krzyzek <peter@chykalophia.com>"
+    }
+  }
+}
