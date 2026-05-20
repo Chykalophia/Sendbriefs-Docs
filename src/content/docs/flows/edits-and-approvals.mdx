@@ -34,6 +34,16 @@ draft ───► pending_approval ───► approved ───► sent
          changes_requested
 ```
 
+### Configuring the workspace policy
+
+Approval behavior is configured at **Settings → Reports → Approvals**. You can:
+
+- Set a **default policy** for the whole workspace (e.g., "all briefs require approval before send").
+- Create **per-client overrides** (e.g., "Acme briefs skip approval, others require it"). The settings page has a client dropdown for adding overrides.
+- Toggle approvals off entirely — briefs go straight from `draft` to `sent` when you click Send.
+
+Owners and Admins have access to this tab (`settings:update` permission).
+
 ### Submitting for approval
 
 When a brief is ready, click **Submit for approval** in the editor (instead of **Send**). The brief moves to `pending_approval`. Designated approvers get a `report_submitted` notification (in-app + email by default).

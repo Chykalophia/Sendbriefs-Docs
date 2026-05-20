@@ -84,6 +84,17 @@ Every brief also has a signed portal URL — a long random token in the path tha
 
 If a client needs more than token security, an Owner can set the client's **access tier** to `verified`. Recipients then have to enter a 6-digit code (emailed to their address) before the portal loads. The verification holds for that browser session.
 
+### Workspace-level portal settings
+
+The portal also has workspace-wide settings under **Settings → Account → Client Portal**:
+
+- **Enable / disable client portal** — turn the portal off entirely if you only want briefs delivered by email.
+- **Default access tier** — `public`, `signed`, or `verified`. Sets the floor for newly-created clients; per-client overrides go higher (not lower).
+- **Token expiry days** — how long portal links remain valid before they need to be regenerated.
+- **Require branded portal** — if on, briefs to clients without a logo set fall back to workspace branding (not the SendBriefs default).
+
+Portal customization beyond these toggles isn't broadly self-serve in the current preview — talk to support for deeper customization needs.
+
 ## Editing a client
 
 Anything on the client detail page can be changed without re-doing anything else:
@@ -101,7 +112,7 @@ If a client has a logo, the portal and rendered brief use that logo. If they don
 
 For white-label work, set a per-client logo. For your own house-branded briefs, leave the client logo blank and the workspace logo handles it.
 
-The workspace **primary** and **accent** colors (set during onboarding, editable in **Settings → Workspace → Branding**) are used across the portal and brief chrome. Per-client color overrides aren't supported yet — if you need that for a heavy white-label workflow, let support know.
+The workspace **primary** and **accent** colors (set during onboarding, editable at **Settings → Branding**) are used across the portal and brief chrome. Per-client color overrides aren't supported yet — if you need that for a heavy white-label workflow, let support know.
 
 ## Common gotchas
 

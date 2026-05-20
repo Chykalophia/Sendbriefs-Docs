@@ -53,6 +53,22 @@ Plus failure states:
 - **Marked as spam** — recipient or filter marked the brief as spam.
 - **Failed** — couldn't submit to SendGrid at all (rare, indicates a workspace config issue).
 
+## Customizing the email itself
+
+Two settings tabs shape what your recipients see in their inbox:
+
+### Email Layout (Settings → Reports → Email Layout)
+
+The **email wrapper template** — what wraps your brief content when it's emailed out. Subject prefix, header content, footer content, and the visual chrome around the rendered brief.
+
+Open the **Email Layout** tab to see the workspace's templates as a card grid. You can have multiple (e.g., a default + a specific one for VIP clients) and pick which one to use per brief.
+
+### Email Settings (Settings → Delivery → Email Settings)
+
+Sender setup — from-name, from-address, reply-to. Also where suppression-list management lives (recipients who've bounced hard or marked the workspace's mail as spam are suppressed; you can view and manage that list here).
+
+For custom-domain sending (briefs going out from `reports@youragency.com` instead of `reports@sendbriefs.com`), the configuration lives here. Custom-domain setup may not be fully self-serve in the current preview — talk to support if it's blocking.
+
 ## Internal notifications
 
 You and your team get notified about activity inside SendBriefs — brief lifecycle, section work, team changes, mentions.

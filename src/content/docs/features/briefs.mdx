@@ -69,6 +69,15 @@ Type `/` and start typing the block name to filter the picker.
 
 > **About data-display blocks.** Metric / Gauge / Sparkline / StatsGrid are blocks for displaying numeric values. Today they're populated by you typing the values directly. The infrastructure for live data binding from external sources exists, but the only working data-pull integration in the current preview is ClickUp ambient ingest (and that auto-appends *content blocks*, not metric values). See [Integrations](/features/integrations/) for the full picture.
 
+### Images and the Media Library
+
+Image blocks reference URLs. To keep your assets organized:
+
+- The **Media Library** at **Settings → Delivery → Media Library** is a workspace-wide upload + reference area. Upload once; reference the resulting URL from any brief's Image block.
+- For one-off images, you can paste any externally-hosted URL into an Image block — but uploads through the Media Library are the durable path.
+
+Media Library assets stay available even after a brief is sent. If you delete an asset that's referenced by a sent brief, the rendered brief in the recipient's inbox is unaffected (the email contains the raw HTML at send time), but the portal view may show a broken image.
+
 ## Brief state machine
 
 ```
