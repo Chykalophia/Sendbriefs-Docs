@@ -59,24 +59,27 @@ You and your team get notified about activity inside SendBriefs — brief lifecy
 
 ### Event types
 
-| Event | What triggers it | Default channels |
-|---|---|---|
-| `report_submitted` | A brief moved to `pending_approval`. Approvers are notified. | In-app + email |
-| `report_approved` | Your brief was approved. Author is notified. | In-app + email |
-| `report_rejected` | Your brief had changes requested. Author is notified. | In-app + email |
-| `report_sent` | A brief you authored or co-authored was sent. | In-app |
-| `section_assigned` | You were assigned a section in a brief. | In-app + email |
-| `section_comment` | Someone commented on a section you're involved with. | In-app |
-| `member_joined` | A new teammate joined the workspace. | In-app |
-| `mention` | Someone @mentioned you. | In-app + email |
+| Event | Preference label | Triggers | Status |
+|---|---|---|---|
+| `report_submitted` | Reports submitted for approval | A brief moves to `pending_approval` | Live |
+| `report_approved` | Your reports approved | Your brief is approved | Live |
+| `report_rejected` | Changes requested on your reports | A reviewer asks for edits | Live |
+| `report_sent` | Your reports sent | Your approved brief is emailed to the client | Live |
+| `section_reminder` | Deadline reminders | An assigned section is incomplete near a deadline | Live |
+| `section_assigned` | Sections assigned to you | Colleague assigns a section to you | Listed but no producer wired yet |
+| `section_comment` | Comments on your sections | Someone comments on a section you own | Listed but no producer wired yet |
+| `member_joined` | New team members | Someone new joins your workspace | Live |
+| `mention` | Mentions | A teammate @-mentions you | Listed but no producer wired yet |
+
+> Three events appear in your preference list today but won't fire in the current preview because their producers aren't yet wired in the product (per code comments in the standalone notifications page). Tune them as you like — they're harmless until the producers ship.
 
 ### Channels
 
-Each event type has two independent toggles: **in-app** (the bell icon in the header + your `/notifications` page) and **email** (sent to your account address).
+Each event type has two independent toggles: **in-app** (the bell icon in the header + your `/notifications` page) and **email** (sent to your account address). There's also a **Test** button per row that fires a sample notification so you can confirm a channel is working.
 
-Defaults are tuned for solo operators — in-app on for most things, email reserved for approvals, mentions, and direct assignments. For larger teams, you'll want to tune this per person to reduce noise.
+Defaults are tuned for solo operators — in-app on for most things, email reserved for approvals and direct assignments. For larger teams, you'll want to tune this per person to reduce noise.
 
-Change preferences from **Settings → Notifications** (or your personal `/notifications` page).
+Change preferences from **Settings → Delivery → Notifications** (or your personal `/notifications` page).
 
 <Placeholder type="screenshot" caption="Notification preferences screen — table of events with per-event in-app and email toggles" />
 

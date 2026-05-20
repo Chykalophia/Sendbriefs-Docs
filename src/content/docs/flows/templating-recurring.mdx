@@ -17,7 +17,7 @@ Save your best brief as a template. Strip out client-specific copy. Let data blo
 A template is a saved brief structure that you can spin up new briefs from. It remembers:
 
 - The block layout — text, headings, data blocks, charts, callouts, in the order you set.
-- The default **cadence** — daily, weekly, biweekly, monthly, quarterly, milestone, ad-hoc, or custom.
+- The default **cadence** — daily, weekly, biweekly, monthly, quarterly, milestone, ad-hoc, or custom. The cadence drives default title and slug formatting; the **scheduler** (Settings → Reports → Scheduling) is a separate concept that only supports daily / weekly / monthly today.
 - The section structure — section titles, default content statuses, default assignments.
 
 What a template does NOT remember:
@@ -50,11 +50,11 @@ A template that solves your existing pattern is more durable than one designed i
 
 The numbers come from data blocks. The story comes from prose.
 
-Data blocks (charts, tables, data tokens) re-resolve every period — they always show this period's numbers without any work from you.
+Data-display blocks (Metric / Gauge / Sparkline / StatsGrid / Table / Chart) hold the numbers you put in for the current period. In the current preview, you fill these in directly — the live-binding infrastructure exists but no data adapters yet wire numbers in automatically (see [Integrations](/features/integrations/)).
 
 Prose blocks are written once at template time and remain literal. They're where you put recurring framing — "Here's how the quarter went" — but NOT where you put numbers that should refresh.
 
-If you find yourself writing numbers into a prose block, replace them with a data token. Otherwise next period's brief will lie.
+If you find yourself writing the same kind of numeric value into a prose block every period, replace it with a Metric or StatsGrid block. That keeps the template's structure clean and makes it obvious next period which number needs updating.
 
 ### Section structure for multi-author briefs
 
@@ -80,7 +80,7 @@ If you build a brief for a client who doesn't have a particular data source conn
 
 ## Editing a template later
 
-Open **Reports → Templates** (or wherever templates live in your workspace's menu), pick the template, edit.
+Open **Settings → Reports → Templates** (in the Reports tab group), pick the template, edit.
 
 **Important:** edits to a template don't retroactively change previously-sent briefs. Past briefs are frozen at the moment they shipped. Future briefs created from the template get the new structure.
 
@@ -114,7 +114,7 @@ Add another template only when the *shape* of the brief genuinely differs. If th
 
 ## A note on variables
 
-The product supports inline values from data sources (the "data block" or "data token") that re-resolve every render. We call these **bindings**.
+The product has data-display blocks (Metric / Gauge / Sparkline / StatsGrid) designed to hold values that change each period. Live binding from external data sources is on the roadmap but not wired today — for now, you update the numbers manually each period.
 
 Full templating-language constructs — `{{#if integration.stripe}}` conditional blocks, variable arithmetic, custom formulas — are not in the product today. If you need conditional structure, the path is to create the brief from the template and then remove/add blocks per client.
 

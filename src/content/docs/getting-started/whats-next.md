@@ -20,7 +20,7 @@ From the brief detail page, open the menu and click **Save as template**. Give i
 
 Templates remember:
 
-- The block structure (text, data tokens, charts, callouts).
+- The block structure (text, metrics, charts, callouts, etc.).
 - The default cadence (daily, weekly, biweekly, monthly, quarterly, milestone, ad-hoc, or custom).
 - The sections, status defaults, and assignment defaults.
 
@@ -63,20 +63,20 @@ Once you have teammates and clients, you'll start getting notified about brief a
 - **In-app notifications** are on for most events.
 - **Email notifications** are limited to approvals and mentions.
 
-You can change this per event type from **Settings → Notifications** (or your profile **Notifications** page):
+You can change this per event type from **Settings → Delivery → Notifications** (or the standalone `/notifications` page from the sidebar):
 
 | Event | What it means |
 |---|---|
 | `report_submitted` | A brief is waiting for your approval. |
 | `report_approved` | A brief you authored was approved. |
 | `report_rejected` | A brief you authored had changes requested. |
-| `report_sent` | A brief you authored or co-authored was sent. |
-| `section_assigned` | You were assigned a section in a brief. |
-| `section_comment` | Someone commented on a section you're involved with. |
+| `report_sent` | A brief you authored was emailed to the client. |
+| `section_reminder` | An assigned section is incomplete near the deadline. |
 | `member_joined` | A new teammate joined the workspace. |
-| `mention` | Someone @mentioned you. |
 
-For each event, you have separate in-app and email toggles. Tune aggressively — silence what you don't need.
+(There are a few more entries in the preference list — `section_assigned`, `section_comment`, `mention` — but their producers aren't wired in the current preview, so toggling them has no effect yet.)
+
+For each event, you have separate in-app and email toggles plus a **Test** button. Tune aggressively — silence what you don't need.
 
 [Notifications & delivery →](/features/notifications/)
 
@@ -84,13 +84,11 @@ For each event, you have separate in-app and email toggles. Tune aggressively �
 
 The whole point of SendBriefs is to stop assembling the same brief by hand every month.
 
-From the brief detail page (after the brief is built and proven), set up a **recurring schedule** matching the template's cadence. Each cycle, SendBriefs:
-
-1. Creates a new brief from the template with the new period's data.
-2. Routes it through your approval workflow (if enabled).
-3. Sends it on the scheduled day.
+Recurring schedules live at **Settings → Reports → Scheduling**. Each schedule is per-client + frequency (daily / weekly / monthly) + time-of-day. Once configured, the scheduler creates a draft brief on the cadence, routes it through your approval workflow (if enabled), and emails it on the scheduled day.
 
 You get notified at each step so you can catch issues, but you're not the bottleneck for the standard path.
+
+> **Frequency vs template cadence.** A template can have a cadence of `biweekly`, `quarterly`, `milestone`, etc., but the scheduler today only supports `daily`, `weekly`, and `monthly`. For other cadences, you create each period's brief manually via **Add to a brief**.
 
 Full guide: [Monthly client reporting workflow →](/flows/monthly-reporting/)
 

@@ -20,9 +20,11 @@ You'll find:
 
 - Your current plan
 - Trial status (if you're still in the 14-day trial)
-- A link to **Manage in the customer portal** — opens Stripe's hosted Customer Portal in a new tab
+- One of two buttons that opens Stripe's hosted Customer Portal in a new tab:
+  - **Manage Subscription** — shown when you have an active subscription.
+  - **Subscription Portal** — shown after a plan change or in certain account states.
 
-Most of the actual billing operations — updating your card, changing plans, downloading invoices, canceling — happen in the Stripe-hosted Customer Portal rather than in our UI directly. We pass you through to Stripe and let their hosted UX handle the payment-card-handling parts. Stripe is PCI-compliant by default; we never see your card data.
+Both buttons go to the same place. Most actual billing operations — updating your card, changing plans, downloading invoices, canceling — happen in the Stripe Customer Portal rather than in our UI directly. We pass you through to Stripe and let their hosted UX handle the payment-card-handling parts. Stripe is PCI-compliant by default; we never see your card data.
 
 ## Starting a subscription (first time)
 
@@ -38,7 +40,7 @@ The workspace is now on a paid plan. The first charge happens immediately for th
 
 ## Updating your payment method
 
-1. **Settings → Billing → Manage in the customer portal**.
+1. **Settings → Billing → Manage Subscription**.
 2. Stripe Customer Portal opens.
 3. Under **Payment methods**, click **Add payment method** or update the existing card.
 4. Save.
@@ -49,7 +51,7 @@ The new card applies to your next charge. The current cycle's payment is unchang
 
 Same path — through the Stripe Customer Portal:
 
-1. **Settings → Billing → Manage in the customer portal**.
+1. **Settings → Billing → Manage Subscription**.
 2. Click **Update plan** (or similar; Stripe's UI evolves).
 3. Pick the new tier.
 4. Stripe walks you through the confirmation, prorations, and (if applicable) the new charge.
@@ -109,7 +111,7 @@ To be honest about gaps:
 - **Plan changes go through Stripe.** If you click "Update plan" in our UI and nothing happens, check whether your browser's pop-up blocker is preventing the Stripe Portal from opening.
 - **Tax ID lives in Stripe.** To put a VAT number or business tax ID on your invoices, set it in the Customer Portal (not in our settings — that's not where Stripe pulls it from).
 - **You can't have two cards on file.** The Customer Portal allows multiple payment methods but only one is the "default." Updating the card replaces the default.
-- **Owners and Admins only.** Members can't see billing. The "Manage in the customer portal" button is hidden for them.
+- **Owners and Admins only.** Members can't see billing. The "Manage Subscription" button is hidden for them.
 
 ## See also
 
