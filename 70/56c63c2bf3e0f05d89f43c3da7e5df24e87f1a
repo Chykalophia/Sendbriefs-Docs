@@ -1,0 +1,38 @@
+src/content/docs/getting-started/whats-next.md
+  s_d804dd1fca0010::t_b5f2dd5bf10a39 66,73-74,77-79
+  s_d804dd1fca0010::t_4bf63bed26c560 87,91
+  s_d804dd1fca0010::t_18acf6244e6bdc 23
+src/content/docs/billing/managing-subscription.mdx
+  s_d804dd1fca0010::t_45c240046b6a45 43,54,114
+  s_d804dd1fca0010::t_ee33fcfef186a1 23-25,27
+src/content/docs/flows/templating-recurring.mdx
+  s_d804dd1fca0010::t_b4270690be6fc1 20
+  s_d804dd1fca0010::t_917cfd4fb18649 57
+  s_d804dd1fca0010::t_396c2a3157f29d 83
+  s_d804dd1fca0010::t_ce361e560dbc50 53
+  s_d804dd1fca0010::t_48651f95ad2cdb 117
+src/content/docs/features/briefs.mdx
+  s_d804dd1fca0010::t_2cf28a364759ee 70
+src/content/docs/billing/upgrading-canceling.mdx
+  s_d804dd1fca0010::t_fad865ed360740 19,44,60,96
+src/content/docs/billing/invoices.mdx
+  s_d804dd1fca0010::t_1eb19096899178 12,20
+src/content/docs/features/notifications.mdx
+  s_d804dd1fca0010::t_e4609593c63ca8 62-74,78,80,82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "7056c63c2bf3e0f05d89f43c3da7e5df24e87f1a",
+  "prompts": {},
+  "sessions": {
+    "s_d804dd1fca0010": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66bfbcda-0b92-463d-8153-853d12d2cdbc",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Peter Krzyzek <peter@chykalophia.com>"
+    }
+  }
+}
