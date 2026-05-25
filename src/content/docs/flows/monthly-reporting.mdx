@@ -49,7 +49,7 @@ For each client:
 1. Click **Add to a brief** in the sidebar (or `/reports/update`).
 2. Pick the client.
 3. SendBriefs resolves the current-period target. If the client is wired to your house template + monthly cadence, it lands you in a draft brief for the period.
-4. Fill in the four sections (Done / In Progress / To Do / Additional Notes).
+4. Fill in the sections the template defines (the default starter has Done / In Progress / To Do / Additional Notes; your template may have customized them).
 5. The brief saves as it goes.
 
 You now have a draft brief per client, all using the same template structure.
@@ -96,7 +96,9 @@ These are the conversations you want to be in. They're not formatting questions;
 
 ### Integration broken during a batch
 
-If GA4 tokens expired or Slack disconnected, the affected briefs will fail their next render. Reconnect from **Settings → Integrations**, then re-run the brief. The notification system will surface the failure; you don't have to babysit.
+If a ClickUp token gets revoked or an OAuth connection expires, ambient-ingest jobs will start failing. Reconnect from **Settings → Integrations**, then trigger a re-run from the Brief integrations card. The notification system will surface the failure; you don't have to babysit.
+
+(Note: in the current preview, only ClickUp actually pulls data into briefs. Google and Slack are connect-only and don't break briefs if they expire.)
 
 ### A client wants a one-off addition
 

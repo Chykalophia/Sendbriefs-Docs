@@ -1,0 +1,127 @@
+---
+title: Multi-contributor briefs (Add an update)
+description: How teammates contribute to a living brief without stepping on each other's edits — the three contribution modes, the resolver, and the disambiguation screen.
+sidebar:
+  order: 6
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Click <strong>Add to a brief</strong> in the sidebar. Pick a client. SendBriefs resolves the current-period draft and drops you straight into the editor — or, if there isn't one, offers to start the next period's brief. Three contribution modes (<strong>append_no_context</strong>, <strong>append_with_context</strong>, <strong>collaborative</strong>) control how much of the existing brief you can see and edit. Set the mode in the template; override per client if a specific client needs a different default.
+</aside>
+
+## What this flow is for
+
+The "Add to a brief" flow (route: `/reports/update`; internally called "Add an update") is built for the **living brief** workflow:
+
+- A draft brief exists for the client's current period.
+- Multiple teammates each own a piece of the brief — analytics, strategy, copy, account commentary.
+- Each contributor lands in the editor without having to find the right report from a list.
+- The brief author reviews the assembled contributions and ships when ready.
+
+It's not the only way to write a brief — you can always start one from `/reports` directly — but it's the fastest path when the brief is recurring and the work is split.
+
+## The resolver
+
+When you click **Add to a brief** and pick a client, SendBriefs runs a resolver that picks the right target for you:
+
+1. **Open draft brief for the current period exists** → you land directly in the editor. The page shows "Adding to: [brief title]" so it's clear what you're contributing to.
+2. **No draft for the current period yet, but the client has a template + cadence** → SendBriefs creates a new draft brief for the period and drops you into it.
+3. **The current period's brief has already been sent or approved** → you see a **disambiguation screen** with options:
+   - **Reopen the sent brief** — moves it back to draft. The original send is preserved in history.
+   - **Start the next period's brief** — most common choice; creates a fresh draft for the upcoming period.
+   - **Cancel** — back out of the flow.
+4. **The client isn't configured for the Living period flow** (no template, contributions disabled, or non-periodic cadence) → you see the **deliberate authoring chooser** with:
+   - **Start a one-off brief** — creates a `one_off` brief that isn't tied to a recurring period.
+   - **Pick a template** — choose any active template; create a brief from it.
+
+Whichever path you take, you end up in the editor with the right brief in front of you.
+
+## Contribution modes
+
+Templates define how contributors interact with each other's work. Three modes:
+
+### `append_no_context`
+The contributor sees only the **section skeleton** — the section headers and any placeholder text the template defines. They can't see what other contributors have written yet.
+
+- **Use for:** independent contributors who shouldn't be biased by other sections' content (e.g., analyst notes, performance metrics).
+- **Tradeoff:** clean separation, but contributors may duplicate effort across sections.
+
+### `append_with_context`
+The contributor sees the **full brief as read-only** before they contribute. They can read everyone else's sections but can only edit the section(s) assigned to them.
+
+- **Use for:** teams that need context (e.g., strategy section that references the metrics section).
+- **Tradeoff:** safer than `collaborative` — no risk of accidental edits to teammates' work.
+
+### `collaborative`
+The contributor has **full editing rights** across the whole brief. They can rewrite, delete, or restructure any section, including ones assigned to other contributors.
+
+- **Use for:** small teams with a lead editor; or workspaces where the final brief is one cohesive voice rather than a stitched-together multi-author document.
+- **Tradeoff:** maximum flexibility, maximum risk of stepping on a teammate's edits. Use with care.
+
+### Where the mode comes from
+
+The contribution mode resolves in this order, first match wins:
+
+1. **Client-level override** — set on the client record (rare; for one client that needs different rules).
+2. **Template setting** — set on the template in Settings → Templates.
+3. **Workspace default** — set on the workspace.
+
+If none is set, the default is `append_with_context`.
+
+## Contribution window
+
+Contributors can only contribute while the brief is in `draft` state. Once it transitions to `pending_approval`, `approved`, or `sent`, the contribute path is closed:
+
+- The **Add to a brief** flow will skip past briefs not in `draft` (it offers to start the next period instead).
+- The editor still opens, but the brief is read-only.
+
+To re-open a brief for contributions after it's been submitted, transition it back to `draft` from the brief menu.
+
+## Section assignments
+
+Templates can assign **default contributors** to each section. When a brief is created from such a template:
+
+- Each assigned contributor gets an in-app notification ("You've been assigned a section on [brief title]").
+- The brief detail page shows assignment badges next to each section.
+- The sidebar's **Add to a brief** flow pre-filters to clients with assignments waiting for the signed-in user.
+
+Assignments are template-level — change them on the template, not on individual briefs (unless you have a one-off reason).
+
+## What contributors see
+
+When a contributor lands in the editor via `/reports/update`:
+
+- The brief title shows at the top, with "Adding to: [brief title]" framing.
+- Only the sections they own (or all, in `collaborative` mode) have an editable cursor.
+- The block editor is otherwise identical to the main `/reports/[id]` editor.
+- They can save and leave; their contribution is auto-saved as they type.
+
+When they're done with their section, there's nothing to "submit." Contributions are saved continuously. The brief author reviews the assembled brief and moves it forward (submit for approval, or send directly).
+
+## Multi-contributor and approvals
+
+If the workspace requires approval before send, the flow is:
+
+1. Each contributor adds their section.
+2. Author reviews the assembled brief, makes any final edits.
+3. Author clicks **Submit for approval** → brief moves to `pending_approval`.
+4. Approver approves → `approved`.
+5. Author sends → `sent`.
+
+If a contributor adds content after step 3 but before the approver acts, the approver sees the latest content (the brief is the same record; submissions don't snapshot it). Either contribute before submit, or pull the brief back to draft.
+
+## Common gotchas
+
+- **The resolver doesn't know about period boundaries until the brief exists.** If you click Add to a brief on Jan 1 and the December brief is still in draft, you'll be adding to the December brief — not starting January's. The disambiguation screen helps when the previous brief has been sent.
+- **`collaborative` mode is the most fragile.** If two people contribute simultaneously, the auto-save will resolve to last-write-wins on conflicting blocks. For sensitive collaborative briefs, agree on a "who edits when" cadence.
+- **Contribution mode is template-level (with client override).** You can't switch modes per brief — it's resolved at brief creation and frozen for that brief.
+- **Section assignments don't transfer when a brief is reopened.** Reopening a sent brief gives you the brief as-is; section assignments come from the template at creation time, not at re-edit time.
+
+## See also
+
+- [Briefs → sections](/features/briefs/#sections) — how sections are defined on templates
+- [Templating a recurring brief](/flows/templating-recurring/) — building the template that drives this flow
+- [Edits & approvals](/flows/edits-and-approvals/) — what happens after contributors are done

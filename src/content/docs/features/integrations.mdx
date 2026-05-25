@@ -9,44 +9,44 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-The <strong>Brief integrations</strong> card has a ClickUp ambient-ingest pipeline that works in the back-end — but the UI today doesn't let you self-serve a ClickUp credential. The <strong>Integrations</strong> card lets you OAuth-connect Google and Slack, but the stored credentials sit unused by any feature. Everything else on the marketing site is roadmap.
+Three integrations live today: <strong>Google</strong> (OAuth, stored only), <strong>Slack</strong> (OAuth, stored only), and <strong>ClickUp</strong> (personal API token, self-serve, and the only one with an actual data pipeline). The <strong>Brief integrations</strong> card then maps a connected source to a brief template so new items in the source auto-append into the draft brief. Everything else on the marketing site is roadmap.
 </aside>
 
 > **Important context for the Founders Circle preview.** The marketing site lists several integrations as "live" (HubSpot, Stripe, Google Analytics, Google Ads, Meta Ads, etc.). Most of those aren't in the product code yet. This page reflects what's actually shipping, what's connection-only, and what's still roadmap.
 
 ## How integrations work today
 
-There are two separate integration patterns in the product:
+There are two separate integration patterns under **Settings → Integrations**:
 
-### A) Ambient ingest (the working one)
+### A) Integration credentials
 
-The **Brief integrations** card under **Settings → Integrations** lets you wire an external source to a brief template. When a new item appears in the source, it's auto-appended as a block in the matching draft brief's General section.
+The **Integrations** card lets you connect three providers:
 
-This is the integration system that's actually shipping. The setup is per-template: one mapping = one source selector → one brief template.
+- **Google** — OAuth flow (`analytics.readonly`, `userinfo.email`, `userinfo.profile`).
+- **Slack** — OAuth flow (`chat:write`, `channels:read`, `users:read`).
+- **ClickUp** — personal API token (paste a token starting with `pk_` from ClickUp Settings → Apps).
 
-### B) OAuth connection storage
+All three credentials are stored AES-256-GCM encrypted at rest, scoped to the workspace. You can revoke any of them at any time.
 
-The **Integrations** card (also under Settings → Integrations) lets you complete an OAuth flow with Google or Slack. Credentials are stored encrypted; you'll see "Connected as: your.email@example.com."
+### B) Brief integrations (the pipeline that actually runs)
 
-This card exists, the OAuth flows complete, but **no other code in the product currently uses the stored credentials**. Connecting Google doesn't make GA4 data show up in your briefs. Connecting Slack doesn't enable notification routing through Slack. These are placeholder connections for features in development.
+The **Brief integrations** card lets you create *mappings* — pairs of (brief template + connected integration + source selector). When a new item appears in the source, it's auto-appended as a block to the matching draft brief.
+
+This is the ambient-ingest pipeline. Only one provider has a working data adapter today (ClickUp).
 
 ---
 
-## Actually working today (with caveats)
+## Actually working today
 
-### ClickUp ambient ingest (engine-only)
+### ClickUp ambient ingest
 
-**What it does (in code):** A scheduled job pulls items from a ClickUp list and appends them as blocks in the matching brief template's current-period draft. Items already ingested are tracked so re-runs don't duplicate.
+**The full path:**
 
-**What you can do as a user today:** Not much, directly. The **Brief integrations** card under **Settings → Account → Integrations** lets you create a *mapping* (template + integration + source selector). But the **integration** dropdown only lists already-connected OAuth providers — Google and Slack. **ClickUp isn't in the OAuth provider list**, so you can't self-serve a ClickUp credential through the UI.
+1. **Settings → Integrations → Integrations** card → **Connect** on the ClickUp tile.
+2. Paste a personal API token (tokens start with `pk_`; generate from ClickUp's Settings → Apps page). We validate against ClickUp's `whoami` endpoint on save.
+3. **Settings → Integrations → Brief integrations** card → **Add mapping**. Pick a brief template, pick the ClickUp integration, choose the list/source.
 
-In practice, ClickUp ambient ingest works for workspaces where someone with backend access has manually seeded a ClickUp integration row in the database. For everyone else, this is a "talk to support" path right now.
-
-**How it runs once configured:**
-
-- An ambient ingest job runs on a schedule (production: Upstash QStash). For each active mapping, it pulls new items and appends them to the most recent draft brief for that template.
-- The job is idempotent — re-runs on already-ingested items are no-ops.
-- Mappings can be paused or deleted from the Brief integrations card.
+After save, the ambient ingest job pulls items from the ClickUp source on a schedule (production: Upstash QStash) and appends them as blocks to the matching brief template's current-period draft. Items already ingested are tracked so re-runs don't duplicate.
 
 **Status indicators (on the mapping row):**
 
@@ -54,7 +54,7 @@ In practice, ClickUp ambient ingest works for workspaces where someone with back
 - **Paused** — mapping exists but the job skips it.
 - **Error** — last run failed; check the detail on the row.
 
-**Gotcha — schedule registration is a deploy step.** Even if a mapping exists, the cron schedule (QStash or Vercel Cron) has to be registered for the job to run. If your workspace has mappings but nothing is ingesting, the schedule may not be wired up for your environment — let support know.
+**Gotcha — schedule registration is a deploy step.** Even with a mapping created, the cron schedule has to be registered in the deploy environment for the job to actually run. If your workspace has mappings but nothing is ingesting, the schedule may not be wired up — let support know.
 
 ---
 
@@ -64,31 +64,17 @@ These are visible in the **Integrations** card. The OAuth flows complete; creden
 
 ### Google
 
-**What the marketing card says:** "Connect Google Analytics to track report engagement and metrics."
+**What the marketing card suggests:** Google Analytics data flowing into briefs.
 
-**What the OAuth scope requests:**
+**What actually happens after you connect:** Credentials are stored against your workspace. No code path currently uses them — there is no GA4 data fetch in the product as of this preview. The OAuth flow exists so that the eventual Google-data-into-briefs adapter will already have credentials when it ships.
 
-- `analytics.readonly`
-- `userinfo.email`
-- `userinfo.profile`
-
-**What actually happens after you connect:** Credentials are stored against your workspace. No code path currently uses them — there is no GA4 data fetch in the product as of this preview. The integration is wired for a future Google-data-into-briefs feature.
-
-If you connect Google, expect a **green "Connected" badge** and the email address of the connected account. Don't expect GA4 data to appear in briefs as a result.
+If you connect Google, expect a green **Connected** badge and the email address of the connected account. Don't expect GA4 data to appear in briefs as a result.
 
 ### Slack
 
-**What the marketing card says:** "Send report notifications and updates to Slack channels."
+**What the marketing card suggests:** Sending brief summaries to Slack channels.
 
-**What the OAuth scope requests:**
-
-- `chat:write`
-- `channels:read`
-- `users:read`
-
-**What actually happens after you connect:** Same as Google — credentials are stored, no other code path uses them. There is no Slack-send code in the product today.
-
-The team's own code comment in the ingest service notes Slack adapter is on the to-do list ("*(Slack/Linear when their adapters land)*"). When the adapter ships, this page will be updated.
+**What actually happens after you connect:** Same as Google — credentials are stored, no other code path uses them. There is no Slack-send code in the product today. The Brief integrations card lists Slack as a connected source, but the Slack adapter for ambient ingest isn't built either.
 
 ---
 
@@ -96,10 +82,12 @@ The team's own code comment in the ingest service notes Slack adapter is on the 
 
 These are on the public-facing list but not in the product code yet. The Brief integrations system's adapter pattern means each new one is an isolated addition — once the underlying data source has an adapter, it joins the same mapping UI as ClickUp.
 
+<a id="coming-soon"></a>
+
 | Integration | Type | Status |
 |---|---|---|
 | **Linear** | Issue-tracking ingest | Adapter planned (referenced in code comments) |
-| **Slack send** | Outbound notification | Connect-only today; adapter on roadmap |
+| **Slack adapter** | Outbound notification + inbound ingest | Connect-only today; adapter on roadmap |
 | **Google Analytics data** | Read pipeline | Connect-only today; data adapter not built |
 | **HubSpot** | CRM ingest | Roadmap, not started |
 | **Stripe** | Revenue ingest | Roadmap, not started |
@@ -117,24 +105,24 @@ We'll update this page as each ships. If a specific integration is blocking your
 
 ## Where this lives in the app
 
-All integration management is under **Settings → Account → Integrations**. Two cards live there:
+All integration management is under **Settings → Integrations**. Two cards live there:
 
-- **Integrations** — the OAuth connect card. Available providers: **Google** and **Slack**. Connect, see status, disconnect.
-- **Brief integrations** — per-template ambient-ingest mappings. Pick a brief template, pick a connected integration from the dropdown, enter a source selector. The mapping starts polling and appending new items into the matching draft brief.
+- **Integrations** — the credentials card. Available providers: **Google** (OAuth), **Slack** (OAuth), **ClickUp** (personal API token). Connect, see status, disconnect.
+- **Brief integrations** — per-template ambient-ingest mappings. Pick a brief template, pick a connected integration, enter a source selector. The mapping starts polling and appending new items into the matching draft brief.
 
 Both cards are visible to Owners and Admins (`settings:update` permission).
 
 ## Security and credentials
 
-- **OAuth credentials** are encrypted at rest using AES-256-GCM with workspace-scoped keys.
+- **All credentials** (OAuth tokens and API tokens alike) are encrypted at rest using AES-256-GCM with workspace-scoped keys.
 - **OAuth grants are audit-logged** — every `oauth.granted` event records who granted access, when, and which provider.
-- **Disconnecting Google or Slack** revokes our stored token immediately.
-- **Deleting a Brief integrations mapping** removes the mapping; the underlying integration row (the OAuth or API credential) stays connected.
+- **Disconnecting** any integration revokes the stored credential immediately.
+- **Deleting a Brief integrations mapping** removes the mapping only; the underlying credential row stays connected.
 
 ## Common gotchas
 
-- **The two cards are separate and don't talk to each other.** Connecting Google in the OAuth card doesn't do anything useful by itself — you'd still need a Brief integrations mapping AND a working data adapter for that provider.
-- **The Brief integrations dropdown only shows Google and Slack today.** Neither provider has a working data adapter, so creating a mapping won't actually ingest anything until adapters land. ClickUp ambient ingest works in the back-end but isn't selectable from the UI.
+- **The two cards are separate.** Connecting Google in the credentials card doesn't do anything useful by itself — you'd still need a Brief integrations mapping AND a working data adapter for that provider.
+- **Only ClickUp actually ingests today.** Google and Slack are connect-only — creating a Brief integrations mapping that points at them does nothing until their adapters land.
 - **OAuth tokens expire.** Google's refresh-token flow is wired. Slack tokens currently have no refresh path — if revoked, reconnect.
 - **There's no per-client integration scope.** Integrations are workspace-level. Brief integrations mappings wire to a *template*, not a client — a template can be used across multiple clients, but each mapping has one source selector.
 

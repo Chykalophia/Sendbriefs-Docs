@@ -146,14 +146,13 @@ Every state transition on a brief is logged with timestamp + actor:
 
 Open the brief's **History** to see the full chronology. For workspace-wide audit reporting (e.g., compliance reviews), the audit log is accessible to Owners and Admins from the workspace settings.
 
-## Section-level approvals (multi-author briefs)
+## Multi-author briefs
 
-For team briefs using [sections](/features/briefs/#sections-multi-author-briefs), each section has its own status and review workflow:
+Templates can mark sections as assigned to specific contributors. When a brief is created from such a template, the assigned contributor gets notified to fill in their section. Section assignment is template-level — you configure it once in the Template editor, not on every brief.
 
-- **Content status** — `to do` / `in progress` / `done` / `additional notes`. Used to track who's working on what.
-- **Review status** — `draft` / `in review` / `changes requested` / `approved`. Used to track per-section review independent of the brief as a whole.
+Per-section review state (section-level approve / request-changes independent of the brief as a whole) isn't surfaced in the UI in the current preview. Review still happens at the **whole-brief** level: the author submits the entire brief for approval once everyone's contributions are in.
 
-Sections must all be `done` (or `additional notes`) before the brief as a whole can move to `pending_approval`. This forces a check that no one's mid-edit when the brief goes to its broader approval.
+> Earlier versions of this page described a section-status state machine (`to do` / `in progress` / `done` / per-section `approved`). That schema was retired when sections moved into the unified block editor — the legacy section-status enum was dropped. Sections are now just structured blocks. Review their content visually; approve at the brief level.
 
 ## Common gotchas
 

@@ -33,16 +33,10 @@ You will **not** need:
 2. Enter your email, your full name, and a password (12+ characters).
 3. *Optional*: add your agency name now. You can fill or change it later.
 4. Submit. Check your inbox for the verification email.
-5. Click the verification link. It expires in 30 minutes — request a new one from the login screen if it's stale.
+5. Click the verification link. If it's stale, request a new one from the login screen.
 6. You're signed in.
 
-> **Password policy.** We require 12+ characters and check it against the [Have I Been Pwned](https://haveibeenpwned.com/) breach database. If your password has shown up in a known breach, the signup form will reject it and ask for a different one. This is non-negotiable: a reused password protects nothing.
-
-## Signing up with Google
-
-If your workspace has Google sign-in enabled, you'll also see a **Continue with Google** button on the signup screen. Pick that to skip the password setup — your Google account becomes the login. You can later set a password in **Settings → Profile** if you want a fallback.
-
-If you don't see the Google button, your workspace doesn't have it enabled. Email is the only option for now.
+> **Password policy.** We require 12+ characters with at least one uppercase letter, one lowercase letter, one number, and one special character. We check the password against the [Have I Been Pwned](https://haveibeenpwned.com/) breach database — known-breached passwords are rejected. This is non-negotiable: a reused password protects nothing.
 
 ## Why work email matters
 
@@ -57,21 +51,21 @@ If you signed up with a personal email by mistake, you can change it later from 
 
 Until you click the verification link, your account can read its own settings but can't send briefs. The link lands you back in the app — pick up the onboarding wizard from there.
 
-Didn't get the email? Check spam. If it's truly missing, request a new one from the login page — old links expire in 30 minutes anyway.
+Didn't get the email? Check spam. If it's truly missing, request a new one from the login page — and check that the email address you typed is correct.
 
 ## Turn on two-factor authentication
 
 Highly recommended. You can do it now or after the workspace setup:
 
-1. Click your avatar / Profile in the sidebar and open **Profile → Security** (route: `/profile/security`).
-2. Click **Enable two-factor authentication**.
+1. Open your **Profile** page from the sidebar avatar.
+2. Find the **Security** section and click **Enable two-factor authentication**.
 3. Scan the QR code with your authenticator app (1Password, Authy, Google Authenticator, anything TOTP-compatible).
 4. Enter the 6-digit code to confirm.
 5. **Save the recovery codes somewhere safe.** If you lose your phone, these are how you get back in.
 
 <Placeholder type="screenshot" caption="TOTP enrollment screen with QR code and recovery codes" />
 
-If your workspace owner has **enforced MFA** for the workspace, the system will route you to `/mfa-enroll` at next login and require you to enroll before you can do anything else. Same flow.
+If your workspace owner has **enforced MFA** for the workspace, the system will route you to `/mfa-enroll` at next login and require you to enroll before you can do anything else. Workspace-enforced MFA includes a **7-day grace period** during which the gate warns you but still lets you in — after that, you're blocked until you enroll. Same TOTP flow regardless.
 
 ## Next: set up your first workspace
 

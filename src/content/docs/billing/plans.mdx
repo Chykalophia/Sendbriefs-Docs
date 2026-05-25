@@ -7,10 +7,12 @@ sidebar:
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-The current preview tiers are <strong>Solo</strong>, <strong>Agency</strong> (featured), <strong>Agency Pro</strong>, and <strong>Enterprise</strong>. Pricing isn't finalized yet — current marketing-page numbers are <em>placeholder for the Founders Circle preview</em>. For up-to-date pricing, see <a href="https://sendbriefs.com/pricing">sendbriefs.com/pricing</a>. All paid plans start with a <strong>14-day free trial</strong>, no card required.
+The marketing-page tiers are <strong>Solo</strong>, <strong>Agency</strong> (featured), <strong>Agency Pro</strong>, and <strong>Enterprise</strong>. Pricing isn't finalized — current numbers are <em>Founders Circle preview pricing</em>. For up-to-date numbers, see <a href="https://sendbriefs.com/pricing">sendbriefs.com/pricing</a>. All paid plans start with a <strong>14-day free trial</strong>, no card required. <strong>White-label</strong> and <strong>Custom domain</strong> are add-ons that can be purchased on top of any paid plan (bundled with Enterprise).
 </aside>
 
 > **Heads up: SendBriefs is in Founders Circle preview.** Plan amounts and limits below describe the current preview tiers — they may change before general availability. Treat this page as the *shape* of the plans, not contractual pricing.
+>
+> **App naming vs marketing naming.** The product stores plan tiers under internal keys (`free`, `trial`, `starter`, `pro`, `professional`, `business`, `enterprise`). The marketing-page names — **Solo / Agency / Agency Pro / Enterprise** — are the customer-facing labels. Both refer to the same subscription system; the docs use the marketing names because that's what you'll see on the pricing page and on invoices.
 
 ## How to pick a plan
 
@@ -21,14 +23,16 @@ Pick based on the **constraint that bites first**:
 - If you need a feature only at higher tiers (e.g., API access, SSO), pick the tier that includes it.
 - If none of the above, start one tier lower and upgrade later — upgrades are immediate and prorated.
 
-## Plan summary (preview pricing)
+## Plan summary
 
-| Plan | Clients | Team | Featured | Position |
-|---|---|---|---|---|
-| **Solo** | Up to 5 | 1 user | — | Founders / consultants with a small roster |
-| **Agency** | Up to 25 | Small team | Yes — featured | Most agencies start here |
-| **Agency Pro** | Up to 75 | Larger team | — | Multi-line agencies |
-| **Enterprise** | Custom | Custom | — | Custom contract, custom integrations, SLA |
+| Plan | Featured | Position |
+|---|---|---|
+| **Solo** | — | Founders / consultants with a small roster |
+| **Agency** | Yes — featured | Most agencies start here |
+| **Agency Pro** | — | Multi-line agencies |
+| **Enterprise** | — | Custom contract, custom integrations, SLA |
+
+> Specific client / team / send caps per plan change as we tune the product. **See [sendbriefs.com/pricing](https://sendbriefs.com/pricing) for current limits** — we don't quote numeric caps here so this page stays accurate as the plans evolve.
 
 All plans include:
 
@@ -37,16 +41,21 @@ All plans include:
 - The client portal (token-based, branded)
 - Email delivery via SendGrid
 - In-app + email notifications
-- Available integrations (Google for Analytics; Slack)
+- Available integrations (Google, Slack, ClickUp)
 - 14-day free trial on signup
 
 What changes across tiers (as currently scoped):
 
 - **Number of clients** allowed in the workspace
 - **Number of team members** allowed in the workspace
-- **Per-client extras** (e.g., additional clients beyond the base allotment may be billable on Solo and Agency Pro)
 - **API access** (Enterprise only, when it ships — see [API access](/api/coming-soon/))
-- **White-label** features (graduates from add-on to built-in at higher tiers)
+
+**Add-ons (purchased separately):**
+
+- **White-label** — suppresses "Sent via SendBriefs" branding from emails and the portal.
+- **Custom domain** — host the recipient portal on your own subdomain (e.g., `briefs.youragency.com`).
+
+Both are bundled into the **Enterprise** tier by default; available as à la carte purchases on paid plans below Enterprise. Manage from **Settings → Billing** under **Add-ons**.
 
 ## What's included regardless of plan
 
@@ -61,8 +70,8 @@ A few things don't depend on tier:
 
 Every signup includes a **14-day free trial**, no credit card required. During the trial:
 
-- You can run up to ~10 clients and ~3 users (the trial-tier limits).
-- All features are available.
+- Trial-tier client and user limits apply (see [sendbriefs.com/pricing](https://sendbriefs.com/pricing) for current numbers).
+- All features are available, with a few Pro-gated surfaces (e.g., the `verified` portal access tier) locked.
 - Briefs send normally.
 
 At day 15, you pick a plan and add payment, or your workspace pauses. **Your data stays intact** during the pause — you just can't send new briefs until you pick a plan.
@@ -90,12 +99,14 @@ Talk to sales: [email support@sendbriefs.com](mailto:support@sendbriefs.com) and
 
 ## What happens at plan limits
 
-The plan limits (client count, team size) are checked when you try to *add* a new one:
+Plan limits (client count, team size) are checked when you try to *add* a new one:
 
 - **At the client limit**: adding another client surfaces a "you're at your plan limit" prompt with an **Upgrade** button.
 - **At the team limit**: same pattern for invites.
 
 There's no surprise charge if you hit a limit — the workspace just blocks the addition until you either upgrade or remove something.
+
+For the metering details (what's counted, how often, when limits are checked), see [Plan limits & metering](/billing/limits-and-metering/).
 
 ## See also
 

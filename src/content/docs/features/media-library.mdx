@@ -1,0 +1,102 @@
+---
+title: Media Library
+description: Settings → Media Library — the workspace's shared asset store for images and assets referenced in briefs and email layouts.
+sidebar:
+  order: 15
+---
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+The Media Library at <strong>Settings → Media Library</strong> is the workspace's upload area for images, logos, and assets that briefs and email layouts reference by URL. Upload once, reuse anywhere. Assets stay available even after the briefs that used them ship.
+</aside>
+
+## What the Media Library is
+
+A workspace-wide upload store for images and assets. Two places use it:
+
+- **Image blocks in briefs** — drop an image block in the editor, pick from the Media Library (or paste an external URL).
+- **Email layout blocks** — logo, header banner, signature image, etc.
+
+The Library is one of the **Delivery** group of settings tabs. Owners and Admins can manage it.
+
+## Why upload here vs. pasting external URLs
+
+Both work. The Media Library has these advantages:
+
+- **One source of truth.** Your logo is referenced by URL in 50 places; updating once updates everywhere.
+- **No external dependencies.** External URLs can 404 if the host moves the image. Media Library URLs are stable as long as the asset isn't deleted.
+- **Faster for recipients.** Assets are served from the same CDN as the rest of the app.
+- **Organized.** Searchable, taggable, browseable.
+
+External URLs are fine for one-off images (a screenshot in a single brief that won't be reused). For anything you'll reference more than once, upload.
+
+## Supported file types
+
+- **JPG / JPEG**
+- **PNG**
+- **GIF**
+- **WebP**
+- **SVG**
+
+Maximum file size: **5 MB** per upload (the same limit applies to logos and avatars elsewhere).
+
+## What's in the Library
+
+Each asset has:
+
+- **Filename.**
+- **Upload date.**
+- **Uploader** (who in the workspace uploaded it).
+- **Tags** (optional, for organization).
+- **URL** (the public URL you can reference from a brief or layout).
+
+## Adding an asset
+
+**Settings → Media Library → Upload**. Drag a file or click to pick. The upload completes; the asset appears in the grid with a copy-able URL.
+
+For batch uploads, drag multiple files at once.
+
+## Using an asset
+
+### In a brief
+Inside a section, hit `/` → **Image** → pick from Media Library. The block embeds the asset's URL.
+
+### In an email layout
+**Settings → Email Layout → edit a layout → add an Image block → pick from Media Library**.
+
+### As a workspace logo
+**Settings → Branding → Logo → pick from Media Library** (or upload directly here — it appears in the Library too).
+
+### As a client logo
+**Client detail → Logo → URL field**. Paste the Media Library URL.
+
+## Deleting an asset
+
+Click an asset → **Delete**. Confirmation prompt warns you that:
+
+- **Sent emails are not affected.** The image is already in the recipient's inbox.
+- **Portal views of past briefs that referenced this asset will show a broken image.** Portal pages render fresh on each visit; deleted assets won't load.
+- **Active drafts referencing this asset will lose the image.** Future renders will show a broken image until you swap in a new asset.
+
+For most workflows, **don't delete assets that are referenced by sent briefs**. Just upload a new asset and leave the old one. Storage isn't expensive; broken images in portals are embarrassing.
+
+## What's NOT in the Library
+
+- **Brief PDFs.** Recipients download PDFs on demand from the portal — they aren't archived in the Media Library.
+- **Briefs themselves.** Brief content is stored separately; the Library is for visual assets only.
+- **Documents (PDF / Word / etc.).** Only image files are accepted. To attach a document, host it elsewhere and link to it from the brief.
+- **Audio / video.** Not supported.
+
+## Common gotchas
+
+- **5 MB limit applies to each individual upload.** Large screenshots may need to be compressed before upload.
+- **SVG uploads can fail validation** if they contain embedded scripts. SendBriefs strips dangerous content; the upload may be rejected if it can't safely sanitize the file.
+- **There's no folder hierarchy.** All assets live in a flat list; use tags or filename prefixes to group.
+- **Library is workspace-scoped.** Assets uploaded in one workspace aren't visible in another, even if you own both.
+- **CSV imports use a different limit (50 MB).** That's for contact imports, not Media Library uploads.
+
+## See also
+
+- [Briefs → block editor](/features/briefs/#the-block-editor) — where Image blocks reference Library assets
+- [Email Layout](/features/email-layout/) — where layouts pull in Library assets
+- [Workspaces & teams → Branding](/features/workspaces/#branding) — workspace logo configuration

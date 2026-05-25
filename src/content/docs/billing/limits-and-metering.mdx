@@ -1,0 +1,88 @@
+---
+title: Plan limits & metering
+description: What gets counted, how counts roll up, and what happens when you hit a limit.
+sidebar:
+  order: 6
+---
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+SendBriefs meters three things at the workspace level: <strong>active users</strong>, <strong>active clients</strong>, and <strong>reports sent this month</strong>. Plan limits gate when you try to <em>add</em> a new one — there's no surprise charge if you hit a limit, just a polite refusal until you upgrade or remove something. Usage shows on the Billing tab.
+</aside>
+
+## What's counted
+
+Three meters run in the background. You can see current values on **Settings → Billing**.
+
+### Active users
+The number of unique members in the workspace (Owner / Admin / Member, plus the `CLIENT` role doesn't count here — contacts are not users).
+
+- Pending invitations don't count until accepted.
+- Removed members stop counting immediately.
+- The user count is point-in-time, not a running total.
+
+### Active clients
+The number of clients in the workspace that aren't archived. Archived clients don't count; reactivating one brings it back into the count.
+
+- Inactive clients **do** count (they're still selectable; only `archived` is treated as out-of-roster).
+
+### Reports sent this month
+Count of briefs that reached the `sent` state during the current calendar month.
+
+- Resends of the same brief (sent → draft → re-send) count each send as a separate event.
+- Test sends (e.g., the Email Layout "Email myself" preview) don't count — that's preview infrastructure, not a brief send.
+
+## How limits are enforced
+
+When you try to **add** something — invite a new member, create a new client, send a brief — SendBriefs checks the current count against your plan's limit:
+
+- **Under the limit:** action proceeds normally.
+- **At the limit:** the action is refused with a polite prompt and an **Upgrade** button. No surprise charge.
+- **Over the limit (due to plan downgrade):** existing items keep working, but you can't add new ones. You can either upgrade back or remove some to fit.
+
+## When you can't downgrade
+
+Downgrades fail if your current usage exceeds the lower tier's limits. Example: you're on Agency with 30 clients; trying to downgrade to Solo (which allows 5 clients) is refused. The Stripe Customer Portal surfaces this — archive clients first, then try the downgrade again.
+
+## Stripe sync
+
+Usage is reported to Stripe monthly. There's a lag of up to a day between SendBriefs' usage view and Stripe's billing view. For day-to-day decisions, trust SendBriefs' Billing page; for the invoice itself, trust the Stripe-issued invoice.
+
+## What's NOT metered
+
+- **Brief drafts.** You can create unlimited drafts. Only the send counts.
+- **Templates.** No template count limit in the current preview.
+- **Contacts.** Unlimited per client; no workspace cap.
+- **Integrations.** Unlimited connections (subject to Stripe's add-on charges if you've purchased White-label or Custom domain).
+- **Scheduled reports.** No cap on the number of schedules per workspace.
+- **Audit log entries.** Generated freely; retention drives eventual purge.
+
+## Trial-tier limits
+
+During the 14-day free trial, the workspace runs at the trial-tier limits. For current numbers, check **[sendbriefs.com/pricing](https://sendbriefs.com/pricing)** — we don't quote them here so this page stays accurate as the trial tuning evolves.
+
+A few Pro-gated features (e.g., the `verified` portal access tier) are locked on the trial; everything else is available. If you hit a trial limit, the dashboard surfaces an "Upgrade" prompt. You can upgrade before the 14 days end if you've outgrown the trial.
+
+## At day 15
+
+When the trial expires without a paid plan:
+
+- The workspace transitions to a **suspended** state.
+- **Briefs stop sending.** Active schedules are paused.
+- **Data is preserved.** Templates, clients, contacts, sent brief history — all intact.
+- You can still log in and view, but can't create new briefs.
+
+To resume: **Settings → Billing → Choose a plan** and complete Stripe Checkout. The workspace reactivates when the first charge succeeds.
+
+## Common gotchas
+
+- **Inactive clients still count.** Only `archived` is "free." If you have lots of paused clients, archive them rather than just marking inactive to free up plan quota.
+- **Test sends don't count toward the monthly meter** — but resends do. If you're at the monthly limit, a quick "resend with correction" still consumes one send.
+- **Plan downgrades don't auto-revoke add-ons.** White-label and Custom domain stay active (and billable) even after downgrade, unless you explicitly cancel them in the Stripe Customer Portal.
+- **The monthly send counter resets on calendar month boundaries**, not subscription anniversaries. A workspace that started its subscription on the 15th still resets the send counter on the 1st.
+
+## See also
+
+- [Pricing & plans](/billing/plans/) — what each tier's limits look like
+- [Managing your subscription](/billing/managing-subscription/) — upgrading and downgrading
+- [Add-ons](/billing/addons/) — White-label and Custom domain

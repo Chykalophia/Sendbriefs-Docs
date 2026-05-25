@@ -9,7 +9,7 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-A brief is a per-client, per-period report organized into four fixed sections (<strong>Done / In Progress / To Do / Additional Notes</strong>). Briefs move through <strong>draft → pending_approval → approved → sent</strong>, with <strong>changes_requested</strong> as a side path. The app sidebar labels these <strong>Reports</strong> — same thing.
+A brief is a per-client, per-period report organized into named sections. The starter template ships with <strong>Done / In Progress / To Do / Additional Notes</strong>, but templates can add, rename, recolor, and reorder their own sections. Briefs move through <strong>draft → pending_approval → approved → sent</strong>, with <strong>changes_requested</strong> as a side path. The app sidebar labels these <strong>Reports</strong> — same thing.
 </aside>
 
 ## Anatomy of a brief
@@ -17,14 +17,22 @@ A brief is a per-client, per-period report organized into four fixed sections (<
 Every brief has three layers:
 
 1. **Metadata** — client, reporting period, title, template (if any), recipients.
-2. **Four content sections** — `Done`, `In Progress`, `To Do`, `Additional Notes`. Fixed buckets; you can't add or rename them.
+2. **Sections** — named groups (each rendered as a `section`-kind block). The starter sections are Done / In Progress / To Do / Additional Notes, but every template can customize them.
 3. **Blocks inside each section** — text, headings, metrics, tables, callouts, images, etc. Stored as Tiptap JSON.
 
 A brief is the rendered combination of these against the period at the moment it sends.
 
-## The four-section structure
+## Sections
 
-Each brief uses the same four organizational buckets:
+Sections are defined by the brief's template. A template can:
+
+- Set the section name and an **email display name** (used in the email render).
+- Pick from **17 color themes** (red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose) and an icon (emoji).
+- Provide **default content** so the section pre-fills when a new brief is generated.
+- Define **placeholder text** to prompt contributors.
+- Assign a **default contributor** so the right person gets notified to fill it in.
+
+The **default starter sections** are:
 
 | Section | Display | When to use |
 |---|---|---|
@@ -33,16 +41,18 @@ Each brief uses the same four organizational buckets:
 | **To Do** | 📝 To Do | Planned work for the next period. |
 | **Additional Notes** | 📌 Additional Notes | Context, callouts, blockers, asks — anything that doesn't fit the other three. |
 
-You don't have to fill every section. Empty sections are hidden from the rendered output.
+Empty sections are hidden from the rendered output — you only render the sections you actually fill in.
+
+To manage sections, open **Settings → Reports → Templates**, pick a template, and use the **Section manager** to add, remove, rename, reorder, and recolor them. Section changes are template-level: they apply to **future briefs** built from that template; existing sent briefs are frozen.
 
 ### Layout mode: strict vs flexible
 
-Workspaces have a layout mode setting:
+Layout mode controls whether blocks can sit outside sections:
 
-- **`strict`** — every block must live inside one of the four sections. Cleaner output, more structure.
+- **`strict`** — every block lives inside a section. Cleaner output, more structure. This is the default for new reports.
 - **`flexible`** — top-level blocks (a hero callout, a divider) can sit alongside sections.
 
-Set per workspace (with per-template and per-brief overrides). Default is what your workspace was created with; switching is non-destructive.
+The resolved mode for any given brief comes from a four-layer cascade: workspace override → client override → template setting → brief's own value. Usually you can ignore this; the default works for most teams.
 
 ## The block editor
 
@@ -138,12 +148,12 @@ A brief's recipient list is computed from the client's contacts where `receive r
 
 ## Delivery and tracking
 
-Once a brief is `sent`, the engagement bar at the top of the brief shows, per recipient:
+Once a brief is `sent`, two cards on the brief page show what happened:
 
-- **Delivered** — SendGrid accepted and forwarded.
-- **Opened** — recipient loaded the tracking pixel (best-effort).
-- **Clicked** — any tracked link was clicked.
-- **Portal views** — recipient opened the brief in the hosted portal.
+- **Engagement bar** (top of the brief) — aggregate cadence, comment count, open count, open rate, and sent timestamp.
+- **Delivery card** (below the brief) — per-recipient table with **Delivered** and **Opened** icons, plus aggregate Recipients / Delivered / Opened totals at the top.
+
+The underlying SendGrid event trail (delivered, opened, clicked, bounced, spam-reported, unsubscribed) is captured for every recipient and surfaces in the delivery card's detail view.
 
 [More on engagement tracking →](/features/reports/)
 
@@ -158,8 +168,8 @@ Portal supports PDF download. For stricter access (verification code required), 
 
 ## Common gotchas
 
-- **You can't add custom sections.** The four buckets are fixed. If your reporting needs a fifth section, use a Heading block within Additional Notes (or convince the team in Slack that another bucket is needed).
-- **Layout mode matters more than it sounds.** `strict` forces all content into the four sections. `flexible` allows top-level blocks. If a teammate's brief looks wildly different from yours, check the layout mode.
+- **Section changes are template-level, not per-brief.** Editing a template's sections affects future briefs only; sent briefs are frozen at the moment they shipped. If you need a one-off variation, just edit blocks inside the brief.
+- **Layout mode matters more than it sounds.** `strict` forces all content into sections. `flexible` allows top-level blocks. If a teammate's brief looks wildly different from yours, check the cascaded layout mode for that brief.
 - **`changes_requested` keeps the brief editable.** The approver's note appears as an in-app notification + email. Edit and resubmit.
 - **Recurring sends aren't on the brief.** They live in **Settings → Reports → Scheduling**, per client + frequency. The brief itself doesn't carry a schedule.
 

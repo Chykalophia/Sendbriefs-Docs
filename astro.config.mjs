@@ -75,6 +75,21 @@ export default defineConfig({
             { label: 'Workspaces & teams', slug: 'features/workspaces' },
             { label: 'Integrations', slug: 'features/integrations' },
             { label: 'Notifications & delivery', slug: 'features/notifications' },
+            { label: 'Recipient experience', slug: 'features/recipient-experience' },
+          ],
+        },
+        {
+          label: 'Settings reference',
+          collapsed: true,
+          items: [
+            { label: 'Settings — the full tab map', slug: 'features/settings-overview' },
+            { label: 'Brief templates', slug: 'features/templates' },
+            { label: 'Approval policy', slug: 'features/approvals' },
+            { label: 'Scheduled reports', slug: 'features/scheduled-reports' },
+            { label: 'Email Layout', slug: 'features/email-layout' },
+            { label: 'Media Library', slug: 'features/media-library' },
+            { label: 'Activity & audit log', slug: 'features/activity' },
+            { label: 'Profile & personal security', slug: 'features/profile-security' },
           ],
         },
         {
@@ -85,6 +100,7 @@ export default defineConfig({
             { label: 'Onboarding a new client', slug: 'flows/client-onboarding' },
             { label: 'Templating a recurring brief', slug: 'flows/templating-recurring' },
             { label: 'Edits & approvals', slug: 'flows/edits-and-approvals' },
+            { label: 'Multi-contributor briefs', slug: 'flows/add-an-update' },
             { label: 'Annual review workflow', slug: 'flows/annual-review' },
           ],
         },
@@ -96,6 +112,8 @@ export default defineConfig({
             { label: 'Managing your subscription', slug: 'billing/managing-subscription' },
             { label: 'Invoices & receipts', slug: 'billing/invoices' },
             { label: 'Upgrading, downgrading, canceling', slug: 'billing/upgrading-canceling' },
+            { label: 'Add-ons — white-label & custom domain', slug: 'billing/addons' },
+            { label: 'Plan limits & metering', slug: 'billing/limits-and-metering' },
           ],
         },
         {

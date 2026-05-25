@@ -1,52 +1,99 @@
 ---
 /**
- * Placeholder — renders a labeled empty space for screenshots/videos
- * that Peter will fill in later. Renders ONLY in dev (import.meta.env.DEV).
+ * Placeholder — renders an inline screenshot/video/diagram or, when no
+ * asset is wired up yet, a labeled empty space so it's obvious in dev
+ * which spots still need filling.
  *
- * In production, returns null so the placeholder doesn't ship.
+ * Behavior:
+ *   - If `src` is provided, render the asset (always — dev AND prod).
+ *     The `caption` becomes the visible <figcaption> AND the alt text
+ *     (unless `alt` is explicitly passed). This is the documented spot.
+ *   - If `src` is NOT provided, fall back to the dashed-box placeholder.
+ *     The placeholder is visible ONLY in dev (import.meta.env.DEV) so
+ *     unfilled slots can't accidentally ship to production.
  *
  * Usage in .mdx files:
  *   import Placeholder from '@/components/Placeholder.astro';
  *
+ *   // Empty placeholder (dev-only):
  *   <Placeholder type="screenshot" caption="Brief composer with hover state" />
- *   <Placeholder type="video" caption="Recording: end-to-end brief send" aspect="16/9" />
+ *
+ *   // Filled placeholder (renders in dev + prod):
+ *   <Placeholder
+ *     type="screenshot"
+ *     src="/screenshots/getting-started/signup-form.png"
+ *     caption="The /signup page with email, name, and password fields visible"
+ *   />
  *
  * Props:
- *   type    — 'screenshot' | 'video' | 'diagram' (purely informational)
- *   caption — required: what to put there. Be specific.
+ *   type    — 'screenshot' | 'video' | 'diagram' (informational)
+ *   caption — required: visible figcaption + default alt text. Be specific.
+ *   src     — optional path to the asset. When set, the dashed box becomes a real <img>.
+ *   alt     — optional override for alt text. Defaults to `caption`.
  *   aspect  — CSS aspect-ratio (e.g., '16/9', '4/3', '1/1'); default '16/9'
+ *             Applied to placeholder box AND to images, so reflows are minimal
+ *             before the image decodes.
  *   width   — optional max-width in px; default fills container
  */
 
 interface Props {
   type?: 'screenshot' | 'video' | 'diagram';
   caption: string;
+  src?: string;
+  alt?: string;
   aspect?: string;
   width?: number;
 }
 
-const { type = 'screenshot', caption, aspect = '16/9', width } = Astro.props;
+const {
+  type = 'screenshot',
+  caption,
+  src,
+  alt,
+  aspect = '16/9',
+  width,
+} = Astro.props;
 
 const labelMap = {
   screenshot: 'SCREENSHOT',
   video: 'VIDEO',
   diagram: 'DIAGRAM',
 } as const;
+
+const altText = alt ?? caption;
 ---
 
 {
-  import.meta.env.DEV && (
+  src ? (
     <figure
-      class="sb-placeholder"
+      class="sb-placeholder sb-placeholder--filled"
       data-type={type}
       style={width ? `max-width: ${width}px;` : undefined}
     >
-      <div class="sb-placeholder-inner" style={`aspect-ratio: ${aspect};`}>
-        <span class="sb-placeholder-label">{labelMap[type]} PLACEHOLDER</span>
-        <span class="sb-placeholder-caption">{caption}</span>
-        <span class="sb-placeholder-meta">{aspect}</span>
-      </div>
+      <img
+        class="sb-placeholder-image"
+        src={src}
+        alt={altText}
+        loading="lazy"
+        decoding="async"
+        style={`aspect-ratio: ${aspect};`}
+      />
+      <figcaption class="sb-placeholder-figcaption">{caption}</figcaption>
     </figure>
+  ) : (
+    import.meta.env.DEV && (
+      <figure
+        class="sb-placeholder"
+        data-type={type}
+        style={width ? `max-width: ${width}px;` : undefined}
+      >
+        <div class="sb-placeholder-inner" style={`aspect-ratio: ${aspect};`}>
+          <span class="sb-placeholder-label">{labelMap[type]} PLACEHOLDER</span>
+          <span class="sb-placeholder-caption">{caption}</span>
+          <span class="sb-placeholder-meta">{aspect}</span>
+        </div>
+      </figure>
+    )
   )
 }
 
@@ -122,5 +169,43 @@ const labelMap = {
 
   :root[data-theme='dark'] .sb-placeholder-caption {
     color: var(--sl-color-text);
+  }
+
+  /* Filled variant — real image is in place. */
+  .sb-placeholder--filled {
+    display: block;
+    margin: 1.75rem 0;
+    padding: 0;
+  }
+
+  .sb-placeholder-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--sb-radius-lg);
+    border: 1px solid var(--sb-border, rgba(0, 0, 0, 0.08));
+    background: var(--sb-paper);
+    /* Use CSS shadow tokens if available, otherwise a subtle default. */
+    box-shadow: var(--sb-shadow-md, 0 2px 8px rgba(15, 23, 42, 0.06));
+  }
+
+  .sb-placeholder-figcaption {
+    margin-top: 0.625rem;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--sb-ink-soft);
+    text-align: center;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  :root[data-theme='dark'] .sb-placeholder-image {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: var(--sl-color-bg);
+  }
+
+  :root[data-theme='dark'] .sb-placeholder-figcaption {
+    color: var(--sl-color-gray-3, #94a3b8);
   }
 </style>

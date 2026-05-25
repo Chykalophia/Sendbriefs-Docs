@@ -1,0 +1,131 @@
+---
+title: Profile & personal security
+description: Your /profile page — name, avatar, password, multi-factor authentication, backup codes, and active sessions.
+sidebar:
+  order: 13
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+<strong>/profile</strong> in the sidebar is your personal page (not workspace settings). It holds your name, avatar, password change, MFA enrollment with backup codes, and active sessions. Different from <strong>Settings → Security</strong>, which is the workspace-wide security policy (MFA enforcement, domain whitelists).
+</aside>
+
+## /profile vs Settings → Security
+
+Two different surfaces that handle security:
+
+| Page | Scope | What it controls |
+|---|---|---|
+| `/profile` (sidebar avatar → Profile) | Just you | Your name, avatar, password, your MFA enrollment, your active sessions |
+| Settings → Security | The whole workspace | MFA enforcement for everyone, email domain whitelist, API keys |
+
+This page is about the personal one (`/profile`).
+
+## What's on the Profile page
+
+### Identity
+- **Full name** — shown across the app and on team listings.
+- **Email** — the address you signed up with. Changing it requires re-verification.
+- **Avatar** — optional profile picture (image upload, falls back to initials).
+- **Preferences** — default landing page, locale, timezone (personal, may override workspace defaults for *you*).
+
+### Password
+
+Change your password. The new password is validated against the same rules as signup:
+
+- 12+ characters.
+- 128 chars or fewer.
+- At least one uppercase, lowercase, number, and special character.
+- Not on the [Have I Been Pwned](https://haveibeenpwned.com/) breach list.
+- Not the same as your last 5 passwords.
+
+Failed attempts surface the rule that failed, not just "rejected."
+
+### Multi-factor authentication (MFA)
+
+TOTP-based MFA via any authenticator app (1Password, Authy, Google Authenticator, anything that speaks the TOTP standard).
+
+**Enrollment flow:**
+
+1. Click **Enable two-factor authentication**.
+2. Scan the QR code with your authenticator app (or paste the secret manually).
+3. Enter the current 6-digit code from your app to confirm.
+4. **Save the 10 backup codes** that appear. Each is single-use; they're your way back in if you lose your phone.
+5. MFA is now enabled. You'll be prompted for a code at every login.
+
+**Disabling MFA:**
+
+Click **Disable two-factor authentication**. You'll need to enter a current code to confirm.
+
+> If your workspace has [enforced MFA](/features/workspaces/#workspace-enforced-mfa), you can't disable your own MFA — you'd be locked out of the workspace.
+
+### Backup codes
+
+10 one-time codes generated at enrollment. Use them when:
+
+- Your authenticator app is on a lost / wiped phone.
+- You're locked out and the only path back is a backup code.
+
+Each backup code works exactly once. After using one, you can regenerate the full set from this page (the new set invalidates the old set entirely — don't regenerate unless you're sure you have access to the new set).
+
+**Treat backup codes like a password.** Store in a password manager or print and lock in a drawer. Anyone with a backup code and your password can sign in.
+
+### Active sessions
+
+Lists every session signed in to your account:
+
+- Device (browser / OS).
+- IP address.
+- Last activity timestamp.
+- A **Sign out** button per row.
+
+Use this to revoke access from a forgotten device (e.g., a public computer, or a phone you sold). Signing out from one device doesn't affect your other sessions.
+
+## Lost MFA device
+
+If you've lost your authenticator app AND your backup codes:
+
+1. From the login screen, the only path is to email support with proof of identity.
+2. Support can reset MFA on your account after verification.
+3. After reset, you'll re-enroll on next login.
+
+For workspaces with MFA enforcement, plan ahead: keep backup codes in a password manager, and consider enrolling a hardware key (when supported) as a fallback.
+
+## Signing out
+
+The sidebar avatar menu has **Sign Out**. This signs out the current session only.
+
+To sign out everywhere at once, use the **Sign out other sessions** action in Active sessions (signs out everything except the one you're currently using) or sign out each session individually.
+
+## Password reset (forgot password)
+
+From the login screen, click **Forgot password**. Enter your email; if it matches an account, you'll receive an email with a reset link. The link opens `/update-password` where you set a new password under the same policy as signup.
+
+If you don't receive the email:
+
+- Check spam.
+- Confirm the email matches your account.
+- Try again from the login screen (each retry generates a fresh link).
+
+## What's NOT on the Profile page (but exists elsewhere)
+
+- **Workspace switcher** — top sidebar, not under Profile.
+- **Workspace MFA enforcement** — Settings → Security (admin-only).
+- **API keys** — Settings → Security; workspace-level, not personal.
+- **Notification preferences** — Settings → Notifications (also accessible from `/notifications`); same surface, different entry points.
+- **OAuth-linked logins** (Google) — when supported, link/unlink from Profile.
+
+## Common gotchas
+
+- **Workspace-enforced MFA blocks disabling.** If you try to disable MFA and the workspace requires it, the UI will refuse.
+- **Backup codes don't refresh automatically.** Regenerating is a manual click — the old set stays valid until you regenerate.
+- **Email change requires re-verification.** Changing your account email doesn't just save — you'll get a verification email at the new address and have to click it.
+- **Active sessions doesn't include API tokens.** API keys (if your workspace uses them) are listed under workspace Security, not personal sessions.
+
+## See also
+
+- [Create your account → Turn on two-factor authentication](/getting-started/create-account/#turn-on-two-factor-authentication) — the first-time setup walkthrough
+- [Workspaces & teams → Multi-factor authentication](/features/workspaces/#multi-factor-authentication) — workspace-wide MFA enforcement policy
+- [Activity & audit log](/features/activity/) — auth events are logged here

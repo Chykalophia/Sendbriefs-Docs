@@ -9,7 +9,7 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-From the sidebar, click <strong>Add to a brief</strong>. Pick a client. SendBriefs resolves the client's current-period draft (or offers to start one) and drops you into the editor. Fill in the four sections (<strong>Done / In Progress / To Do / Additional Notes</strong>). Optionally submit for approval, then send. The brief lands in your client's inbox and in their hosted portal.
+From the sidebar, click <strong>Add to a brief</strong>. Pick a client. SendBriefs resolves the client's current-period draft (or offers to start one) and drops you into the editor. Fill in the sections the template defines (the default starter has <strong>Done / In Progress / To Do / Additional Notes</strong>; templates can rename, add, remove, or reorder these). Optionally submit for approval, then send. The brief lands in your client's inbox and in their hosted portal.
 </aside>
 
 ## The mental model
@@ -17,7 +17,7 @@ From the sidebar, click <strong>Add to a brief</strong>. Pick a client. SendBrie
 A brief in SendBriefs is built around three ideas:
 
 1. **A client and a period.** Briefs belong to a specific client over a specific reporting period (last month, last week, etc.). The "Add to a brief" flow resolves which draft brief is the right one to contribute to.
-2. **Four fixed sections.** Every brief is organized into four content buckets: ✅ **Done**, 🔄 **In Progress**, 📝 **To Do**, 📌 **Additional Notes**. These are organizational, not workflow stages — you fill in any combination that applies to this period.
+2. **Sections defined by the template.** A brief is organized into named sections. The starter templates ship with **Done / In Progress / To Do / Additional Notes** — but each template lets you rename, recolor, add, remove, and reorder its own sections. The four defaults are a starting point, not a hard rule.
 3. **Blocks inside sections.** Each section is a stack of blocks (text, headings, metrics, tables, callouts, images, charts). The editor's `/` slash-menu adds blocks.
 
 Each brief moves through a state machine: `draft → pending_approval → approved → sent`, with `changes_requested` as a side path.
@@ -41,11 +41,11 @@ Once a client is selected, SendBriefs **resolves the contribution target**:
 
 For your first time, the third bullet's "start the next period's brief" is the common path if you haven't built one for this client before.
 
-## Step 3: Fill in the four sections
+## Step 3: Fill in the sections
 
-The editor shows the four sections stacked, each collapsible. Click any section header to expand.
+The editor shows the template's sections stacked, each collapsible. Click any section header to expand.
 
-<Placeholder type="screenshot" caption="Brief editor — four sections collapsed at the top, one expanded showing blocks inside" />
+<Placeholder type="screenshot" caption="Brief editor — sections collapsed at the top, one expanded showing blocks inside" />
 
 For each section, type your update or use **`/`** to open the block picker. Available block types include:
 
@@ -59,7 +59,7 @@ For each section, type your update or use **`/`** to open the block picker. Avai
 
 Empty sections render nothing in the final brief — only the sections you fill in show up to the recipient.
 
-> **Workspace setting: layout mode.** Workspaces have a `strict` or `flexible` mode. In `strict`, every block must live inside one of the four sections. In `flexible`, top-level blocks alongside sections are allowed. Set per workspace, with per-template overrides — usually the default works.
+> **Layout mode: `strict` vs `flexible`.** The brief is built around `section`-kind blocks. In `strict` mode (the default for new reports), all content lives inside sections. In `flexible` mode, top-level blocks can sit alongside sections — useful for a hero callout above the first section. The setting cascades: workspace override → client → template → brief default. Usually you can ignore this and the default works fine.
 
 ## Step 4: Preview
 
@@ -85,21 +85,21 @@ Approvers can:
 
 If approvals aren't required in your workspace, you'll see the **Send** option directly.
 
-## Step 6: Send a test to yourself first
+## Step 6: Sanity-check before sending
 
-Before the client sees anything, click **Send test to me** (or the equivalent menu option). The brief delivers to *your* email so you can:
+There's **no dedicated "send test to me" button on a brief** in the current preview. To sanity-check rendering before the client sees it:
 
-- See it in your actual inbox (rendering can differ from preview).
-- Click through any links to make sure they work, including the portal link.
-- Confirm subject line and "from" name look right.
+- **Use the Preview pane** for the in-app rendered version with branding.
+- **Use the Email Layout preview** (Settings → Email Layout → open a layout → **Email myself**) to confirm the email wrapper itself renders right in your inbox. This sends a sample with placeholder content, not the actual brief.
+- **For the brief content itself**, the closest thing to a test send is sending to a client whose contacts you've temporarily set to your own email. Most teams use a "smoke-test client" record with their own email on it for exactly this.
 
-This catches problems the preview pane can't surface — typically email client rendering differences.
+If your workspace already has a smoke-test client set up, use that pattern. Otherwise, the preview pane is what you have for now.
 
 ## Step 7: Send to the client
 
-When the test looks right:
+When the preview looks right:
 
-1. Click **Send to client**.
+1. Click **Send** on the brief.
 2. Confirm the recipient list (every contact on this client with `receive reports` on).
 3. Confirm.
 
@@ -109,14 +109,14 @@ The brief moves to `sent`. You'll see a confirmation, and the brief appears in t
 
 ## Step 8: Watch delivery
 
-Open the sent brief and look at the engagement bar at the top. It shows, per recipient:
+Open the sent brief. Two cards show what happened:
 
-- **Delivered** — SendGrid accepted and forwarded the email (usually within 30 seconds).
-- **Opened** — recipient loaded the tracking pixel (best-effort — privacy filters mask this).
-- **Clicked** — any tracked link was clicked.
-- **Portal views** — recipient opened the brief in the hosted portal. Often the cleanest engagement signal.
+- **Engagement bar** (top of the brief) — aggregate cadence, comment count, open count, open rate, and send time.
+- **Delivery card** (below the brief) — recipient-by-recipient table with **Delivered** and **Opened** icons per row, and aggregate Recipients / Delivered / Opened totals.
 
-Don't read too much into "0 opens" — many email clients block tracking. Portal views are usually a better signal.
+"Clicked" events are tracked on the email-events trail (visible in the delivery detail) but they don't currently appear as a column in the recipient list. Portal-view counts aren't displayed per recipient either — they live in the portal token's database row but aren't surfaced in the UI in the current preview.
+
+Don't read too much into "0 opens" — many email clients block the tracking pixel. Treat opens as best-effort, deliveries as reliable.
 
 ## You did it
 

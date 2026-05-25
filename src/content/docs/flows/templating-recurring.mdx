@@ -60,11 +60,18 @@ If you find yourself writing the same kind of numeric value into a prose block e
 
 For team workflows:
 
-1. Add sections to the template.
-2. Set each section's **default assignee** if it's always the same person.
-3. The default content status is `to do` — keep that so each new brief reminds the assignee to fill it in.
+1. Open **Settings → Templates** → your template → **Section manager**.
+2. Add as many sections as you need (the defaults are Done / In Progress / To Do / Additional Notes; add or rename freely).
+3. For each section, set:
+   - **Display name** (shown in the editor).
+   - **Email display name** (shown in the email render — can differ).
+   - **Color theme** (one of 17 hue families).
+   - **Icon** (emoji).
+   - **Default content** (a Tiptap JSON block that pre-fills the section).
+   - **Placeholder text** that prompts the contributor.
+   - **Default assignee** — the team member who's expected to fill it in.
 
-When a new brief is created from this template, the sections come pre-assigned and the team knows what to do.
+When a new brief is created from this template, the sections come pre-assigned and notifications go out to assigned contributors.
 
 ## Working across clients
 
@@ -90,7 +97,7 @@ Some prose holds up across periods; some doesn't.
 
 **Holds up:**
 
-> Here's how the {{period.label}} went. Numbers below, narrative after.
+> Here's how the `{period.label}` went. Numbers below, narrative after.
 
 (Uses a variable so the period label updates each render. Doesn't reference specific facts.)
 
@@ -116,7 +123,7 @@ Add another template only when the *shape* of the brief genuinely differs. If th
 
 The product has data-display blocks (Metric / Gauge / Sparkline / StatsGrid) designed to hold values that change each period. Live binding from external data sources is on the roadmap but not wired today — for now, you update the numbers manually each period.
 
-Full templating-language constructs — `{{#if integration.stripe}}` conditional blocks, variable arithmetic, custom formulas — are not in the product today. If you need conditional structure, the path is to create the brief from the template and then remove/add blocks per client.
+Full templating-language constructs — Handlebars-style conditional blocks (`#if integration.stripe`), variable arithmetic, custom formulas — are not in the product today. If you need conditional structure, the path is to create the brief from the template and then remove/add blocks per client.
 
 We'll update this page when the templating language ships more comprehensively. In the meantime, keep templates simple: blocks plus prose plus data bindings.
 

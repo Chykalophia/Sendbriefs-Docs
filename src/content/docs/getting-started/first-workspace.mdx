@@ -78,15 +78,15 @@ Open **Settings → Team** and click **Invite member**. Add their email and pick
 
 | Role | What they can do | What they can't do |
 |---|---|---|
-| **Owner** | Everything. Manage billing. Delete the workspace. | n/a |
-| **Admin** | Everything except delete the workspace. | Delete workspace |
-| **Member** | Create and edit briefs they own. Read briefs from teammates. Read clients and team directory. | Manage billing, team, or workspace settings |
+| **Owner** (`WORKSPACE_OWNER`) | Everything. Manage billing. Delete the workspace. | n/a |
+| **Admin** (`ADMIN`) | Everything except delete the workspace. | Delete workspace |
+| **Member** (`MEMBER`) | Create and edit briefs they own. Read briefs from teammates. Read clients and team directory. | Manage billing, team, or workspace settings |
 
 Invitations are valid for **7 days**. If someone misses theirs, resend from the same screen.
 
 Roles are editable later from **Settings → Team** if you need to promote or demote someone.
 
-> SendBriefs also has a **Client** role internally, but that's for portal recipients — not for your team members. Client recipients see briefs through a signed link in their email; they don't log in.
+> SendBriefs has a fourth role (`CLIENT`) internally — but it's not invitable. It's the stored role for portal recipients who view briefs through a signed link rather than logging in. You'll never assign it.
 
 ## Multi-factor authentication (optional, recommended)
 
