@@ -67,9 +67,11 @@ Common patterns:
 
 Briefs in the current preview are mostly written in the block editor. You don't need any integration connected to ship a brief.
 
-The integrations surface (**Settings → Account → Integrations**) shows Google and Slack as connectable, but those OAuth flows complete and store credentials without doing anything else — no functional data pipeline uses them today.
+The integrations surface (**Settings → Integrations**) shows three providers:
 
-A separate **Brief integrations** card (same Settings tab) supports an ambient-ingest pipeline that can auto-append items from an external source into a brief. The pipeline supports ClickUp on the backend, but **there's no self-serve UI to register a ClickUp credential today**. If you want ClickUp ambient ingest set up, ask support.
+- **Google** (OAuth) — credentials stored on connect; no consumer feature uses them in the current preview.
+- **Slack** (OAuth) — same: connect flow stores credentials, no consumer feature yet.
+- **ClickUp** (personal API token) — paste a token from ClickUp Settings → Apps (tokens start with `pk_`). This one is wired up: the **Brief integrations** card lets you map a ClickUp list to a brief template, and items from the list auto-append as blocks into the matching draft brief.
 
 For the full picture — what works, what's connection-only, what's roadmap — see [Integrations →](/features/integrations/).
 

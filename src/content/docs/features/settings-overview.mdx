@@ -1,0 +1,83 @@
+---
+title: Settings — the full tab map
+description: Where every setting lives — the 16-tab settings surface in plain language.
+sidebar:
+  order: 14
+---
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+<strong>Settings</strong> in the sidebar opens a tabbed page with 16 tabs, grouped into 5 sections: <strong>Workspace</strong>, <strong>Reports</strong>, <strong>Delivery</strong>, <strong>Account</strong>, and <strong>Admin</strong>. Most tabs need Owner or Admin role. Jump straight to any tab with <code>?tab=&lt;id&gt;</code>.
+</aside>
+
+## The full map
+
+| Group | Tab | URL slug (`?tab=`) | What it controls |
+|---|---|---|---|
+| **Workspace** | General | `general` | Workspace name, description, timezone, locale, display name, session timeout |
+| **Workspace** | Branding | `branding` | Logo, primary + accent colors, typography, favicon |
+| **Workspace** | Team | `team` | Members, invites, role changes, removal |
+| **Reports** | Templates | `templates` | Brief templates, section managers, cadences, approval per template |
+| **Reports** | Email Layout | `email-templates` | Email wrapper templates (Waypoint blocks) |
+| **Reports** | Approvals | `approvals` | Workspace approval policy + per-client overrides |
+| **Reports** | Scheduling | `scheduled-reports` | Recurring brief schedules (daily / weekly / monthly) |
+| **Delivery** | Email Settings | `email` | Sender name / address / signature, lock toggle |
+| **Delivery** | Media Library | `assets` | Uploaded images and assets referenced by templates |
+| **Delivery** | Notifications | `notifications` | Your in-app + email notification preferences |
+| **Account** | Client Portal | `portal` | Portal access tier default, token expiry, branding |
+| **Account** | Security | `security` | Workspace-wide MFA enforcement, email domain whitelist, API keys |
+| **Account** | Billing | `billing` | Stripe Customer Portal entry, plan, add-ons |
+| **Account** | Integrations | `integrations` | Google / Slack / ClickUp credentials + Brief integrations mappings |
+| **Admin** | Logging | `audit` | Pointer to the `/activity` page (Advanced tab) |
+| **Admin** | Danger Zone | `danger` | Workspace deletion |
+
+**Who sees what:** Owner and Admin see everything. Members only see Notifications (their own preferences). Only the Owner can use Danger Zone.
+
+## Tab behavior
+
+**Direct link any tab** with `app.sendbriefs.com/settings?tab=<id>`. For example, `?tab=email-templates` jumps straight to Email Layout.
+
+**Role gating is enforced on the server.** Typing a tab URL won't get you into a tab your role can't see.
+
+**Tab IDs vs display labels** differ in places:
+
+| URL slug | Display label |
+|---|---|
+| `email-templates` | Email Layout |
+| `assets` | Media Library |
+| `audit` | Logging |
+| `scheduled-reports` | Scheduling |
+| `email` | Email Settings |
+| `danger` | Danger Zone |
+
+## What's NOT in Settings
+
+A few things people expect in Settings live elsewhere:
+
+- **/profile** — your personal account: name, password, your MFA, your active sessions. Sidebar avatar → Profile.
+- **/notifications** — your in-app notification center (the bell-icon view). The Settings → Notifications tab is for *preferences*; the standalone page is for the *list*.
+- **/activity** — workspace activity feed, email delivery, raw audit log. Settings → Logging links here.
+- **/team** — workspace member directory page (with per-member detail). Settings → Team is the management surface; /team is the directory view.
+- **/workspaces** — the workspace switcher (and the place to create a new workspace).
+- **/help** — support / help links.
+
+## Permission quick reference
+
+| Action | Required permission |
+|---|---|
+| View most settings tabs | `settings:read` (any member can see Notifications) |
+| Edit most settings | `settings:update` (Owner or Admin) |
+| Access Billing | `billing:read` (Owner or Admin) |
+| Update Billing | `billing:update` (Owner or Admin) |
+| Approve briefs | `reports:approve` (Owner or Admin) |
+| Manage integrations | `integrations:update` (Owner or Admin) |
+| Workspace deletion | `workspace:delete` (Owner only) |
+
+## See also
+
+- [Workspaces & teams](/features/workspaces/) — the workspace concepts these settings sit on
+- [Brief templates](/features/templates/) — the Templates tab in depth
+- [Approval policy](/features/approvals/) — the Approvals tab in depth
+- [Scheduled reports](/features/scheduled-reports/) — the Scheduling tab in depth
+- [Email Layout](/features/email-layout/) — the email wrapper tab in depth
+- [Activity & audit log](/features/activity/) — where the Logging tab points

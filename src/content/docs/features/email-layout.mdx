@@ -1,0 +1,126 @@
+---
+title: Email Layout
+description: Settings → Email Layout — the email wrapper that surrounds your brief content when it sends.
+sidebar:
+  order: 11
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+The email layout is the visual chrome that wraps a brief in its email: header, greeting, the brief content, signature, footer. Built with the Waypoint email block builder. You can have multiple layouts per workspace, and each template picks which one to use.
+</aside>
+
+## What email layout is
+
+When a brief sends, the email body is not just the rendered brief — it's the brief plus a wrapper. The wrapper is the **email layout**: a set of blocks designed to render in email clients like Outlook and Gmail, before and after the brief content.
+
+You build email layouts the same way you build briefs — in a block editor — but with email-optimized blocks:
+
+- **Header** (`email_header`) — top-of-email banner (logo, brand bar).
+- **Greeting** (`email_greeting`) — dynamic greeting line (e.g., "Hi" plus the contact's first name).
+- **Report content slot** (`email_report_content`) — the slot where the rendered brief HTML gets embedded.
+- **Signature** (`email_signature`) — your sign-off block.
+- **Footer** (`email_footer`) — bottom-of-email content (legal, unsubscribe link, "Sent via SendBriefs" if applicable).
+
+Plus the standard Waypoint email blocks: text, image, button, divider, spacer, columns. All built to render reliably across email clients (Outlook, Gmail, Apple Mail, mobile).
+
+## Where this lives
+
+**Settings → Email Layout**. The tab shows your workspace's layouts as a card grid. Each card has:
+
+- Layout name.
+- Preview thumbnail.
+- Edit / Delete actions.
+- "Default" badge if this is the workspace default.
+
+## Creating a layout
+
+Click **Create Template**. You'll land in the email block builder:
+
+1. Name the layout (max 200 chars).
+2. Add blocks in order. A typical layout starts with `email_header`, has `email_greeting`, then `email_report_content` (the slot for the brief), then `email_signature` and `email_footer`.
+3. Style each block — colors, padding, fonts, image URLs.
+4. Save.
+
+The new layout shows up in the layout-picker on every template.
+
+## Picking a layout
+
+Each brief template references one email layout. Open **Settings → Templates → edit a template → email layout dropdown**. Pick the layout you want briefs from this template to use.
+
+If a template has no layout selected, the workspace default layout is used. If the workspace has no default, a minimal SendBriefs-styled fallback is used.
+
+## The "Email myself" preview
+
+Each layout has a preview drawer with an **Email myself** button. Click it to send a sample of the layout to your own inbox.
+
+The sample uses **placeholder content** — it's not your actual brief. The point is to verify the layout itself: branding, fonts, button styles, header/footer rendering. Use this whenever you change a layout to check Outlook rendering, mobile rendering, and any other inbox quirks.
+
+> There's no "send test of a real brief to me" button. To preview an actual brief in your inbox, use the Email Layout preview for the wrapper, and a smoke-test client (a fake client with your own email) for the brief content.
+
+## Block-by-block tour
+
+### `email_header`
+The top banner. Typically holds your logo and brand color bar. Common edits:
+
+- Background color.
+- Logo image (paste a URL or pick from Media Library).
+- Optional tagline.
+
+### `email_greeting`
+The "Hi [name]" line. Supports placeholder tokens (wrap each in curly braces in the editor):
+
+- `contact.first_name` — recipient's first name (parsed from the contact's full name).
+- `contact.full_name` — recipient's full name.
+- `contact.email` — recipient's email (rarely used in greetings).
+
+> **Plan for missing data.** Placeholders render as empty if they can't resolve. So "Hi `contact.first_name`, here's your..." can render as "Hi , here's your..." for contacts with no first name. Two options:
+>
+> 1. Use `contact.full_name` instead — it's always set.
+> 2. Write a greeting that reads well even with the placeholder empty.
+
+### `email_report_content`
+The slot for the brief's rendered HTML. You don't edit this directly — it's a placeholder that the renderer fills with the brief's section content at send time.
+
+You can change the surrounding padding, background, and width, but not the content within.
+
+### `email_signature`
+The sign-off block. Standard text + image (signature image / handwritten signature).
+
+Templates can override the layout's signature. The workspace can lock this — see [Email Settings](/features/notifications/#email-settings-settings--email).
+
+### `email_footer`
+The bottom block. Typically holds:
+
+- "Sent via SendBriefs" branding (suppressed automatically if the **White-label** add-on is active).
+- Unsubscribe link (required by anti-spam law; can't be removed).
+- Workspace address (if you've added one to Settings → General).
+
+## Default layout
+
+One layout can be marked the **workspace default**. The default is used by any template that doesn't specify its own layout.
+
+Mark a default by editing the layout and toggling "Default" on. Only one default at a time.
+
+## Multi-layout patterns
+
+Common multi-layout setups:
+
+- **Default + VIP** — your standard layout plus a more polished one for premium clients. Each VIP client's template points at the VIP layout.
+- **Internal + External** — one stripped-down layout for internal briefs (e.g., team status), one fully branded for clients.
+- **Whitelabel variants** — different headers/footers per client brand if you operate multiple agency sub-brands inside one workspace.
+
+## Common gotchas
+
+- **Editing a layout affects future sends, not past ones.** Sent briefs are frozen with the layout that rendered them. Editing doesn't retroactively change recipient inboxes (the email already shipped) or even the brief's portal view (which uses the original render).
+- **Email block builder is not the same as the brief block editor.** The `/` block picker has a different set of blocks here — optimized for email clients.
+- **Some blocks render differently in Outlook.** Test in real Outlook (especially Outlook Desktop on Windows) if any of your recipients use it. Use the Email myself button.
+- **The "Email myself" sample uses placeholder content.** It doesn't render an actual brief. To preview a real brief end-to-end, use a smoke-test client.
+
+## See also
+
+- [Notifications & delivery → Email Settings](/features/notifications/#email-settings-settings--email) — sender name, address, signature
+- [Brief templates](/features/templates/) — where templates point at layouts
+- [Recipient experience](/features/recipient-experience/) — what the rendered email looks like to a recipient

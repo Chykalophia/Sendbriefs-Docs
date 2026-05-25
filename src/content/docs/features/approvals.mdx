@@ -1,0 +1,122 @@
+---
+title: Approval policy
+description: Settings → Approvals — how the workspace and per-template approval requirements resolve, and what each setting does.
+sidebar:
+  order: 9
+---
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Approvals can be required at the <strong>workspace</strong> level (default) or per <strong>template</strong>. Three settings: <strong>off</strong> (no approval), <strong>on</strong> (required), <strong>enforced_on</strong> (required and can't be bypassed). If either workspace or template says it's required, it's required. Owners and Admins can approve. There's no per-client approver assignment yet.
+</aside>
+
+## Where this lives
+
+Approval configuration lives at **Settings → Approvals**. The page lets you:
+
+- Set the workspace-wide default policy.
+- Add per-client overrides (some clients require approval, others don't).
+- See the resolved policy for any client at a glance.
+
+Per-template settings live on each template (Settings → Templates → edit a template → Approval requirement).
+
+## The three values
+
+Approval requirement is a three-value setting, not a boolean:
+
+### `off`
+Approval is not required. The author can move a brief from `draft` → `sent` directly. The `pending_approval` state can still be entered manually if the author wants a review, but it's optional.
+
+### `on`
+Approval is required. Briefs must reach the `approved` state before they can be sent. This is the standard "we always want a second pair of eyes" setting.
+
+### `enforced_on`
+Approval is strictly enforced. Same as `on`, but the UI removes any "force send" buttons that might let an author sneak around it. Use when you have compliance or audit requirements.
+
+## Workspace AND template both checked — either says yes, approval is required
+
+Approval comes from two sources:
+
+- **Workspace setting** (Settings → Approvals).
+- **Template setting** (Settings → Templates → per-template approval requirement).
+
+Approval is required if **either** source is `on` or `enforced_on`. If both are `off`, approval is optional.
+
+So you can have a workspace where most briefs send without approval (workspace = `off`) but specific high-stakes templates require it (template = `on`). Or the opposite — workspace defaults to required, with one fast-path template that opts out.
+
+## Per-client overrides
+
+The Approvals page lets you add **per-client overrides** for the workspace setting. Open the page, add a client to the override list, set the override. The override applies to all briefs for that client, regardless of which template they use.
+
+This is the closest thing to per-client approver routing today. There's no UI to assign specific people as approvers for specific clients — the override controls whether approval is required, not who approves.
+
+## Who can approve
+
+Approval authority follows workspace roles:
+
+| Role | Can approve? |
+|---|---|
+| **Owner** | Yes |
+| **Admin** | Yes |
+| **Member** | No (by default) |
+
+There's no per-template approver assignment, no per-client approver assignment, and no granular `reports:approve` permission grant in the UI in the current preview. If you need a specific person to approve specific briefs, the closest workaround is convention plus the audit log.
+
+## What submission and approval actually do
+
+The state machine (also documented in [Edits & approvals](/flows/edits-and-approvals/)):
+
+```
+draft ───► pending_approval ───► approved ───► sent
+              │      ▲
+              ▼      │
+         changes_requested
+```
+
+When an approver clicks **Approve**:
+
+- Brief state → `approved`.
+- An audit log entry records the approver, timestamp, and (optionally) a comment.
+- A notification fires to the author (`report_approved`).
+- The brief becomes sendable.
+
+When an approver clicks **Request Changes**:
+
+- Brief state → `changes_requested`.
+- The approver enters a reason / note (rich text supported).
+- A notification fires to the author (`report_rejected`).
+- The author can revise and resubmit (back to `pending_approval`). Or they can discard the changes and start the section over (back to `draft`).
+
+## Approval comments and history
+
+Every state transition is logged. The brief's history surfaces:
+
+- Who submitted (and when).
+- Who approved (and when, with optional comment).
+- Who requested changes (and when, with reason).
+- Who sent (and when, with recipient list).
+
+For workspace-wide approval reporting (e.g., "show me every brief approved by Sam last quarter"), the audit log at `/activity?tab=advanced` has filters by action type, resource, user, and date range.
+
+## Scheduled reports and approval
+
+When a [scheduled report](/features/scheduled-reports/) fires:
+
+- If the template requires approval (`on` or `enforced_on`), the brief is created in `draft` state and submitted for approval. It won't send until an approver acts.
+- If the template doesn't require approval, the brief is created and auto-sent on the schedule.
+
+This means a scheduled monthly brief on an `enforced_on` template effectively becomes: "create a draft on the schedule, then I review and approve it, then it sends." The schedule sets the cadence; approval still gates the send.
+
+## Common gotchas
+
+- **OR semantics surprise people.** If your workspace is `off` but a template is `on`, briefs from that template require approval. To fully disable approval, set both to `off`.
+- **`enforced_on` vs `on` is subtle.** Both require approval before send. The difference is whether the author can sneak around it via a "force send" affordance. Most teams want plain `on`.
+- **No per-client approver assignment.** If you need "Sam approves all Acme briefs," promote Sam to Admin and rely on convention + the audit log.
+- **Approval doesn't auto-send.** Once approved, the brief still needs someone to click Send. For automated send-after-approval, use scheduled reports.
+- **Asking for changes resets the cycle.** Past approvals don't carry forward to the next submit — each new submission starts fresh. If you need a "this brief was rejected twice before approval" record, check the audit log.
+
+## See also
+
+- [Edits & approvals](/flows/edits-and-approvals/) — the recipe for using the approval workflow well
+- [Briefs → state machine](/features/briefs/#brief-state-machine) — the underlying transitions
+- [Scheduled reports](/features/scheduled-reports/) — how approval interacts with auto-send

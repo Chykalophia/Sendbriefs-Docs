@@ -14,40 +14,42 @@ Most agencies need one workspace. It holds members, clients, integrations, billi
 
 ## Workspace settings
 
-Open **Settings** in the sidebar. The settings page has **5 groups, 16 tabs** total. Most workspace-management work happens in these:
+Open **Settings** in the sidebar. The settings page is a single tabbed page with **16 tabs**, grouped into 5 sections in the side navigation:
 
 **Workspace group:**
 
-- **General** — workspace name, agency details, default layout mode (`strict` / `flexible`).
-- **Branding** — logo, primary + accent colors.
-- **Team** — invite members, change roles, remove members.
+- **General** (`general`) — workspace name, description, timezone, locale, display name, session timeout.
+- **Branding** (`branding`) — logo, primary + accent colors, typography, favicon.
+- **Team** (`team`) — invite members, change roles, remove members.
 
 **Reports group:**
 
-- **Templates** — the saved brief templates this workspace uses.
-- **Approvals** — per-workspace approval policy.
-- **Scheduling** — recurring brief schedules (per-client, frequency, time).
-- **Email Layout** — the email wrapper template (subject, header, footer) used when briefs send.
+- **Templates** (`templates`) — the saved brief templates this workspace uses, with the Section Manager for each.
+- **Email Layout** (`email-templates`) — the email wrapper template (Waypoint blocks).
+- **Approvals** (`approvals`) — per-workspace approval policy with per-client overrides.
+- **Scheduling** (`scheduled-reports`) — recurring brief schedules (per-client, frequency: daily / weekly / monthly).
 
 **Delivery group:**
 
-- **Email Settings** — custom-domain / sender setup.
-- **Media Library** — shared images and assets referenced by templates.
-- **Notifications** — per-event in-app and email toggles for the signed-in user.
+- **Email Settings** (`email`) — sender name/address, signature, lock toggle.
+- **Media Library** (`assets`) — shared images and assets referenced by templates.
+- **Notifications** (`notifications`) — per-event in-app and email toggles for the signed-in user.
 
 **Account group:**
 
-- **Client Portal** — portal customization (per-workspace).
-- **Security** — workspace-wide MFA enforcement.
-- **Billing** — subscription management via the Stripe Customer Portal.
-- **Integrations** — OAuth connections + Brief integrations mappings.
+- **Client Portal** (`portal`) — portal access tier, token expiry, branding.
+- **Security** (`security`) — workspace-wide MFA enforcement, email domain whitelist, API keys.
+- **Billing** (`billing`) — subscription management via the Stripe Customer Portal, add-on purchasing.
+- **Integrations** (`integrations`) — Google / Slack / ClickUp credentials + Brief integrations mappings.
 
 **Admin group:**
 
-- **Logging** — redirects to the [Activity page](#audit-log--activity) where the audit log lives.
-- **Danger Zone** — workspace deletion (Owners only).
+- **Logging** (`audit`) — a link card pointing at the dedicated [Activity page](#audit-log--activity); the audit log lives there.
+- **Danger Zone** (`danger`) — workspace deletion (Owners only).
 
-The tabs you see depend on your role: most settings require `settings:update` permission (Owner or Admin); Billing requires `billing:read`; Danger Zone requires `workspace:delete`.
+The tabs you see depend on your role. Most settings require Owner or Admin. Billing requires Owner or Admin. Only the Owner can use Danger Zone.
+
+The IDs in parentheses are the `?tab=` URL parameters if you want to link directly to a tab — e.g., `app.sendbriefs.com/settings?tab=billing`.
 
 ## Member roles
 
@@ -96,19 +98,20 @@ You can't reduce the workspace to zero Owners. The UI will refuse.
 Two layers:
 
 ### Per-user MFA
-Any user can enable TOTP-based MFA for themselves from the sidebar's **Profile → Security** page (route: `/profile/security`). Note: this lives on the dedicated Profile page, not inside Settings. Strongly recommended for anyone with Owner or Admin access.
+Any user can enable MFA (authenticator-app codes; the 6-digit ones that refresh every 30 seconds) from their **Profile** page (sidebar avatar → Profile). Strongly recommended for anyone with Owner or Admin access. Enrollment generates 10 one-time backup codes — save these somewhere safe.
 
-First-time enrollment (when no MFA factor exists yet) also has a top-level flow at `/mfa-enroll` — Settings → Account → Security can require this for everyone in the workspace.
+First-time enrollment lives at `/mfa-enroll`. The system sends you there if workspace MFA is enforced and you haven't enrolled yet.
 
 ### Workspace-enforced MFA
-Owners can require every member to have MFA enabled. From **Settings → Account → Security**, flip on **Require MFA**.
+Owners can require every member to have MFA enabled. From **Settings → Security**, flip on **Require MFA**.
 
 Once enforced:
 
-- Existing members who don't have MFA enabled will be required to enroll TOTP at next login before they can do anything else.
-- New invitees go through the same gate on first login.
+- The workspace stores the moment enforcement started.
+- Members without MFA get a **7-day grace period**. They see a banner warning them but can still use the dashboard.
+- After 7 days, members without MFA are routed to `/mfa-enroll` and can't access the dashboard until they enroll.
 
-This is a one-way switch from a security standpoint — turning it off again later is allowed, but members who enrolled stay enrolled (they have to disable per-user).
+Turning the toggle off again is allowed, but members who already enrolled stay enrolled (they have to disable per-user).
 
 ## Branding
 
@@ -139,11 +142,11 @@ To switch workspaces, click the workspace name at the top of the sidebar to open
 
 ## Audit log / Activity
 
-Every action that matters is logged: member changes, integration connect/disconnect, brief send events, role changes, billing changes.
+Every meaningful action is logged: member changes, integration connections, brief sends, role changes, billing — 50+ types in all.
 
-The audit log surfaces on the **Activity** page in the sidebar (`/activity`), with an **Advanced** tab for the full event stream. Owners and Admins can filter and export.
+The audit log surfaces on the **Activity** page in the sidebar (`/activity`), with three tabs: **Workspace Activity**, **Email Delivery**, and **Advanced** (the raw event stream with filters by action type, resource type, user, and date range).
 
-Settings → Admin → Logging is a pointer that redirects to `/activity?tab=advanced` — same destination.
+Settings → Logging is a link card that opens `/activity?tab=advanced` — it's not an automatic redirect, you click the link.
 
 ## Common gotchas
 

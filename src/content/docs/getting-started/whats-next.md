@@ -106,17 +106,20 @@ This is internal team approval — for the workflow where your *client* approves
 
 ### Set up ClickUp ambient ingest
 
-If your team tracks brief inputs in ClickUp, wire one ClickUp list to a brief template under **Settings → Integrations → Brief integrations**. New items in the list auto-append into the matching draft brief.
+If your team tracks brief inputs in ClickUp, you can wire it up yourself:
+
+1. **Settings → Integrations** → **Integrations** card → **Connect** on the ClickUp tile. Paste a personal API token from ClickUp's Settings → Apps page (tokens start with `pk_`).
+2. **Settings → Integrations** → **Brief integrations** card → **Add mapping**. Pick a brief template + the ClickUp integration + the source selector. New items in the list auto-append into the matching draft brief.
 
 This is the one data-ingest integration that actually flows today.
 
-[Integrations → ClickUp →](/features/integrations/#clickup-via-brief-integrations)
+[Integrations → ClickUp →](/features/integrations/#clickup)
 
 ### Enforce MFA for the whole workspace
 
-If your team handles client data, requiring multi-factor authentication is table stakes. From **Settings → Account → Security**, flip on **Require MFA**. Members will be required to enroll TOTP at next login (via `/mfa-enroll`).
+If your team handles client data, requiring multi-factor authentication is table stakes. From **Settings → Security**, flip on **Require MFA**. Members get a **7-day grace period** with a banner reminding them to enroll; after that, they're blocked from the dashboard until they set up TOTP via `/mfa-enroll`.
 
-[Workspaces & teams → Security →](/features/workspaces/#security)
+[Workspaces & teams → Multi-factor authentication →](/features/workspaces/#multi-factor-authentication)
 
 ### Tune per-client branding
 

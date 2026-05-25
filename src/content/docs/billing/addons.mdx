@@ -1,0 +1,103 @@
+---
+title: Add-ons — white-label & custom domain
+description: Two paid add-ons that change how briefs and the portal look to your clients.
+sidebar:
+  order: 5
+---
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Two add-ons live in <strong>Settings → Billing → Add-ons</strong>. <strong>White-label</strong> removes "Sent via SendBriefs" branding from emails and the portal. <strong>Custom domain</strong> serves the recipient portal from your own subdomain (e.g., <code>briefs.youragency.com</code>). Both are à la carte on paid plans, and bundled with Enterprise.
+</aside>
+
+## What add-ons are
+
+Add-ons are paid features that live alongside your subscription plan. Plan tiers gate big chunks of functionality and limits. Add-ons toggle specific brand-presentation features.
+
+Two add-ons exist today:
+
+- **White-label** (`white_label`).
+- **Custom domain** (`custom_domain`).
+
+Both are workspace-scoped: enabling them affects every brief and portal page in the workspace.
+
+## White-label
+
+**What it changes:**
+
+- The **"Sent via SendBriefs"** footer line is removed from outgoing emails.
+- SendBriefs branding is removed from portal headers and footers.
+- The recipient experience appears entirely as your agency.
+
+**What it doesn't change:**
+
+- The portal URL is still on `app.sendbriefs.com` unless you also have the Custom domain add-on.
+- The "from" address is still your workspace email (e.g., `reports@sendbriefs.com` or whatever's configured at Settings → Email Settings) — White-label doesn't change sender domains.
+- Internal app pages (everything inside the dashboard) still show SendBriefs branding to logged-in users.
+
+White-label is the right add-on for agencies that want to fully white-label the **recipient-facing** surface without using their own domain.
+
+## Custom domain
+
+**What it changes:**
+
+- The recipient portal is served from your subdomain — e.g., `briefs.youragency.com` instead of `app.sendbriefs.com/portal/...`.
+- Portal URLs embedded in emails now use the custom subdomain.
+- Combined with White-label, the recipient experience has no SendBriefs surface area at all.
+
+**What you need to set up:**
+
+- A subdomain you control (typically `briefs.` or `reports.` of your domain).
+- A DNS record (CNAME) pointing the subdomain at SendBriefs' portal.
+- TLS certificate provisioning (automatic once DNS resolves correctly).
+
+**The current setup path:** purchase the add-on in Settings → Billing, then **email support with your desired subdomain**. Custom domain DNS configuration isn't fully self-serve yet — support wires up the routing and certificate after you confirm the DNS record.
+
+## Pricing and bundling
+
+- **Enterprise tier:** both add-ons are bundled — no extra charge.
+- **Paid plans below Enterprise:** both are à la carte. Pricing visible in Settings → Billing → Add-ons (subject to the same Founders Circle preview pricing caveats as plans themselves).
+- **Trial / free tier:** add-ons are not purchasable on these tiers — upgrade to a paid plan first.
+
+When you upgrade to Enterprise, any à la carte add-ons you previously bought become bundled (and you stop paying separately for them).
+
+## How to purchase
+
+1. **Settings → Billing → Add-ons** section.
+2. Click **Purchase** on the add-on you want.
+3. Stripe Checkout opens with the prorated charge.
+4. Confirm.
+5. The add-on activates immediately (no waiting for the next billing cycle).
+
+Both add-ons are recurring — they renew with your subscription.
+
+## How to cancel
+
+1. **Settings → Billing → Manage Subscription** → opens Stripe Customer Portal.
+2. Under your subscription, remove the add-on line item.
+3. Confirm.
+
+Removal takes effect at the end of the current billing cycle (you keep the add-on for the rest of the period you paid for).
+
+## What happens to old briefs when an add-on is added or removed
+
+Briefs already sent are **frozen** with the branding state at the moment they shipped:
+
+- A brief sent before you bought White-label still shows "Sent via SendBriefs" in the recipient's inbox (the email was already delivered).
+- The portal view for that brief, however, re-renders on each visit — so it picks up the new White-label state.
+- A brief sent before you set up a Custom domain still has the original `app.sendbriefs.com` portal URL embedded in the recipient's email. New sends will use the custom subdomain.
+
+**Summary:** White-label changes show up immediately, even on past briefs' portal pages. Custom domain only applies to new sends — past emails keep their old portal URL.
+
+## Common gotchas
+
+- **Custom domain requires DNS access.** If you don't control DNS for the subdomain, you can't set this up. Plan around your IT team's lead time.
+- **Removing an add-on doesn't auto-revoke for in-flight briefs.** Cancelling Custom domain mid-cycle keeps it active until cycle end. Briefs in `draft` or `pending_approval` will still send with the custom domain until then.
+- **Plan downgrades don't auto-cancel add-ons.** If you downgrade from a tier where add-ons were bundled to one where they're à la carte, you'll start being charged for them separately. Cancel them in the Customer Portal if you don't want that.
+- **White-label is workspace-wide.** You can't toggle it on for one client and off for another. For that pattern, run different agency brands in separate workspaces.
+
+## See also
+
+- [Pricing & plans](/billing/plans/) — what each tier includes and where add-ons fit
+- [Managing your subscription](/billing/managing-subscription/) — Stripe Customer Portal
+- [Recipient experience](/features/recipient-experience/) — what changes for the client when these add-ons are active

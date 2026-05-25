@@ -1,0 +1,165 @@
+---
+title: The recipient experience
+description: What your clients actually see when a brief arrives — email, portal, contact hub, expired links, access tiers, and what they can and can't do.
+sidebar:
+  order: 7
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Recipients get an email with the brief inline, plus a "View in portal" button. The portal opens via a private link — no login. Three access tiers control how strict that link is: <strong>public</strong> (link is enough), <strong>signed</strong> (expiring link), <strong>verified</strong> (must enter a 6-digit code emailed to them). Each contact also gets a <strong>contact hub</strong> link that lists every brief they've received.
+</aside>
+
+## What recipients see in their inbox
+
+When a brief sends, each recipient gets one of these:
+
+- **Individual mode** — a personal email; only their address is in `To:`. Each recipient gets a personalized portal link.
+- **Shared mode** — all recipients on the `To:` line; one shared portal link goes to everyone.
+- **Auto mode (default)** — single recipient → individual; 2+ recipients → shared. The workspace setting can be overridden per client or per brief.
+
+The email itself is the brief content rendered inline (via the email layout you chose), wrapped in your branding:
+
+- **From:** the workspace sender name + address (e.g., `Acme Reports <reports@acme.com>`). Templates can override these unless workspace email settings are locked.
+- **Subject:** typically `{client name} — {brief title}` (configurable per email layout).
+- **Body:** the rendered brief, plus the layout's greeting, signature, and footer blocks.
+- **CTA button:** "View in portal" — opens the hosted portal page.
+- **Footer:** "Sent via SendBriefs" (suppressed if the **White-label** add-on is active), plus a per-recipient unsubscribe link required by anti-spam law.
+
+## The hosted portal
+
+The portal shows the same content as the email, in a branded web view. It adds a PDF download button. Sections-based briefs also get a table of contents sidebar.
+
+The portal is hosted on the SendBriefs app domain by default. With the **Custom domain** add-on, you can serve it from your own subdomain (e.g., `briefs.youragency.com`).
+
+Three portal URLs exist:
+
+### `/portal/r/[token]` — individual brief link
+The per-recipient token. Each recipient gets a unique one. Opens that recipient's view of one specific brief. Tracks view counts per recipient.
+
+Recipients with this URL can:
+
+- Read the rendered brief in the browser.
+- Download as PDF.
+- Print.
+- Click through any links in the content.
+
+They **cannot** edit, comment, see other recipients, or browse other briefs.
+
+### `/portal/s/[token]` — shared brief link
+The shared-mode token. Same recipient experience as `/r/`, but the same link works for everyone CC'd on the brief (no per-recipient binding). Useful when distribution mode is `shared` and you'd rather have one URL.
+
+### `/portal/c/[contactToken]` — contact hub
+The hub for one specific contact. Lists every brief ever sent to them, in reverse-chronological order. Each entry links into the brief's individual portal view.
+
+This URL is included in every brief sent to that contact, so they can navigate their own history. The hub is the closest thing to a "client login" the product has. It's still a private link, not a username/password account.
+
+> **Security model.** Portal URLs work like "whoever has the link" — there's no password check. If a recipient forwards the link, anyone with that URL has the same access. Treat portal URLs the way you'd treat a Dropbox share link. For sensitive content, use the `verified` tier (below).
+
+## Portal access tiers
+
+The **Settings → Client Portal** tab sets the workspace-wide default tier. The tier picker is gated to **Pro plan or higher** — free/starter/trial workspaces see a locked card and stay on the default tier.
+
+### `public`
+The token in the URL is enough. No further verification.
+
+- Cleanest UX for recipients.
+- Right for low-sensitivity reporting.
+
+### `signed` (the default)
+Token is signed and expiring. After the configured expiry (7 / 30 / 90 / 365 days, or never), the portal page becomes inaccessible — recipients see `/portal/expired` instead.
+
+- Each recipient gets a unique signed link.
+- Right for most agencies — better than `public`, no extra friction for recipients.
+
+### `verified`
+Highest tier. Recipients must prove they control the email the brief was sent to before the portal renders.
+
+The mechanism — **one method**, no toggles:
+
+1. Recipient clicks their portal link.
+2. The verify card appears: "To access this report, please verify your email address." (We already know which email — they don't have to type it.)
+3. Recipient clicks **Send verification code**.
+4. They get an email with the subject "Your verification code: 123456".
+5. The 6-digit code expires in **10 minutes**.
+6. Recipient enters the code in the portal. Single-use; they get 5 attempts before they need to request a new code.
+7. On success, the portal unlocks for that browser for **24 hours**. After 24 hours, they verify again.
+
+Right for board-facing reports, regulated industries, or any client with explicit confidentiality requirements.
+
+> **Two things worth knowing about verified tier:**
+>
+> - **Per-client overrides aren't editable yet.** The database supports them, but there's no UI to set them. Use the workspace default for now.
+> - **Shared-mode briefs can't use verified tier.** Verified only works when we can identify the individual recipient. Shared sends fall back to `signed`.
+
+## Recipient-side actions and non-actions
+
+Recipients can:
+
+- Read the brief content.
+- Download a PDF.
+- Print.
+- Open links inside the brief.
+- (In contact hub) browse their own history of sent briefs.
+- Unsubscribe — removes them from future sends in this workspace.
+
+Recipients **cannot**:
+
+- Edit any content.
+- Comment on the brief or send feedback through the portal (there's no client-side comment surface in the current preview).
+- Log in as a user (the `CLIENT` role exists for portal sessions but has no dashboard access).
+- Access other clients' briefs.
+- See contributor names or internal metadata.
+- Download source data (only the rendered PDF).
+
+If they want to ask a question or request changes, they reply to the email — that goes to the workspace sender address.
+
+## Expired links
+
+A token expires when:
+
+- Its time-based expiry passes (`signed` or `verified` tiers with non-`never` expiry).
+- A `signed` single-use token has been used.
+- The workspace is deleted or suspended (cancelled subscription past data-retention window).
+
+The recipient sees `/portal/expired` — a simple page that explains the link is no longer valid and points them to your workspace email for help. They can't self-serve a new link.
+
+If you need to re-issue access:
+
+- Re-send the brief from the sent brief's menu. The new send generates fresh tokens.
+- Or for a contact hub link, ask support for a re-issue (no self-serve UI yet).
+
+## Bounces, unsubscribes, and suppression
+
+The recipient's inbox is the source of truth on whether they actually got the brief. The brief detail page surfaces what happened — but a few things happen automatically:
+
+- **Hard bounce** (invalid address, mailbox doesn't exist) — the contact is auto-suppressed via SendGrid's event webhook. They won't get future briefs until you manually restore them.
+- **Spam complaint** — the contact is auto-suppressed. Same restoration path.
+- **Soft bounce** (mailbox full, temporary failure) — no suppression; SendGrid retries.
+- **Unsubscribe** — the recipient clicks the unsubscribe link in the email footer. They're added to the suppression list, scoped to the workspace.
+
+Suppressed contacts are visible in the contacts list with a "Suppressed" badge. To restore, click the contact → restore from the suppression list.
+
+## Branding the recipient view
+
+Two branding layers can apply to the recipient view:
+
+- **Workspace branding** — logo, primary + accent colors, typography (Settings → Branding). This is the default for any client that doesn't have its own branding.
+- **Per-client branding** — set a logo, primary color, accent color, brand mark, brand typography, and custom subdomain on the client record. When set, these override workspace branding for that client's briefs and portal.
+
+> **White-label note.** The "Sent via SendBriefs" footer text is suppressed when the **White-label** add-on is active on the workspace. The **Custom domain** add-on lets the portal serve from your own subdomain. Both add-ons are bundled with the Enterprise tier; à la carte on lower tiers.
+
+## Common gotchas
+
+- **Recipients don't see contributor names.** Even if three people contributed to the brief, the recipient sees one cohesive brief from the workspace sender.
+- **The contact hub link is a token, not a login.** If a recipient bookmarks the hub URL, anyone with that URL can see all their briefs. Don't share contact hub URLs broadly.
+- **Verified-tier codes only go to the email on the contact record.** A colleague who receives a forwarded portal link can't verify — the code email goes to the original recipient, not them.
+- **Soft bounces don't suppress.** If briefs keep failing to a "mailbox full" address, manually flip `receive reports` off on that contact — SendGrid won't auto-suppress them.
+
+## See also
+
+- [Briefs](/features/briefs/) — what's in the brief that gets rendered
+- [Clients](/features/clients/) — per-client portal settings and branding overrides
+- [Notifications & delivery](/features/notifications/) — the agency-side notifications + email layout settings

@@ -9,18 +9,21 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-For every sent brief, you get per-recipient delivery status (delivered, opened, clicked, bounced) and portal view counts. Treat opens as best-effort; treat clicks and portal views as the strongest engagement signal. Data <em>inside</em> briefs comes from connected integrations — see <a href="/features/integrations/">Integrations</a>.
+Sent briefs show two views: aggregate engagement (opens, open rate, sent time) and per-recipient delivery (who got it, who opened). Clicks are tracked but not shown in the recipient list — open the per-recipient detail to see them. Treat opens as best-effort. Data <em>inside</em> briefs comes from connected integrations — see <a href="/features/integrations/">Integrations</a>.
 </aside>
 
-> Why this page is called "Reports & data" — the app sidebar uses **Reports** as the label for the briefs themselves (we use "brief" in the docs because that's the artifact your client receives). This page is about the *analytics around* briefs, not the brief artifact. For how briefs are built and sent, see [Briefs](/features/briefs/).
+> The sidebar calls these "Reports" — we say "brief" in the docs. This page covers the analytics around briefs, not the brief artifact itself. For how briefs are built and sent, see [Briefs](/features/briefs/).
 
 ## What you can see about a sent brief
 
-Open any brief in the `sent` state. The top of the page shows the **engagement bar** — a single row summarising activity across every recipient, with a per-recipient breakdown below.
+Open any brief in the `sent` state. Two surfaces summarise what happened:
 
-<Placeholder type="screenshot" caption="Engagement bar on a sent brief — total delivered / opened / clicked counts, then a per-recipient table" />
+- **Engagement bar** (top of the brief) — small pills showing cadence, comment count, open count, open rate, and "sent X ago."
+- **Delivery card** (below the brief content) — recipient-by-recipient table with Delivered / Opened icons per row, plus aggregate Recipients / Delivered / Opened totals.
 
-Each recipient has four signals:
+<Placeholder type="screenshot" caption="Engagement bar (top) + delivery card (recipient table with delivered/opened icons)" />
+
+The signals you can read:
 
 ### Delivered
 SendGrid accepted the email and forwarded it to the recipient's mail server. Usually logged within 30 seconds of send.
@@ -28,35 +31,31 @@ SendGrid accepted the email and forwarded it to the recipient's mail server. Usu
 **Reliable.** If "Delivered" is green, the message reached the mail server. Whether the user reads it is a different question.
 
 ### Opened
-The recipient's mail client loaded our 1×1 tracking pixel.
+The recipient's mail client loaded the invisible tracking image we embed.
 
 **Best-effort.** Privacy filters significantly distort this number:
 
-- **Apple Mail Privacy Protection** (default on iOS 15+ and macOS Monterey+) auto-loads images via a proxy, inflating opens.
+- **Apple Mail** (on iPhone and iPad by default) pre-loads all tracking images. It counts as "opened" even if the user never saw the email.
 - **Outlook with image-blocking** never triggers an open.
 - **Plain-text recipients** never trigger an open.
 
 Don't read too much into "0 opens." Use it as one of several signals, not as the answer.
 
 ### Clicked
-The recipient clicked any tracked link in the brief, including the portal link.
+The recipient clicked any tracked link in the brief. We rewrite every link to count clicks, including the "View in portal" button.
 
-**Stronger signal.** Clicks require intent. If a recipient clicked, they engaged with the content.
+**Stronger signal than opens.** Clicks require intent. Clicked events are captured per recipient in the email-event trail, though they don't currently render as a separate column in the recipient list — view the per-recipient detail to see them.
 
-We rewrite links in the email to redirect through our click tracker, so this works for every link in the brief (text links, button CTAs, and the portal link).
-
-### Portal views
-The recipient opened the brief in the hosted portal. We log a `view_count` and `last_viewed_at` on the portal token.
-
-**Cleanest signal.** Portal views can't be inflated by privacy filters — the recipient has to actively click the portal link to register a view.
+### Portal views (data only — not in UI yet)
+When someone opens the brief in the portal, we count it. This is the cleanest signal — mail-client pre-loading can't trigger it. It just isn't shown in the UI yet. The data is available via export.
 
 ## Bounces, failures, and unsubscribes
 
-The engagement bar surfaces problems too:
+The underlying email-events trail captures problems too — they surface in the per-recipient delivery detail:
 
-- **Bounced** — recipient's mail server rejected the message (invalid address, mailbox full, blocked sender). Bounced recipients won't get future briefs until you fix the underlying issue.
+- **Bounced** — recipient's mail server rejected the message (invalid address, mailbox full, blocked sender). Hard bounces auto-suppress the contact — they won't get future briefs until you manually restore them. Soft bounces don't suppress.
 - **Failed** — we couldn't even submit to SendGrid. Rare; usually a workspace-level config issue. Email support if you see this.
-- **Marked as spam** — the recipient flagged the brief as spam, OR their mail provider's filter did. Repeated spam markings hurt your sender reputation.
+- **Marked as spam** — the recipient flagged the brief as spam, OR their mail provider's filter did. Triggers auto-suppression. Repeated spam markings hurt your sender reputation.
 
 ## The email-events trail
 
@@ -101,7 +100,7 @@ These are all on the roadmap. None are blockers for the standard "monthly client
 
 - **Apple Mail Privacy Protection skews opens up.** A 100% open rate with 5% click rate often means most of the "opens" are Apple's proxy.
 - **Tracking pixel blocked = no open recorded.** Recipients using Mailtrack-style extensions or strict spam filters can read the brief without ever triggering "Opened."
-- **Portal views require a click.** If the recipient reads only the email and never clicks the "Open in portal" link, portal views stays at 0 even though they read the content.
+- **Portal views aren't surfaced in the UI yet.** Even though they're tracked in the database, the brief detail page doesn't yet show portal view counts per recipient. If you need them, ask support for an export.
 - **One recipient, one mail client.** If someone reads on phone (opens) and then desktop (opens again), you'll see two open events. The first-open timestamp is the most reliable signal.
 
 ## See also

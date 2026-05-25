@@ -63,31 +63,26 @@ If the new client uses data sources you haven't connected yet (e.g., a Slack cha
 2. Pick the new client. SendBriefs resolves the current-period target:
    - If the client has a configured template + cadence (set via the **Default template** field on the client record), a draft brief is created for the period and you land in the editor.
    - Otherwise, you'll see the **deliberate authoring chooser** — pick **from template** to use your house template, or start a one-off.
-3. Fill in the four sections (Done / In Progress / To Do / Additional Notes). Use the slash menu inside any section to add blocks.
+3. Fill in the sections the template defines (the default starter has Done / In Progress / To Do / Additional Notes). Use the slash menu inside any section to add blocks.
 4. Click **Preview** at the top of the editor to see how the brief reads. Spot-check branding and the period header.
 
-## Step 5: Send a test to yourself first
+## Step 5: Sanity-check before sending
 
-Before the client sees anything:
+There's no "send test to me" button on the brief itself in the current preview. To sanity-check rendering:
 
-1. From the brief menu, click **Send test to me**.
-2. Open it in your inbox. Check:
-   - The numbers match what's in the source platform.
-   - Branding looks right (client logo if white-label, workspace branding otherwise).
-   - The portal link works and the portal view looks correct.
-   - Subject line and "from" name read well.
-
-If anything's off, fix in the editor and re-test. The test send doesn't go to the client — it's safe to do as many as you need.
+- **Use the Preview pane** for the in-app rendered version with branding.
+- **Test the email wrapper** at Settings → Email Layout → open a layout → **Email myself** (this sends a sample with placeholder content).
+- **Or use a "smoke-test client" pattern** — a client record with your own email on a `receive reports`-on contact. Send to that client first, then to the real one.
 
 ## Step 6: Send to the client
 
-When the test looks right:
+When the preview looks right:
 
-1. Click **Send to client**.
+1. Click **Send** on the brief.
 2. Confirm the recipient list.
 3. Hit Send.
 
-The brief moves to `sent`. The engagement bar appears at the top of the brief and starts filling in (delivered → opened → clicked → portal view).
+The brief moves to `sent`. The engagement bar at the top fills in as deliveries land; the delivery card below shows per-recipient status.
 
 > If your workspace requires internal approvals, the path is **Send → Submit for approval → approver clicks Approve → Send**. Adds a step but no more than a few minutes for a routine brief.
 
@@ -132,7 +127,12 @@ Leave the client logo blank — the workspace branding shows up instead. Add the
 
 ### Client wants their own "from address"
 
-The "from" address is workspace-wide (default `reports@sendbriefs.com`). Per-client sending domains aren't in the product today. If this is a hard requirement, run that client in a separate workspace.
+The "from" address is set at the **workspace** level (Settings → Email Settings) and can optionally be overridden at the **template** level (so different report types can send from different addresses). There's no **per-client** sender address override today — if you need a per-client sending domain, the workarounds are:
+
+- Create a dedicated template for that client with its own sender address.
+- Or run that client in a separate workspace.
+
+The **Custom domain** add-on is required for production custom-domain sending — talk to support to wire up the DNS.
 
 ## See also
 

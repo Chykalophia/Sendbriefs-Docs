@@ -1,0 +1,124 @@
+---
+title: Scheduled reports
+description: Settings → Scheduling — auto-create and auto-send recurring briefs on a daily, weekly, or monthly cadence.
+sidebar:
+  order: 10
+---
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+Scheduling lives at <strong>Settings → Scheduling</strong>. Each schedule is per-client + frequency (<strong>daily / weekly / monthly</strong> only) + time of day. On schedule, SendBriefs creates a new draft from the template. If approval is required, it waits. Otherwise it sends. Every run is logged.
+</aside>
+
+## What scheduled reports do
+
+A scheduled report is a recurring auto-run that:
+
+1. Fires on its configured schedule.
+2. Creates a new brief from the template you picked.
+3. Auto-fills the period dates based on the template's cadence.
+4. Pre-populates any default content the template defines.
+5. **If approval is required** (workspace or template): leaves the brief in `pending_approval` for a human approver.
+6. **If approval is not required:** sends the brief to the configured recipients.
+7. Logs the execution to the audit log.
+
+This is how you stop manually creating each monthly brief.
+
+## Supported frequencies
+
+The scheduler accepts only three frequencies, regardless of the underlying template's cadence:
+
+- `daily`
+- `weekly`
+- `monthly`
+
+Other template cadences (`biweekly`, `quarterly`, `milestone`, `adhoc`, `custom`) **cannot be scheduled** in the current preview. For those cadences, you create each period's brief manually via [Add to a brief](/flows/add-an-update/).
+
+## Creating a schedule
+
+**Settings → Scheduling → Create Schedule**. The form:
+
+- **Report template** — pick any active template.
+- **Client** — the client this schedule generates briefs for.
+- **Recipients** — pre-defined list, or "use the client's default contacts with `receive reports` on" (most common).
+- **Frequency** — daily / weekly / monthly.
+- **Send time** — HH:MM in workspace timezone (the scheduler converts to UTC for cron registration).
+- **Enabled** — on/off toggle.
+
+Each schedule is one (template, client) pair. To run the same template across multiple clients, create one schedule per client.
+
+## Run history
+
+Every execution logs:
+
+- Date and time the schedule fired.
+- Status: success, failed (with reason), or pending (waiting for approval).
+- The created brief (linked).
+- If sent: how many recipients received the email.
+- If failed: the error reason.
+
+View the history from **Settings → Scheduling → click a schedule → View History**.
+
+## Manual run
+
+Each schedule has a **Run Now** button. This triggers an immediate execution without affecting the recurring cadence. Useful for:
+
+- Testing a new schedule.
+- Generating a brief for a period you missed (e.g., the schedule was off when the period boundary hit).
+- One-off operational needs.
+
+The manually-triggered run logs to the same history with a "manual" flag.
+
+## Enable / disable
+
+Each schedule has an **Enabled** toggle. Disabling pauses the schedule without deleting it — useful around holidays, client breaks, or while you're debugging a template change.
+
+When re-enabled, the schedule resumes on its next scheduled tick. It does not back-fill periods missed during the disabled window.
+
+## Schedule interaction with approvals
+
+The most important behavior to understand:
+
+**No approval required:** brief is created and auto-sent in one step. Recipients get the email at the scheduled time.
+
+**Approval required:** brief is created in `pending_approval`. Approvers get a `report_submitted` notification. Then one of two things happens:
+
+- Manual send: approver clicks **Approve**, then someone clicks **Send**.
+- Auto-send after approval: if your workspace is configured for it, send happens automatically once approved.
+
+If approvers don't act, the brief sits in `pending_approval` indefinitely. The schedule still fires on the next run. If the previous period's brief is still waiting on approval, you'll have two briefs pending.
+
+## Schedule interaction with templates
+
+The schedule references a template at execution time:
+
+- If the template is **edited** between executions, the next run uses the new template state.
+- If the template is **deleted**, the schedule errors on the next run (and shows the failure in run history). Re-point or delete the schedule.
+- If the template is **inactive**, the schedule still runs. The "active" flag only hides templates from the picker — it doesn't stop the scheduler. Double-check this if you're using inactive as a kill switch.
+
+## Failure modes
+
+Common reasons a scheduled run fails:
+
+- **Template not found** — template was deleted; re-point the schedule.
+- **Client has no recipients** — no contacts with `receive reports` on; add at least one contact and flag them to receive.
+- **Email send failed** — SendGrid returned an error (rare; usually transient or a workspace-level config issue).
+- **Workspace suspended** — payment failed and the workspace is in `past_due` or `unpaid` state. Update billing.
+
+Failures show in the run history with an error reason. The schedule isn't automatically disabled — it'll try again on the next tick.
+
+## Common gotchas
+
+- **Frequencies are NOT the same as template cadence.** A template can have `biweekly` cadence, but the scheduler only fires daily / weekly / monthly. If you need biweekly auto-send, two workarounds:
+  - Use a weekly schedule and skip every other run manually.
+  - Create the biweekly briefs manually via Add to a brief.
+- **The schedule's send time is in workspace timezone.** Set the workspace timezone correctly at Settings → General before scheduling.
+- **Disabling a schedule doesn't cancel a brief that's already in `pending_approval`.** It only stops future ticks from firing. The in-flight brief still needs approval (or manual deletion).
+- **Editing recipients on the schedule doesn't change recipients on an already-created brief.** The recipient list snapshots at brief creation.
+- **`Run Now` and the recurring tick can race.** If you click Run Now seconds before the scheduled tick, you may get two briefs for the same period. Wait or delete the duplicate.
+
+## See also
+
+- [Monthly client reporting workflow](/flows/monthly-reporting/) — the cycle that schedules feed
+- [Approval policy](/features/approvals/) — how approval interacts with auto-send
+- [Brief templates](/features/templates/) — the templates schedules reference

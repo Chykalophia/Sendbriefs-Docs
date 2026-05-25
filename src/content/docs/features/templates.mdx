@@ -1,0 +1,150 @@
+---
+title: Brief templates
+description: Settings → Templates — building, editing, and managing the reusable brief structures your workspace ships from.
+sidebar:
+  order: 8
+---
+
+import Placeholder from '../../../components/Placeholder.astro';
+
+<aside class="sb-tldr">
+<p class="sb-tldr-label">TL;DR</p>
+A template is the blueprint new briefs are stamped from — sections, cadence, default text, approval rules. Manage them at <strong>Settings → Templates</strong>. Clone a starter, save an existing brief as a template, or build one from scratch.
+</aside>
+
+## What's in a template
+
+A template is the reusable scaffold that new briefs are stamped from.
+
+**Structure (what the brief looks like):**
+
+- **Sections** — name, display name, email display name, color theme, icon, default content, placeholder text, and assigned contributor.
+- **Section layout mode** — `strict` (every block lives inside a section) or `flexible` (top-level blocks allowed alongside sections).
+- **Title and slug auto-fill** — placeholders like `{period.start}`, `{client.name}` that get replaced when a new brief is created.
+
+**Behavior (how new briefs are generated and reviewed):**
+
+- **Cadence** — `daily`, `weekly`, `biweekly`, `monthly`, `quarterly`, `milestone`, `adhoc`, or `custom`. Controls what dates a new brief covers.
+- **Period rules** — start day, period length, and how the period dates auto-fill.
+- **Approval requirement** — `off` (skip approval), `on` (approval required), or `enforced_on` (approval required and can't be bypassed). See [Approval policy](/features/approvals/).
+- **Contribution mode** — controls how much of the existing brief other contributors can see and edit (`append_no_context` = blind, `append_with_context` = read-only context, `collaborative` = full editing). See [Add an update](/flows/add-an-update/).
+- **Collaboration mode** — single-author vs. multi-contributor.
+
+**Email (how the brief is sent):**
+
+- **Sender name, sender address, signature** — override the workspace defaults (unless the workspace is locked).
+- **Email layout** — the Waypoint-block wrapper that surrounds the brief in the email body.
+
+**Identity:**
+
+- **Name, description, slug.**
+- **Default / Active flags.**
+
+## Creating a template
+
+Two paths:
+
+### Save an existing brief as a template
+
+The fastest way. Open any brief, use the menu → **Save as template**. The brief's block structure, sections, and section colors become the template. Set the cadence, name it, save. Subsequent briefs created from this template inherit the structure.
+
+### Build a template from scratch
+
+**Settings → Templates → Create Template**. Fill in:
+
+1. **Template name** (max 200 chars) and **Description** (max 1000 chars).
+2. **Cadence** — pick one of the 8 cadences.
+3. **Sections** — open the Section Manager. The defaults are Done / In Progress / To Do / Additional Notes; add, remove, rename, recolor, and reorder as needed.
+4. **Approval requirement** — leave `off` if briefs send without approval, `on` to require approval that can be overridden in some contexts, or `enforced_on` to strictly require it.
+5. **Collaboration / contribution mode** — pick based on how your team works.
+6. **Email overrides** — set per-template sender name, sender address, signature, or pick an email layout. Leave blank to inherit from workspace.
+7. **Default / Active flags** — mark default if this is the template you want pre-selected for new briefs.
+
+## Sections in detail
+
+The Section Manager is where most of the editing happens. For each section:
+
+| Field | Notes |
+|---|---|
+| **Name** | Internal identifier. Stable across renders. |
+| **Display name** | Shown in the editor and (by default) in the rendered brief. |
+| **Email display name** | Optional override for the section header in the email render. Useful when the in-app name is internal jargon. |
+| **Color theme** | One of 17 hue families: red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose. |
+| **Icon** | Emoji shown next to the section name. |
+| **Placeholder text** | Shown when the section is empty in the editor — prompts the contributor. |
+| **Default content** | Pre-filled content that appears in the section when a new brief is generated. |
+| **Default assignee** | The team member who's expected to fill this section in. Triggers an in-app notification when a new brief is created. |
+
+Section edits are template-level. Changes apply to **future briefs** built from the template — sent briefs stay frozen.
+
+## Cadence semantics
+
+| Cadence | What it means |
+|---|---|
+| `daily` | Daily standups / status. Auto-calculates "yesterday → today" or similar. |
+| `weekly` | Week-ending summary. Configure the week start day (Sunday/Monday default). |
+| `biweekly` | Every two weeks. |
+| `monthly` | Calendar month. Period is the prior month. |
+| `quarterly` | Calendar quarter (or fiscal — set the start month). |
+| `milestone` | No fixed schedule; periods are project phases or deliverables. Period dates are author-controlled. |
+| `adhoc` | One-off briefs. Creates `one_off` brief kind; no contribution window. |
+| `custom` | User-defined start day + length. |
+
+> **Cadence vs. scheduler.** Template cadence drives period math — what dates a new brief covers. The **scheduler** (Settings → Scheduling) is a separate thing: it auto-creates briefs on a recurring schedule. The scheduler only supports `daily`, `weekly`, and `monthly`. Other cadences (biweekly, quarterly, milestone, adhoc, custom) require you to create each period's brief manually.
+
+## Auto-fill placeholders for titles and slugs
+
+You can type placeholder tokens in the **Title template** field. They're replaced when a new brief is created — so each brief gets a meaningful title without manual entry.
+
+- `{period.start}` — the period start date.
+- `{period.end}` — the period end date.
+- `{period.label}` — a human label for the period ("May 2026", "Q2 2026", "Week of May 18").
+- `{client.name}` — the client name.
+
+Type them as plain text in the Title template field. They resolve at brief creation.
+
+## Cloning from a starter
+
+The Templates page surfaces a small set of **starter templates** maintained by SendBriefs. Click a starter → **Clone** to copy it into your workspace. The clone has a "Starter" provenance badge so you can tell which templates came from the gallery vs. which you built. Edit freely after cloning — your changes don't affect the starter.
+
+## How the sender name and address resolve
+
+When a brief sends, three fields need a value: sender name, sender address, and signature. For each one, the template wins if it has a value set; otherwise the workspace value is used.
+
+1. **Template override** (set on the template's email fields).
+2. **Workspace default** (Settings → Email Settings).
+
+The workspace can **lock** these settings at Settings → Email Settings → **Lock email settings**. When locked, template overrides are ignored and workspace values always win.
+
+The email **layout** (the Waypoint blocks that wrap the brief) is selected per template via the email-layout dropdown. Choose a layout you've built at Settings → Email Layout.
+
+## Default template
+
+One template can be marked as the **workspace default**. The default is what new briefs default to when no template is otherwise specified (e.g., when starting a brief from a client without a `default_template_id`).
+
+Only one default at a time. If you see two templates flagged as default at once, edit the old one and uncheck its default flag — race conditions in the save can occasionally leave both flags on.
+
+## Active vs inactive
+
+Templates can be set inactive without being deleted. Inactive templates:
+
+- Don't appear in the brief-creation template picker.
+- Don't appear in the scheduler's template dropdown.
+- Existing briefs that were created from an inactive template are unaffected.
+
+Use inactive when retiring a template you may want to revive later. Use delete when the template is truly dead.
+
+## Common gotchas
+
+- **Section changes don't retroactively edit sent briefs.** Each brief's section structure is frozen at brief-creation time. Editing the template affects future briefs only.
+- **Email overrides don't apply if the workspace is locked.** If your template has a sender address override but the brief sends with the workspace address, check Settings → Email Settings → Lock email settings.
+- **Title/slug variables that don't resolve render as literal text.** If you reference `{client.alias}` and the field doesn't exist, the title will literally read the raw `{client.alias}` text. Stick to documented variables.
+- **Cloning a starter creates a snapshot.** Updates to the starter template don't propagate to your clone — that's by design. You own your edits.
+- **Cadence is set once per template.** You can't switch a template from `monthly` to `quarterly` and keep all the old briefs in sync. Create a new template with the new cadence and move forward.
+
+## See also
+
+- [Briefs](/features/briefs/) — what a brief looks like once created
+- [Add an update](/flows/add-an-update/) — how contributors interact with template-defined sections
+- [Templating a recurring brief](/flows/templating-recurring/) — the patterns + best practices
+- [Email Layout](/features/email-layout/) — the email wrapper templates that templates can reference
