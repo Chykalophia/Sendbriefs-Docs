@@ -7,35 +7,48 @@ sidebar:
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-<strong>Settings</strong> in the sidebar opens a tabbed page with 16 tabs grouped into 5 sections. The tab you can reach is gated by your role. Most tabs require <strong>settings:update</strong> (Owner or Admin). Direct-link any tab with <code>?tab=&lt;id&gt;</code>.
+<strong>Settings</strong> in the sidebar opens a tabbed page with 16 tabs, grouped into 5 sections: <strong>Workspace</strong>, <strong>Reports</strong>, <strong>Delivery</strong>, <strong>Account</strong>, and <strong>Admin</strong>. Most tabs need Owner or Admin role. Jump straight to any tab with <code>?tab=&lt;id&gt;</code>.
 </aside>
 
 ## The full map
 
-| Group | Tab | URL slug (`?tab=`) | What it controls | Who can see it |
-|---|---|---|---|---|
-| **Workspace** | General | `general` | Workspace name, description, timezone, locale, display name, session timeout | Owner / Admin |
-| **Workspace** | Branding | `branding` | Logo, primary + accent colors, typography, favicon | Owner / Admin |
-| **Workspace** | Team | `team` | Members, invites, role changes, removal | Owner / Admin |
-| **Reports** | Templates | `templates` | Brief templates, section managers, cadences, approval per template | Owner / Admin |
-| **Reports** | Email Layout | `email-templates` | Email wrapper templates (Waypoint blocks) | Owner / Admin |
-| **Reports** | Approvals | `approvals` | Workspace approval policy + per-client overrides | Owner / Admin |
-| **Reports** | Scheduling | `scheduled-reports` | Recurring brief schedules (daily / weekly / monthly) | Owner / Admin |
-| **Delivery** | Email Settings | `email` | Sender name / address / signature, lock toggle | Owner / Admin |
-| **Delivery** | Media Library | `assets` | Uploaded images and assets referenced by templates | Owner / Admin |
-| **Delivery** | Notifications | `notifications` | Your in-app + email notification preferences | All members (own prefs) |
-| **Account** | Client Portal | `portal` | Portal access tier default, token expiry, branding | Owner / Admin |
-| **Account** | Security | `security` | Workspace-wide MFA enforcement, email domain whitelist, API keys | Owner / Admin |
-| **Account** | Billing | `billing` | Stripe Customer Portal entry, plan, add-ons | Owner / Admin |
-| **Account** | Integrations | `integrations` | Google / Slack / ClickUp credentials + Brief integrations mappings | Owner / Admin |
-| **Admin** | Logging | `audit` | Pointer to the /activity page (Advanced tab) | Owner / Admin |
-| **Admin** | Danger Zone | `danger` | Workspace deletion (Owner only) | Owner only |
+| Group | Tab | URL slug (`?tab=`) | What it controls |
+|---|---|---|---|
+| **Workspace** | General | `general` | Workspace name, description, timezone, locale, display name, session timeout |
+| **Workspace** | Branding | `branding` | Logo, primary + accent colors, typography, favicon |
+| **Workspace** | Team | `team` | Members, invites, role changes, removal |
+| **Reports** | Templates | `templates` | Brief templates, section managers, cadences, approval per template |
+| **Reports** | Email Layout | `email-templates` | Email wrapper templates (Waypoint blocks) |
+| **Reports** | Approvals | `approvals` | Workspace approval policy + per-client overrides |
+| **Reports** | Scheduling | `scheduled-reports` | Recurring brief schedules (daily / weekly / monthly) |
+| **Delivery** | Email Settings | `email` | Sender name / address / signature, lock toggle |
+| **Delivery** | Media Library | `assets` | Uploaded images and assets referenced by templates |
+| **Delivery** | Notifications | `notifications` | Your in-app + email notification preferences |
+| **Account** | Client Portal | `portal` | Portal access tier default, token expiry, branding |
+| **Account** | Security | `security` | Workspace-wide MFA enforcement, email domain whitelist, API keys |
+| **Account** | Billing | `billing` | Stripe Customer Portal entry, plan, add-ons |
+| **Account** | Integrations | `integrations` | Google / Slack / ClickUp credentials + Brief integrations mappings |
+| **Admin** | Logging | `audit` | Pointer to the `/activity` page (Advanced tab) |
+| **Admin** | Danger Zone | `danger` | Workspace deletion |
+
+**Who sees what:** Owner and Admin see everything. Members only see Notifications (their own preferences). Only the Owner can use Danger Zone.
 
 ## Tab behavior
 
-- **Direct link** any tab with `app.sendbriefs.com/settings?tab=<id>` — e.g., `?tab=email-templates` jumps straight to Email Layout.
-- **Role gating** is enforced server-side; tabs hidden in the sidebar can't be reached by URL-typing into a higher-permission tab.
-- **Tab IDs vs display labels** differ in places — `email-templates` shows as "Email Layout", `assets` shows as "Media Library", `audit` shows as "Logging", `scheduled-reports` shows as "Scheduling", `danger` shows as "Danger Zone", `email` shows as "Email Settings".
+**Direct link any tab** with `app.sendbriefs.com/settings?tab=<id>`. For example, `?tab=email-templates` jumps straight to Email Layout.
+
+**Role gating is enforced on the server.** Typing a tab URL won't get you into a tab your role can't see.
+
+**Tab IDs vs display labels** differ in places:
+
+| URL slug | Display label |
+|---|---|
+| `email-templates` | Email Layout |
+| `assets` | Media Library |
+| `audit` | Logging |
+| `scheduled-reports` | Scheduling |
+| `email` | Email Settings |
+| `danger` | Danger Zone |
 
 ## What's NOT in Settings
 

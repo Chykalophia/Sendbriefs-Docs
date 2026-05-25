@@ -36,7 +36,7 @@ Two flavors:
 
 Both support PDF download. Recipients don't need to log in — the token in the URL grants read access.
 
-> **Security model.** Portal URLs are bearer tokens. Anyone with the URL can view that brief. For clients with strict confidentiality needs, set the access tier to `verified` (requires a 6-digit code emailed to the contact's address before the portal loads). See [Clients → portal access](/features/clients/#stricter-portal-access).
+> **Security model.** Portal URLs work like "whoever has the link" — there's no password check. Anyone with the URL can view that brief. For clients with strict confidentiality needs, set the access tier to `verified` (requires a 6-digit code emailed to the contact's address before the portal loads). See [Clients → portal access](/features/clients/#stricter-portal-access).
 
 ## Tracking what happens after send
 
@@ -70,17 +70,11 @@ Sender setup — from-name, from-address, signature, and a **Lock email settings
 
 By default, templates can override workspace sender name, sender address, and signature. If you flip on **Lock email settings**, the workspace's values are forced — templates can't override.
 
-The effective sender for any given brief follows this resolution chain:
-
-| Field | Resolution |
-|---|---|
-| **Sender name** | template → workspace (unless locked, then workspace) |
-| **Sender address** | template → workspace (unless locked, then workspace) |
-| **Signature** | template → workspace (unless locked, then workspace) |
+All three fields (sender name, address, signature) resolve template → workspace. If the template has a value set, it wins. Otherwise, the workspace value is used. Locking email settings makes the workspace value always win, regardless of template.
 
 Client-level overrides of these fields aren't supported in the current preview.
 
-For custom-domain sending (briefs going out from `reports@youragency.com` instead of `reports@sendbriefs.com`), the configuration lives here. Custom-domain setup may not be fully self-serve — talk to support if it's blocking. The **Custom domain** add-on is required for production custom-domain sending.
+**Custom-domain sending:** if you want briefs going out from `reports@youragency.com` instead of `reports@sendbriefs.com`, the configuration starts here. Production custom-domain sending requires the **Custom domain** add-on. Setup may not be fully self-serve — talk to support if it's blocking.
 
 ## Internal notifications
 
@@ -95,12 +89,12 @@ You and your team get notified about activity inside SendBriefs — brief lifecy
 | `report_rejected` | Changes requested on your reports | A reviewer asks for edits | Live |
 | `report_sent` | Your reports sent | Your approved brief is emailed to the client | Live |
 | `section_reminder` | Deadline reminders | An assigned section is incomplete near a deadline | Live |
-| `section_assigned` | Sections assigned to you | Colleague assigns a section to you | Listed but no producer wired yet |
-| `section_comment` | Comments on your sections | Someone comments on a section you own | Listed but no producer wired yet |
+| `section_assigned` | Sections assigned to you | Colleague assigns a section to you | Coming soon |
+| `section_comment` | Comments on your sections | Someone comments on a section you own | Coming soon |
 | `member_joined` | New team members | Someone new joins your workspace | Live |
-| `mention` | Mentions | A teammate @-mentions you | Listed but no producer wired yet |
+| `mention` | Mentions | A teammate @-mentions you | Coming soon |
 
-> Three events appear in your preference list today but won't fire in the current preview because their producers aren't yet wired in the product (per code comments in the standalone notifications page). Tune them as you like — they're harmless until the producers ship.
+> Three events show up in settings but don't fire yet — the code that should trigger them isn't wired up in the current preview. Tune them as you like; they're harmless until they ship.
 
 ### Channels
 

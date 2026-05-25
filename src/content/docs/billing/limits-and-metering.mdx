@@ -7,7 +7,7 @@ sidebar:
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-SendBriefs meters three things at the workspace level: <strong>active users</strong>, <strong>active clients</strong>, and <strong>reports sent this month</strong>. Plan limits gate when you try to <em>add</em> a new one — there's no surprise charge if you hit a limit, just a polite refusal until you upgrade or remove something. Usage shows on the Billing tab.
+SendBriefs meters three things at the workspace level: <strong>active users</strong>, <strong>active clients</strong>, and <strong>reports sent this month</strong>. Plan limits trigger when you try to <em>add</em> a new one. No surprise charges — just a polite "upgrade or remove something" prompt. Usage shows on the Billing tab.
 </aside>
 
 ## What's counted
@@ -15,7 +15,7 @@ SendBriefs meters three things at the workspace level: <strong>active users</str
 Three meters run in the background. You can see current values on **Settings → Billing**.
 
 ### Active users
-The number of unique members in the workspace (Owner / Admin / Member, plus the `CLIENT` role doesn't count here — contacts are not users).
+The number of unique members in the workspace. Counts Owner, Admin, and Member roles. Doesn't count `CLIENT` (those are portal recipients, not real users).
 
 - Pending invitations don't count until accepted.
 - Removed members stop counting immediately.
@@ -24,13 +24,13 @@ The number of unique members in the workspace (Owner / Admin / Member, plus the 
 ### Active clients
 The number of clients in the workspace that aren't archived. Archived clients don't count; reactivating one brings it back into the count.
 
-- Inactive clients **do** count (they're still selectable; only `archived` is treated as out-of-roster).
+Inactive clients still count. Only **archived** clients are excluded.
 
 ### Reports sent this month
 Count of briefs that reached the `sent` state during the current calendar month.
 
 - Resends of the same brief (sent → draft → re-send) count each send as a separate event.
-- Test sends (e.g., the Email Layout "Email myself" preview) don't count — that's preview infrastructure, not a brief send.
+- Test sends (like the Email Layout "Email myself" preview) don't count, because they send placeholder content rather than a real brief.
 
 ## How limits are enforced
 
@@ -44,9 +44,11 @@ When you try to **add** something — invite a new member, create a new client, 
 
 Downgrades fail if your current usage exceeds the lower tier's limits. Example: you're on Agency with 30 clients; trying to downgrade to Solo (which allows 5 clients) is refused. The Stripe Customer Portal surfaces this — archive clients first, then try the downgrade again.
 
-## Stripe sync
+## Why your Stripe invoice may not match what you see here
 
-Usage is reported to Stripe monthly. There's a lag of up to a day between SendBriefs' usage view and Stripe's billing view. For day-to-day decisions, trust SendBriefs' Billing page; for the invoice itself, trust the Stripe-issued invoice.
+Usage is reported to Stripe monthly. There's a lag of up to a day between SendBriefs' usage view and Stripe's billing view.
+
+For day-to-day decisions, trust SendBriefs' Billing page. For the invoice itself, trust the Stripe-issued invoice.
 
 ## What's NOT metered
 
@@ -77,7 +79,7 @@ To resume: **Settings → Billing → Choose a plan** and complete Stripe Checko
 ## Common gotchas
 
 - **Inactive clients still count.** Only `archived` is "free." If you have lots of paused clients, archive them rather than just marking inactive to free up plan quota.
-- **Test sends don't count toward the monthly meter** — but resends do. If you're at the monthly limit, a quick "resend with correction" still consumes one send.
+- **Resends DO count.** If you're at the monthly limit, a quick "resend with correction" still consumes one send. (Test sends — the Email Layout "Email myself" preview — don't count.)
 - **Plan downgrades don't auto-revoke add-ons.** White-label and Custom domain stay active (and billable) even after downgrade, unless you explicitly cancel them in the Stripe Customer Portal.
 - **The monthly send counter resets on calendar month boundaries**, not subscription anniversaries. A workspace that started its subscription on the 15th still resets the send counter on the 1st.
 

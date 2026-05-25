@@ -45,7 +45,7 @@ This is the view to use when a client says "I never got the brief" — you can c
 
 The unprocessed log. Filters by:
 
-- **Action type** — `report.send`, `report.approve`, `client.create`, `workspace.update`, `integration.oauth.granted`, `scheduled_report.run`, and 40+ more.
+- **Action type** — things like "report sent", "report approved", "client created", "workspace settings updated", "integration connected", "scheduled report ran", and 40+ more. The filter dropdown shows the raw action names (e.g., `report.send`) so you can match exactly.
 - **Resource type** — workspace / user / client / contact / report / template / integration / etc.
 - **User** — who performed the action.
 - **Date range** — filter to a window.
@@ -69,24 +69,26 @@ Click any row to see the full metadata blob.
 
 ## What's logged
 
-A non-exhaustive list of action types. The full set is enumerated in code as `AUDIT_ACTIONS` (50+ actions):
+50+ action types in all. The main categories:
 
-- **Auth** — login, logout, password changed, MFA enabled/disabled.
-- **Workspace** — created, settings updated, deleted.
-- **Members** — invited, accepted invitation, role changed, removed.
-- **Clients** — created, updated, archived, deleted.
-- **Contacts** — created, updated, deleted, suppressed (via webhook), restored.
-- **Briefs / Reports** — created, edited, submitted for approval, approved, changes requested, sent, resent, archived, deleted.
-- **Templates** — created, updated, cloned, deleted.
-- **Schedules** — created, ran (success/fail), enabled/disabled, deleted.
-- **Integrations** — OAuth granted, OAuth revoked, API token added, revoked.
-- **Email settings** — sender changed, signature changed, locked/unlocked.
-- **Billing** — subscription created, updated, status changed, payment failed, add-on purchased.
-- **GDPR** — data export requested, data erasure requested.
+| Category | Examples |
+|---|---|
+| **Auth** | Login, logout, password changed, MFA enabled / disabled |
+| **Workspace** | Created, settings updated, deleted |
+| **Members** | Invited, accepted invitation, role changed, removed |
+| **Clients** | Created, updated, archived, deleted |
+| **Contacts** | Created, updated, deleted, suppressed, restored |
+| **Briefs / Reports** | Created, edited, submitted, approved, changes requested, sent, resent, archived, deleted |
+| **Templates** | Created, updated, cloned, deleted |
+| **Schedules** | Created, ran (success / fail), enabled / disabled, deleted |
+| **Integrations** | Connection granted, revoked; token added, removed |
+| **Email settings** | Sender changed, signature changed, locked / unlocked |
+| **Billing** | Subscription created / updated, status changed, payment failed, add-on purchased |
+| **GDPR** | Data export requested, data erasure requested |
 
 ## Retention
 
-Audit log retention is configurable per workspace. The default is 90 days, but Enterprise and higher tiers can extend. After retention expires, rows are purged.
+Audit log retention is configurable per workspace. The default is 90 days, but Enterprise and higher tiers can extend. After that, old entries are deleted.
 
 For longer compliance retention, the audit log can be exported (ask support — there's no self-serve "export everything as CSV" button yet).
 
@@ -111,7 +113,7 @@ Why have both? The Settings tab keeps the in-Settings navigation consistent (eve
 ## Common gotchas
 
 - **Bulk operations log as one row, not N rows.** A CSV contact import that adds 50 contacts shows up as one audit log entry with the count in metadata, not 50 entries.
-- **The Advanced tab paginates.** Default page size is 10 rows. Use filters to narrow before scrolling — paging through 30,000 rows is unhelpful.
+- **The Advanced tab paginates.** Default page size is 10 rows. Filter before scrolling — paging through 30,000 rows is unhelpful.
 - **Metadata size cap.** Per-row metadata is capped at 100 KB. Actions with larger payloads (e.g., a huge import) store a summary, not the full payload.
 - **Soft-deleted resources may not show their post-delete actions.** If you archive a client and then archive briefs under that client, the brief actions log; the resource itself stays in the audit log even after archive.
 

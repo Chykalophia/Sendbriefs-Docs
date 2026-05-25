@@ -7,20 +7,20 @@ sidebar:
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-Scheduling lives at <strong>Settings → Scheduling</strong>. Each schedule is per-client + frequency (<strong>daily / weekly / monthly</strong> only) + time of day. On the scheduled tick, SendBriefs creates a new draft brief from the template, optionally routes it through approval, and emails it to the recipients. Run history is logged.
+Scheduling lives at <strong>Settings → Scheduling</strong>. Each schedule is per-client + frequency (<strong>daily / weekly / monthly</strong> only) + time of day. On schedule, SendBriefs creates a new draft from the template. If approval is required, it waits. Otherwise it sends. Every run is logged.
 </aside>
 
 ## What scheduled reports do
 
-A scheduled report is a recurring cron-like job that:
+A scheduled report is a recurring auto-run that:
 
-1. Fires on its configured schedule (production: Upstash QStash).
+1. Fires on its configured schedule.
 2. Creates a new brief from the template you picked.
 3. Auto-fills the period dates based on the template's cadence.
 4. Pre-populates any default content the template defines.
 5. **If approval is required** (workspace or template): leaves the brief in `pending_approval` for a human approver.
 6. **If approval is not required:** sends the brief to the configured recipients.
-7. Logs the execution in the audit log (`scheduled_report.run` action).
+7. Logs the execution to the audit log.
 
 This is how you stop manually creating each monthly brief.
 
@@ -79,10 +79,14 @@ When re-enabled, the schedule resumes on its next scheduled tick. It does not ba
 
 The most important behavior to understand:
 
-- **No approval required** → brief is created + auto-sent in one step. Recipients get the email at the scheduled time.
-- **Approval required** → brief is created in `pending_approval`. Approvers get a `report_submitted` notification. The brief sends when an approver clicks **Approve** (then someone clicks **Send**, or — if the workspace has been configured for it — send is automatic after approval).
+**No approval required:** brief is created and auto-sent in one step. Recipients get the email at the scheduled time.
 
-If approvers don't act, the brief sits in `pending_approval` indefinitely. The schedule's next tick still fires on cadence; if the previous period's brief is still waiting on approval, you'll have two briefs pending.
+**Approval required:** brief is created in `pending_approval`. Approvers get a `report_submitted` notification. Then one of two things happens:
+
+- Manual send: approver clicks **Approve**, then someone clicks **Send**.
+- Auto-send after approval: if your workspace is configured for it, send happens automatically once approved.
+
+If approvers don't act, the brief sits in `pending_approval` indefinitely. The schedule still fires on the next run. If the previous period's brief is still waiting on approval, you'll have two briefs pending.
 
 ## Schedule interaction with templates
 
@@ -90,7 +94,7 @@ The schedule references a template at execution time:
 
 - If the template is **edited** between executions, the next run uses the new template state.
 - If the template is **deleted**, the schedule errors on the next run (and shows the failure in run history). Re-point or delete the schedule.
-- If the template is **inactive**, the schedule still runs (active is a UI affordance for the template picker, not a scheduler check) — but check this carefully.
+- If the template is **inactive**, the schedule still runs. The "active" flag only hides templates from the picker — it doesn't stop the scheduler. Double-check this if you're using inactive as a kill switch.
 
 ## Failure modes
 
@@ -105,7 +109,9 @@ Failures show in the run history with an error reason. The schedule isn't automa
 
 ## Common gotchas
 
-- **Frequencies are NOT the same as template cadence.** A template can have `biweekly` cadence, but the scheduler can't fire on a biweekly cron — only daily / weekly / monthly. If you need biweekly auto-send, the workarounds are: use a weekly schedule and skip every other run manually, or create the biweekly briefs manually via Add to a brief.
+- **Frequencies are NOT the same as template cadence.** A template can have `biweekly` cadence, but the scheduler only fires daily / weekly / monthly. If you need biweekly auto-send, two workarounds:
+  - Use a weekly schedule and skip every other run manually.
+  - Create the biweekly briefs manually via Add to a brief.
 - **The schedule's send time is in workspace timezone.** Set the workspace timezone correctly at Settings → General before scheduling.
 - **Disabling a schedule doesn't cancel a brief that's already in `pending_approval`.** It only stops future ticks from firing. The in-flight brief still needs approval (or manual deletion).
 - **Editing recipients on the schedule doesn't change recipients on an already-created brief.** The recipient list snapshots at brief creation.

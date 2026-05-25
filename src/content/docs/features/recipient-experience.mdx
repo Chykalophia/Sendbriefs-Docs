@@ -9,7 +9,7 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-Recipients get an email with the brief rendered inline plus a "View in portal" CTA. The portal is a token-signed page — no login. Three access tiers control how strict that token is: <strong>public</strong> (token in URL is enough), <strong>signed</strong> (single-use or expiring), <strong>verified</strong> (recipient must enter a 6-digit code emailed to them). Contacts also get a <strong>contact hub</strong> link with every brief they've ever been sent.
+Recipients get an email with the brief inline, plus a "View in portal" button. The portal opens via a private link — no login. Three access tiers control how strict that link is: <strong>public</strong> (link is enough), <strong>signed</strong> (expiring link), <strong>verified</strong> (must enter a 6-digit code emailed to them). Each contact also gets a <strong>contact hub</strong> link that lists every brief they've received.
 </aside>
 
 ## What recipients see in their inbox
@@ -30,7 +30,9 @@ The email itself is the brief content rendered inline (via the email layout you 
 
 ## The hosted portal
 
-The portal is the same content as the email, but rendered in a branded web view with PDF download and (for sections-based briefs) a table of contents. It's hosted under the SendBriefs app domain (or your custom domain if the **Custom domain** add-on is active).
+The portal shows the same content as the email, in a branded web view. It adds a PDF download button. Sections-based briefs also get a table of contents sidebar.
+
+The portal is hosted on the SendBriefs app domain by default. With the **Custom domain** add-on, you can serve it from your own subdomain (e.g., `briefs.youragency.com`).
 
 Three portal URLs exist:
 
@@ -52,9 +54,9 @@ The shared-mode token. Same recipient experience as `/r/`, but the same link wor
 ### `/portal/c/[contactToken]` — contact hub
 The hub for one specific contact. Lists every brief ever sent to them, in reverse-chronological order. Each entry links into the brief's individual portal view.
 
-This URL is included in every brief sent to that contact, so they can navigate their own history. The hub is the closest thing to a "client login" the product has — but it's still token-based, not password-based.
+This URL is included in every brief sent to that contact, so they can navigate their own history. The hub is the closest thing to a "client login" the product has. It's still a private link, not a username/password account.
 
-> **Security model.** Portal URLs are bearer tokens. If a recipient forwards the link, anyone with the URL has the same access. Treat portal URLs the way you'd treat a Dropbox share link. For sensitive content, use the `verified` access tier (below).
+> **Security model.** Portal URLs work like "whoever has the link" — there's no password check. If a recipient forwards the link, anyone with that URL has the same access. Treat portal URLs the way you'd treat a Dropbox share link. For sensitive content, use the `verified` tier (below).
 
 ## Portal access tiers
 
@@ -78,18 +80,19 @@ Highest tier. Recipients must prove they control the email the brief was sent to
 The mechanism — **one method**, no toggles:
 
 1. Recipient clicks their portal link.
-2. The verify card appears: "To access this report, please verify your email address." (The recipient's email is looked up server-side from the contact record — they don't type it.)
+2. The verify card appears: "To access this report, please verify your email address." (We already know which email — they don't have to type it.)
 3. Recipient clicks **Send verification code**.
-4. They receive a plain-text email with subject "Your verification code: 123456" and a 6-digit numeric code that expires in **10 minutes**.
-5. Recipient enters the code (6 digits, single-use, max 5 attempts before they need a new code).
-6. On success, a signed cookie is set that grants access to that specific token for **24 hours**. After 24 hours, they verify again.
+4. They get an email with the subject "Your verification code: 123456".
+5. The 6-digit code expires in **10 minutes**.
+6. Recipient enters the code in the portal. Single-use; they get 5 attempts before they need to request a new code.
+7. On success, the portal unlocks for that browser for **24 hours**. After 24 hours, they verify again.
 
 Right for board-facing reports, regulated industries, or any client with explicit confidentiality requirements.
 
 > **Two things worth knowing about verified tier:**
 >
-> - **Per-client override schema exists, but there's no UI yet to set it.** The workspace-wide default is what applies; per-client overrides are honored by the access code but not yet writeable from the client detail page. Use the workspace default for now.
-> - **Shared-mode tokens cannot be verified-tier.** Verified only works with per-recipient tokens (the contact has to be identifiable). Shared sends fall back to `signed`.
+> - **Per-client overrides aren't editable yet.** The database supports them, but there's no UI to set them. Use the workspace default for now.
+> - **Shared-mode briefs can't use verified tier.** Verified only works when we can identify the individual recipient. Shared sends fall back to `signed`.
 
 ## Recipient-side actions and non-actions
 
@@ -152,7 +155,7 @@ Two branding layers can apply to the recipient view:
 
 - **Recipients don't see contributor names.** Even if three people contributed to the brief, the recipient sees one cohesive brief from the workspace sender.
 - **The contact hub link is a token, not a login.** If a recipient bookmarks the hub URL, anyone with that URL can see all their briefs. Don't share contact hub URLs broadly.
-- **Verified-tier codes go to the exact email on the contact record.** If a contact forwards the portal link to a colleague, the colleague won't be able to verify — they'd need the verification email, which goes to the original recipient.
+- **Verified-tier codes only go to the email on the contact record.** A colleague who receives a forwarded portal link can't verify — the code email goes to the original recipient, not them.
 - **Soft bounces don't suppress.** If briefs keep failing to a "mailbox full" address, manually flip `receive reports` off on that contact — SendGrid won't auto-suppress them.
 
 ## See also

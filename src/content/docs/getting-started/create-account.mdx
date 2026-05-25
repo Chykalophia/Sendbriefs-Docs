@@ -59,13 +59,18 @@ Highly recommended. You can do it now or after the workspace setup:
 
 1. Open your **Profile** page from the sidebar avatar.
 2. Find the **Security** section and click **Enable two-factor authentication**.
-3. Scan the QR code with your authenticator app (1Password, Authy, Google Authenticator, anything TOTP-compatible).
+3. Scan the QR code with your authenticator app. Anything that supports the standard 6-digit code format (TOTP) works — 1Password, Authy, Google Authenticator.
 4. Enter the 6-digit code to confirm.
 5. **Save the recovery codes somewhere safe.** If you lose your phone, these are how you get back in.
 
 <Placeholder type="screenshot" caption="TOTP enrollment screen with QR code and recovery codes" />
 
-If your workspace owner has **enforced MFA** for the workspace, the system will route you to `/mfa-enroll` at next login and require you to enroll before you can do anything else. Workspace-enforced MFA includes a **7-day grace period** during which the gate warns you but still lets you in — after that, you're blocked until you enroll. Same TOTP flow regardless.
+> **Workspace-enforced MFA.** If your workspace owner has enforced MFA, you'll be required to enroll. The flow is:
+>
+> 1. The system routes you to `/mfa-enroll` at next login.
+> 2. You get a **7-day grace period**. A banner warns you but you can still use the dashboard.
+> 3. After 7 days, you're blocked from the dashboard until you enroll.
+> 4. The enrollment itself is the same TOTP flow described above.
 
 ## Next: set up your first workspace
 

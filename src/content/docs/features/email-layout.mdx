@@ -9,20 +9,20 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-The email layout is the visual chrome that wraps a brief in its email: header, greeting, the brief content, signature, footer. Built with the Waypoint email block builder. Multiple layouts per workspace; templates pick which layout they use. Use the <strong>Email myself</strong> button in the preview drawer to send a sample to your own inbox.
+The email layout is the visual chrome that wraps a brief in its email: header, greeting, the brief content, signature, footer. Built with the Waypoint email block builder. You can have multiple layouts per workspace, and each template picks which one to use.
 </aside>
 
 ## What email layout is
 
-When a brief sends, the email body is not just the rendered brief — it's the brief plus a wrapper. The wrapper is the **email layout**: a structured set of email-safe blocks that render before and after the brief content.
+When a brief sends, the email body is not just the rendered brief — it's the brief plus a wrapper. The wrapper is the **email layout**: a set of blocks designed to render in email clients like Outlook and Gmail, before and after the brief content.
 
 You build email layouts the same way you build briefs — in a block editor — but with email-optimized blocks:
 
-- **email_header** — top-of-email banner (logo, brand bar).
-- **email_greeting** — dynamic greeting line (e.g., "Hi" plus `contact.first_name`).
-- **email_report_content** — the slot where the rendered brief HTML gets embedded.
-- **email_signature** — your sign-off block.
-- **email_footer** — bottom-of-email content (legal, unsubscribe link, "Sent via SendBriefs" if applicable).
+- **Header** (`email_header`) — top-of-email banner (logo, brand bar).
+- **Greeting** (`email_greeting`) — dynamic greeting line (e.g., "Hi" plus the contact's first name).
+- **Report content slot** (`email_report_content`) — the slot where the rendered brief HTML gets embedded.
+- **Signature** (`email_signature`) — your sign-off block.
+- **Footer** (`email_footer`) — bottom-of-email content (legal, unsubscribe link, "Sent via SendBriefs" if applicable).
 
 Plus the standard Waypoint email blocks: text, image, button, divider, spacer, columns. All built to render reliably across email clients (Outlook, Gmail, Apple Mail, mobile).
 
@@ -70,13 +70,16 @@ The top banner. Typically holds your logo and brand color bar. Common edits:
 - Optional tagline.
 
 ### `email_greeting`
-The "Hi [name]" line. Supports variable interpolation. Available variables (wrap each in curly braces in the editor):
+The "Hi [name]" line. Supports placeholder tokens (wrap each in curly braces in the editor):
 
 - `contact.first_name` — recipient's first name (parsed from the contact's full name).
 - `contact.full_name` — recipient's full name.
 - `contact.email` — recipient's email (rarely used in greetings).
 
-If the variable doesn't resolve (e.g., the contact has no first name), it renders as empty — so write greetings that gracefully handle missing data. "Hi `contact.first_name`, here's your..." can read as "Hi , here's your..." for contacts with no first name; prefer `contact.full_name` or build in a fallback.
+> **Plan for missing data.** Placeholders render as empty if they can't resolve. So "Hi `contact.first_name`, here's your..." can render as "Hi , here's your..." for contacts with no first name. Two options:
+>
+> 1. Use `contact.full_name` instead — it's always set.
+> 2. Write a greeting that reads well even with the placeholder empty.
 
 ### `email_report_content`
 The slot for the brief's rendered HTML. You don't edit this directly — it's a placeholder that the renderer fills with the brief's section content at send time.
@@ -86,7 +89,7 @@ You can change the surrounding padding, background, and width, but not the conte
 ### `email_signature`
 The sign-off block. Standard text + image (signature image / handwritten signature).
 
-If the template defines an email signature override and the workspace allows template overrides, the template's signature takes precedence. If you want the layout's signature to always win, omit the per-template signature.
+Templates can override the layout's signature. The workspace can lock this — see [Email Settings](/features/notifications/#email-settings-settings--email).
 
 ### `email_footer`
 The bottom block. Typically holds:
@@ -112,7 +115,7 @@ Common multi-layout setups:
 ## Common gotchas
 
 - **Editing a layout affects future sends, not past ones.** Sent briefs are frozen with the layout that rendered them. Editing doesn't retroactively change recipient inboxes (the email already shipped) or even the brief's portal view (which uses the original render).
-- **Email block builder is not the same as the brief block editor.** Don't expect the same `/` slash menu — email blocks are a different set, optimized for email clients.
+- **Email block builder is not the same as the brief block editor.** The `/` block picker has a different set of blocks here — optimized for email clients.
 - **Some blocks render differently in Outlook.** Test in real Outlook (especially Outlook Desktop on Windows) if any of your recipients use it. Use the Email myself button.
 - **The "Email myself" sample uses placeholder content.** It doesn't render an actual brief. To preview a real brief end-to-end, use a smoke-test client.
 

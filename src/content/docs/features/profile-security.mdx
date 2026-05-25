@@ -45,14 +45,14 @@ Failed attempts surface the rule that failed, not just "rejected."
 
 ### Multi-factor authentication (MFA)
 
-TOTP-based MFA via any authenticator app (1Password, Authy, Google Authenticator, anything that speaks the TOTP standard).
+Standard authenticator-app codes — the 6-digit ones that refresh every 30 seconds. Works with 1Password, Authy, Google Authenticator, or anything that supports this format (TOTP).
 
 **Enrollment flow:**
 
 1. Click **Enable two-factor authentication**.
 2. Scan the QR code with your authenticator app (or paste the secret manually).
 3. Enter the current 6-digit code from your app to confirm.
-4. **Save the 10 backup codes** that appear. Each is single-use; they're your way back in if you lose your phone.
+4. **Save the 10 backup codes shown.** Each works once. Use them if you lose your phone.
 5. MFA is now enabled. You'll be prompted for a code at every login.
 
 **Disabling MFA:**
@@ -68,7 +68,9 @@ Click **Disable two-factor authentication**. You'll need to enter a current code
 - Your authenticator app is on a lost / wiped phone.
 - You're locked out and the only path back is a backup code.
 
-Each backup code works exactly once. After using one, you can regenerate the full set from this page (the new set invalidates the old set entirely — don't regenerate unless you're sure you have access to the new set).
+Each backup code works exactly once. After using one, you can regenerate the full set from this page.
+
+Regenerating invalidates **all** old codes. Only do this if you've already saved the new set.
 
 **Treat backup codes like a password.** Store in a password manager or print and lock in a drawer. Anyone with a backup code and your password can sign in.
 
@@ -91,13 +93,13 @@ If you've lost your authenticator app AND your backup codes:
 2. Support can reset MFA on your account after verification.
 3. After reset, you'll re-enroll on next login.
 
-For workspaces with MFA enforcement, plan ahead: keep backup codes in a password manager, and consider enrolling a hardware key (when supported) as a fallback.
+For workspaces with MFA enforcement, plan ahead. Keep backup codes in a password manager. Hardware-key fallback is on the roadmap.
 
 ## Signing out
 
 The sidebar avatar menu has **Sign Out**. This signs out the current session only.
 
-To sign out everywhere at once, use the **Sign out other sessions** action in Active sessions (signs out everything except the one you're currently using) or sign out each session individually.
+To sign out everywhere at once, use the **Sign out other sessions** action in Active sessions. That signs out everything except your current browser. Or sign out of each session one at a time.
 
 ## Password reset (forgot password)
 

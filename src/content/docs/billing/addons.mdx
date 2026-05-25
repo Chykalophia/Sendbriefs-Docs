@@ -7,12 +7,12 @@ sidebar:
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-Two add-ons live in <strong>Settings → Billing → Add-ons</strong>: <strong>White-label</strong> (suppresses "Sent via SendBriefs" branding in emails and the portal) and <strong>Custom domain</strong> (serves the recipient portal from your own subdomain like <code>briefs.youragency.com</code>). Both are à la carte on paid plans and bundled with Enterprise.
+Two add-ons live in <strong>Settings → Billing → Add-ons</strong>. <strong>White-label</strong> removes "Sent via SendBriefs" branding from emails and the portal. <strong>Custom domain</strong> serves the recipient portal from your own subdomain (e.g., <code>briefs.youragency.com</code>). Both are à la carte on paid plans, and bundled with Enterprise.
 </aside>
 
 ## What add-ons are
 
-Add-ons are paid entitlements that live alongside your subscription plan. Unlike plan tiers (which gate big chunks of functionality and client/team limits), add-ons toggle specific brand-presentation features.
+Add-ons are paid features that live alongside your subscription plan. Plan tiers gate big chunks of functionality and limits. Add-ons toggle specific brand-presentation features.
 
 Two add-ons exist today:
 
@@ -87,12 +87,12 @@ Briefs already sent are **frozen** with the branding state at the moment they sh
 - The portal view for that brief, however, re-renders on each visit — so it picks up the new White-label state.
 - A brief sent before you set up a Custom domain still has the original `app.sendbriefs.com` portal URL embedded in the recipient's email. New sends will use the custom subdomain.
 
-So White-label flips both ways immediately for the portal; Custom domain flips only for new sends.
+**Summary:** White-label changes show up immediately, even on past briefs' portal pages. Custom domain only applies to new sends — past emails keep their old portal URL.
 
 ## Common gotchas
 
 - **Custom domain requires DNS access.** If you don't control DNS for the subdomain, you can't set this up. Plan around your IT team's lead time.
-- **Removing an add-on doesn't auto-revoke for in-flight briefs.** If you cancel Custom domain mid-cycle, briefs in `draft` or `pending_approval` will still try to send with the custom domain in the recipient email until the cancellation takes effect at cycle end.
+- **Removing an add-on doesn't auto-revoke for in-flight briefs.** Cancelling Custom domain mid-cycle keeps it active until cycle end. Briefs in `draft` or `pending_approval` will still send with the custom domain until then.
 - **Plan downgrades don't auto-cancel add-ons.** If you downgrade from a tier where add-ons were bundled to one where they're à la carte, you'll start being charged for them separately. Cancel them in the Customer Portal if you don't want that.
 - **White-label is workspace-wide.** You can't toggle it on for one client and off for another. For that pattern, run different agency brands in separate workspaces.
 

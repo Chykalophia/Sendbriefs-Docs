@@ -9,7 +9,7 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-Three integrations live today: <strong>Google</strong> (OAuth, stored only), <strong>Slack</strong> (OAuth, stored only), and <strong>ClickUp</strong> (personal API token, self-serve, and the only one with an actual data pipeline). The <strong>Brief integrations</strong> card then maps a connected source to a brief template so new items in the source auto-append into the draft brief. Everything else on the marketing site is roadmap.
+Three integrations live today. <strong>Google</strong> and <strong>Slack</strong> are OAuth-connect-only — the "sign in with Google" style flow stores credentials, but nothing flows yet. <strong>ClickUp</strong> is the only one that actually ingests data. The <strong>Brief integrations</strong> card maps a connected source to a brief template, so new items auto-append into the draft brief. Everything else on the marketing site is roadmap.
 </aside>
 
 > **Important context for the Founders Circle preview.** The marketing site lists several integrations as "live" (HubSpot, Stripe, Google Analytics, Google Ads, Meta Ads, etc.). Most of those aren't in the product code yet. This page reflects what's actually shipping, what's connection-only, and what's still roadmap.
@@ -22,11 +22,11 @@ There are two separate integration patterns under **Settings → Integrations**:
 
 The **Integrations** card lets you connect three providers:
 
-- **Google** — OAuth flow (`analytics.readonly`, `userinfo.email`, `userinfo.profile`).
-- **Slack** — OAuth flow (`chat:write`, `channels:read`, `users:read`).
-- **ClickUp** — personal API token (paste a token starting with `pk_` from ClickUp Settings → Apps).
+- **Google** — OAuth ("sign in with Google" flow). Asks for read access to Google Analytics and your profile info.
+- **Slack** — OAuth flow. Asks for permission to post messages, list channels, and read user info.
+- **ClickUp** — personal API token. Paste a token starting with `pk_` from ClickUp Settings → Apps.
 
-All three credentials are stored AES-256-GCM encrypted at rest, scoped to the workspace. You can revoke any of them at any time.
+All three credentials are encrypted at rest (industry-standard AES-256) and scoped to the workspace. You can revoke any of them at any time.
 
 ### B) Brief integrations (the pipeline that actually runs)
 
@@ -43,7 +43,7 @@ This is the ambient-ingest pipeline. Only one provider has a working data adapte
 **The full path:**
 
 1. **Settings → Integrations → Integrations** card → **Connect** on the ClickUp tile.
-2. Paste a personal API token (tokens start with `pk_`; generate from ClickUp's Settings → Apps page). We validate against ClickUp's `whoami` endpoint on save.
+2. Paste a personal API token (tokens start with `pk_`; generate from ClickUp's Settings → Apps page). We check the token works before saving.
 3. **Settings → Integrations → Brief integrations** card → **Add mapping**. Pick a brief template, pick the ClickUp integration, choose the list/source.
 
 After save, the ambient ingest job pulls items from the ClickUp source on a schedule (production: Upstash QStash) and appends them as blocks to the matching brief template's current-period draft. Items already ingested are tracked so re-runs don't duplicate.
@@ -54,7 +54,7 @@ After save, the ambient ingest job pulls items from the ClickUp source on a sche
 - **Paused** — mapping exists but the job skips it.
 - **Error** — last run failed; check the detail on the row.
 
-**Gotcha — schedule registration is a deploy step.** Even with a mapping created, the cron schedule has to be registered in the deploy environment for the job to actually run. If your workspace has mappings but nothing is ingesting, the schedule may not be wired up — let support know.
+**Gotcha — schedule registration is a deploy step.** Even with a mapping created, the background job has to be registered on our side. If your workspace has mappings but nothing is ingesting, the schedule may not be wired up — let support know.
 
 ---
 
@@ -114,10 +114,10 @@ Both cards are visible to Owners and Admins (`settings:update` permission).
 
 ## Security and credentials
 
-- **All credentials** (OAuth tokens and API tokens alike) are encrypted at rest using AES-256-GCM with workspace-scoped keys.
-- **OAuth grants are audit-logged** — every `oauth.granted` event records who granted access, when, and which provider.
+- **All credentials** (OAuth tokens and API tokens alike) are encrypted at rest with industry-standard AES-256, scoped to the workspace.
+- **Every connection is logged** — we record who granted access, when, and which service.
 - **Disconnecting** any integration revokes the stored credential immediately.
-- **Deleting a Brief integrations mapping** removes the mapping only; the underlying credential row stays connected.
+- **Deleting a Brief integrations mapping** removes the mapping only — the underlying credential stays connected.
 
 ## Common gotchas
 

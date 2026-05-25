@@ -14,7 +14,7 @@ Most agencies need one workspace. It holds members, clients, integrations, billi
 
 ## Workspace settings
 
-Open **Settings** in the sidebar. The settings page is a single tabbed surface with **16 tabs**, grouped into 5 sections in the side navigation:
+Open **Settings** in the sidebar. The settings page is a single tabbed page with **16 tabs**, grouped into 5 sections in the side navigation:
 
 **Workspace group:**
 
@@ -47,7 +47,9 @@ Open **Settings** in the sidebar. The settings page is a single tabbed surface w
 - **Logging** (`audit`) — a link card pointing at the dedicated [Activity page](#audit-log--activity); the audit log lives there.
 - **Danger Zone** (`danger`) — workspace deletion (Owners only).
 
-The tabs you see depend on your role: most settings require `settings:update` permission (Owner or Admin); Billing requires `billing:read`; Danger Zone requires `workspace:delete`. The IDs in parentheses are the `?tab=` query parameter values if you want to link directly.
+The tabs you see depend on your role. Most settings require Owner or Admin. Billing requires Owner or Admin. Only the Owner can use Danger Zone.
+
+The IDs in parentheses are the `?tab=` URL parameters if you want to link directly to a tab — e.g., `app.sendbriefs.com/settings?tab=billing`.
 
 ## Member roles
 
@@ -96,18 +98,18 @@ You can't reduce the workspace to zero Owners. The UI will refuse.
 Two layers:
 
 ### Per-user MFA
-Any user can enable TOTP-based MFA for themselves from the **Profile** page (sidebar avatar → Profile). Strongly recommended for anyone with Owner or Admin access. Enrollment generates 10 one-time backup codes — save these somewhere safe.
+Any user can enable MFA (authenticator-app codes; the 6-digit ones that refresh every 30 seconds) from their **Profile** page (sidebar avatar → Profile). Strongly recommended for anyone with Owner or Admin access. Enrollment generates 10 one-time backup codes — save these somewhere safe.
 
-First-time enrollment also has a top-level route at `/mfa-enroll` that the system routes you to when workspace-enforced MFA requires you to enroll before you can use the dashboard.
+First-time enrollment lives at `/mfa-enroll`. The system sends you there if workspace MFA is enforced and you haven't enrolled yet.
 
 ### Workspace-enforced MFA
 Owners can require every member to have MFA enabled. From **Settings → Security**, flip on **Require MFA**.
 
 Once enforced:
 
-- The workspace stores a `require_mfa_enabled_at` timestamp.
-- Members without MFA get a **7-day grace period** during which a banner warns them but they can still use the dashboard.
-- After the deadline (`require_mfa_enabled_at + 7 days`), members without MFA see a `mfa_required` block — they're routed to `/mfa-enroll` and can't access the dashboard until they enroll.
+- The workspace stores the moment enforcement started.
+- Members without MFA get a **7-day grace period**. They see a banner warning them but can still use the dashboard.
+- After 7 days, members without MFA are routed to `/mfa-enroll` and can't access the dashboard until they enroll.
 
 Turning the toggle off again is allowed, but members who already enrolled stay enrolled (they have to disable per-user).
 
@@ -140,11 +142,11 @@ To switch workspaces, click the workspace name at the top of the sidebar to open
 
 ## Audit log / Activity
 
-Every action that matters is logged in an `audit_logs` table: member changes, integration connect/disconnect, brief send events, role changes, billing changes, and more (50+ action types).
+Every meaningful action is logged: member changes, integration connections, brief sends, role changes, billing — 50+ types in all.
 
 The audit log surfaces on the **Activity** page in the sidebar (`/activity`), with three tabs: **Workspace Activity**, **Email Delivery**, and **Advanced** (the raw event stream with filters by action type, resource type, user, and date range).
 
-Settings → Logging is a link card — open it and you'll see a "View Activity & Logs →" button that opens `/activity?tab=advanced`. It's not an automatic redirect; you click the link.
+Settings → Logging is a link card that opens `/activity?tab=advanced` — it's not an automatic redirect, you click the link.
 
 ## Common gotchas
 

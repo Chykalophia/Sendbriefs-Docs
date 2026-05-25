@@ -9,10 +9,10 @@ import Placeholder from '../../../components/Placeholder.astro';
 
 <aside class="sb-tldr">
 <p class="sb-tldr-label">TL;DR</p>
-For every sent brief, you get aggregate engagement (cadence, comments, opens, open rate, sent timestamp) plus a per-recipient delivery table (Delivered / Opened with per-row icons, and Clicked tracked in the underlying email-event trail). Treat opens as best-effort. Data <em>inside</em> briefs comes from connected integrations — see <a href="/features/integrations/">Integrations</a>.
+Sent briefs show two views: aggregate engagement (opens, open rate, sent time) and per-recipient delivery (who got it, who opened). Clicks are tracked but not shown in the recipient list — open the per-recipient detail to see them. Treat opens as best-effort. Data <em>inside</em> briefs comes from connected integrations — see <a href="/features/integrations/">Integrations</a>.
 </aside>
 
-> Why this page is called "Reports & data" — the app sidebar uses **Reports** as the label for the briefs themselves (we use "brief" in the docs because that's the artifact your client receives). This page is about the *analytics around* briefs, not the brief artifact. For how briefs are built and sent, see [Briefs](/features/briefs/).
+> The sidebar calls these "Reports" — we say "brief" in the docs. This page covers the analytics around briefs, not the brief artifact itself. For how briefs are built and sent, see [Briefs](/features/briefs/).
 
 ## What you can see about a sent brief
 
@@ -31,29 +31,29 @@ SendGrid accepted the email and forwarded it to the recipient's mail server. Usu
 **Reliable.** If "Delivered" is green, the message reached the mail server. Whether the user reads it is a different question.
 
 ### Opened
-The recipient's mail client loaded our 1×1 tracking pixel.
+The recipient's mail client loaded the invisible tracking image we embed.
 
 **Best-effort.** Privacy filters significantly distort this number:
 
-- **Apple Mail Privacy Protection** (default on iOS 15+ and macOS Monterey+) auto-loads images via a proxy, inflating opens.
+- **Apple Mail** (on iPhone and iPad by default) pre-loads all tracking images. It counts as "opened" even if the user never saw the email.
 - **Outlook with image-blocking** never triggers an open.
 - **Plain-text recipients** never trigger an open.
 
 Don't read too much into "0 opens." Use it as one of several signals, not as the answer.
 
 ### Clicked
-The recipient clicked any tracked link in the brief (links are rewritten to route through our click tracker, including the portal CTA).
+The recipient clicked any tracked link in the brief. We rewrite every link to count clicks, including the "View in portal" button.
 
 **Stronger signal than opens.** Clicks require intent. Clicked events are captured per recipient in the email-event trail, though they don't currently render as a separate column in the recipient list — view the per-recipient detail to see them.
 
 ### Portal views (data only — not in UI yet)
-When a recipient opens the brief in the hosted portal, the portal token's `view_count` and `last_viewed_at` increment. This is the cleanest engagement signal (it can't be triggered by mail-client preloading), but it isn't surfaced in the brief detail UI in the current preview. It lives in the database and is accessible via export.
+When someone opens the brief in the portal, we count it. This is the cleanest signal — mail-client pre-loading can't trigger it. It just isn't shown in the UI yet. The data is available via export.
 
 ## Bounces, failures, and unsubscribes
 
 The underlying email-events trail captures problems too — they surface in the per-recipient delivery detail:
 
-- **Bounced** — recipient's mail server rejected the message (invalid address, mailbox full, blocked sender). Hard bounces auto-suppress the contact via SendGrid's webhook; the contact won't get future briefs until you manually restore them. Soft bounces don't suppress.
+- **Bounced** — recipient's mail server rejected the message (invalid address, mailbox full, blocked sender). Hard bounces auto-suppress the contact — they won't get future briefs until you manually restore them. Soft bounces don't suppress.
 - **Failed** — we couldn't even submit to SendGrid. Rare; usually a workspace-level config issue. Email support if you see this.
 - **Marked as spam** — the recipient flagged the brief as spam, OR their mail provider's filter did. Triggers auto-suppression. Repeated spam markings hurt your sender reputation.
 

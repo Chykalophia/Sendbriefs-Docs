@@ -27,7 +27,7 @@ A brief is the rendered combination of these against the period at the moment it
 Sections are defined by the brief's template. A template can:
 
 - Set the section name and an **email display name** (used in the email render).
-- Pick from **17 color themes** (red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose) and an icon (emoji).
+- Pick from **17 color themes** (the full Tailwind palette, red through rose) and an icon (emoji).
 - Provide **default content** so the section pre-fills when a new brief is generated.
 - Define **placeholder text** to prompt contributors.
 - Assign a **default contributor** so the right person gets notified to fill it in.
@@ -52,7 +52,7 @@ Layout mode controls whether blocks can sit outside sections:
 - **`strict`** — every block lives inside a section. Cleaner output, more structure. This is the default for new reports.
 - **`flexible`** — top-level blocks (a hero callout, a divider) can sit alongside sections.
 
-The resolved mode for any given brief comes from a four-layer cascade: workspace override → client override → template setting → brief's own value. Usually you can ignore this; the default works for most teams.
+The mode is set on the brief, but defaults are inherited (workspace → client → template → brief). Most teams can leave this alone — the `strict` default works fine.
 
 ## The block editor
 
@@ -77,7 +77,7 @@ Block types available:
 
 Type `/` and start typing the block name to filter the picker.
 
-> **About data-display blocks.** Metric / Gauge / Sparkline / StatsGrid are blocks for displaying numeric values. Today they're populated by you typing the values directly. The infrastructure for live data binding from external sources exists, but the only working data-pull integration in the current preview is ClickUp ambient ingest (and that auto-appends *content blocks*, not metric values). See [Integrations](/features/integrations/) for the full picture.
+> **About data-display blocks.** Metric / Gauge / Sparkline / StatsGrid are blocks for displaying numeric values. Today, you type the values directly. Live data binding from external sources exists in the codebase but isn't wired up yet — ClickUp ingest appends content blocks, not metric values. See [Integrations](/features/integrations/) for the full picture.
 
 ### Images and the Media Library
 
@@ -86,7 +86,9 @@ Image blocks reference URLs. To keep your assets organized:
 - The **Media Library** at **Settings → Delivery → Media Library** is a workspace-wide upload + reference area. Upload once; reference the resulting URL from any brief's Image block.
 - For one-off images, you can paste any externally-hosted URL into an Image block — but uploads through the Media Library are the durable path.
 
-Media Library assets stay available even after a brief is sent. If you delete an asset that's referenced by a sent brief, the rendered brief in the recipient's inbox is unaffected (the email contains the raw HTML at send time), but the portal view may show a broken image.
+Media Library assets stay available even after a brief is sent.
+
+If you delete an asset that's referenced by a sent brief, the recipient's already-delivered email is unaffected — the image is in their inbox. But future portal views of that brief will show a broken image.
 
 ## Brief state machine
 
