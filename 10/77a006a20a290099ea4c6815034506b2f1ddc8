@@ -1,0 +1,115 @@
+src/content/docs/features/notifications.mdx
+  s_d989ca9b23d922::t_28b68241097702 97
+  s_d989ca9b23d922::t_30d4b6bf2c65a6 92-93,95
+  s_d989ca9b23d922::t_29c798ba70c3f2 39
+  s_d989ca9b23d922::t_e56a79b06abf2f 73,77
+src/content/docs/features/settings-overview.mdx
+  s_d989ca9b23d922::t_81716381885391 10,15-34,38-51
+src/content/docs/features/activity.mdx
+  s_d989ca9b23d922::t_71aa48fb2f7d24 91
+  s_d989ca9b23d922::t_d8d89565992b23 116
+  s_d989ca9b23d922::t_9217f98c55037a 48
+  s_d989ca9b23d922::t_052d070a899cc9 72-87
+src/content/docs/flows/add-an-update.mdx
+  s_d989ca9b23d922::t_5f1442849913ff 128
+  s_d989ca9b23d922::t_c4e0ef487df7d3 70,73
+  s_d989ca9b23d922::t_fa33feca57c2a3 28,30-47
+  s_d989ca9b23d922::t_f314067424180c 98
+  s_d989ca9b23d922::t_c4ae52ba3b1f5b 12
+src/content/docs/features/workspaces.mdx
+  s_d989ca9b23d922::t_7538b42848509c 145
+  s_d989ca9b23d922::t_41963d4f7f40e2 17
+  s_d989ca9b23d922::t_840a3dc4d51775 50-52
+  s_d989ca9b23d922::t_71b128ae6b589a 110-112
+  s_d989ca9b23d922::t_709218010be0a7 149
+  s_d989ca9b23d922::t_5a55697edd1376 101,103
+src/content/docs/features/approvals.mdx
+  s_d989ca9b23d922::t_5bdee022e1fe55 86
+  s_d989ca9b23d922::t_491452333db3ba 113
+  s_d989ca9b23d922::t_cc6b13bb123e7c 88
+  s_d989ca9b23d922::t_2189317ea38055 116
+  s_d989ca9b23d922::t_a5efc95f00d166 34
+  s_d989ca9b23d922::t_32c25a860538b6 10
+  s_d989ca9b23d922::t_9e849b1a67b615 36,38,43
+src/content/docs/billing/addons.mdx
+  s_d989ca9b23d922::t_217e34cd2793c3 10,15
+  s_d989ca9b23d922::t_2ba857de08eab4 90
+  s_d989ca9b23d922::t_134b0900f73f21 95
+src/content/docs/features/reports.mdx
+  s_d989ca9b23d922::t_592e9b25e30f9c 45,50
+  s_d989ca9b23d922::t_1f776161ee81ff 12,15
+  s_d989ca9b23d922::t_b2f4e504b8bc11 34,38
+  s_d989ca9b23d922::t_523783ddd737c7 56
+src/content/docs/getting-started/create-account.mdx
+  s_d989ca9b23d922::t_2035d55df569f4 68-73
+  s_d989ca9b23d922::t_5481ae93bb72d4 62
+src/content/docs/features/integrations.mdx
+  s_d989ca9b23d922::t_1f75ab3ffd9d04 46
+  s_d989ca9b23d922::t_6b61c318b0d2ef 25-27,29
+  s_d989ca9b23d922::t_6c101b46629e22 12
+  s_d989ca9b23d922::t_05419a6084c963 57
+  s_d989ca9b23d922::t_609af525f0b654 117-118,120
+src/content/docs/features/templates.mdx
+  s_d989ca9b23d922::t_1cd4b40e4cee18 78
+  s_d989ca9b23d922::t_8986745341c2eb 125
+  s_d989ca9b23d922::t_ebda8d1686b434 75
+  s_d989ca9b23d922::t_917547e7b2b6e3 95,97,104
+  s_d989ca9b23d922::t_55a4a3da834721 12,17,19-30,32-41
+  s_d989ca9b23d922::t_b8f07da0fa5e60 93
+  s_d989ca9b23d922::t_478d1cebaf5e3e 110,112,114,117
+src/content/docs/features/profile-security.mdx
+  s_d989ca9b23d922::t_c5a6778852e083 102
+  s_d989ca9b23d922::t_bb071e23e6aac8 96
+  s_d989ca9b23d922::t_0b5d29248df8ff 48,55
+  s_d989ca9b23d922::t_b09b764efc9526 71-73
+src/content/docs/features/briefs.mdx
+  s_d989ca9b23d922::t_978ef7f05e3782 30
+  s_d989ca9b23d922::t_63ba7cba03967d 80
+  s_d989ca9b23d922::t_e9ac4c0050f74c 55
+  s_d989ca9b23d922::t_6e1421716eed25 89-91
+src/content/docs/billing/limits-and-metering.mdx
+  s_d989ca9b23d922::t_d15baab1324756 18,27,33
+  s_d989ca9b23d922::t_5e1fe875e89e0a 10
+  s_d989ca9b23d922::t_89136db2538efd 82
+  s_d989ca9b23d922::t_9f3656eee0b371 47,49-51
+src/content/docs/features/recipient-experience.mdx
+  s_d989ca9b23d922::t_e1dcbcb4b0c001 83,85-88
+  s_d989ca9b23d922::t_cdcb3fed659485 12
+  s_d989ca9b23d922::t_24abbc6b3fcbe5 33-35
+  s_d989ca9b23d922::t_23245397cfc354 94-95
+  s_d989ca9b23d922::t_342959126bcaee 57,59
+  s_d989ca9b23d922::t_a3f88532309c64 158
+src/content/docs/features/email-layout.mdx
+  s_d989ca9b23d922::t_61f81fc3d150e7 73,79-82
+  s_d989ca9b23d922::t_7fa9a2ab1f4a7e 92
+  s_d989ca9b23d922::t_ec75bbe01cbd06 12,17,21-25
+  s_d989ca9b23d922::t_c59bb9db100928 118
+src/content/docs/getting-started/send-first-brief.mdx
+  s_d989ca9b23d922::t_daf984187e5d57 12
+  s_d989ca9b23d922::t_a687592ac2753f 69
+  s_d989ca9b23d922::t_7d7142c45a4a66 35,37-38,40-49
+  s_d989ca9b23d922::t_d8cd49e6e1ccee 20
+  s_d989ca9b23d922::t_e3a68f8b935689 97-100,102-103,105-106
+  s_d989ca9b23d922::t_e269f8a93c5afe 127
+src/content/docs/features/scheduled-reports.mdx
+  s_d989ca9b23d922::t_09f21d46ecaa74 10,15,17,23
+  s_d989ca9b23d922::t_ed41d1b27e2a24 82,84-89
+  s_d989ca9b23d922::t_f4add30d318025 97
+  s_d989ca9b23d922::t_32dbaf953aa5a2 112-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "1077a006a20a290099ea4c6815034506b2f1ddc8",
+  "prompts": {},
+  "sessions": {
+    "s_d989ca9b23d922": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a4ccadee-7dfb-45f7-903f-3e4bf89caaa1",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Peter Krzyzek <peter@chykalophia.com>"
+    }
+  }
+}
