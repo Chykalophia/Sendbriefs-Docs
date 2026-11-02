@@ -265,7 +265,6 @@
   }
 
   function syncUI(s: ComfortSettings): void {
-    // Segmented controls
     document
       .querySelectorAll<HTMLElement>('[data-sb-comfort-segmented]')
       .forEach((group) => {
@@ -277,7 +276,6 @@
         });
       });
 
-    // Switches
     document
       .querySelectorAll<HTMLButtonElement>('[data-sb-comfort-toggle]')
       .forEach((btn) => {
@@ -320,7 +318,6 @@
       if (e.target === dialog) dialog.close();
     });
 
-    // Segmented controls
     document
       .querySelectorAll<HTMLElement>('[data-sb-comfort-segmented]')
       .forEach((group) => {
@@ -347,7 +344,6 @@
         });
       });
 
-    // Switches
     document
       .querySelectorAll<HTMLButtonElement>('[data-sb-comfort-toggle]')
       .forEach((btn) => {
