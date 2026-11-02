@@ -1,6 +1,6 @@
 /*
  * SendBriefs Docs — design tokens.
- * Mirrors sendbriefs_marketing/app/globals.css (color overhaul 2026-05-11).
+ * Mirrors sendbriefs_marketing/app/globals.css.
  * Authoritative source for the docs surface; matches marketing + app.
  *
  * Structure:
@@ -9,6 +9,8 @@
  *   3. Type utilities (.type-h1, .type-eyebrow, etc.)
  *   4. Surface utilities + decorative chrome (gradients, focus rings)
  *   5. Content-area refinements (Starlight body content)
+ *   6. Homepage — splash hero + section primitives
+ *   7. Scroll-reveal microinteraction
  */
 
 /* ============================================================
@@ -16,7 +18,7 @@
  * ============================================================ */
 
 :root {
-  /* ---- Surfaces (modern white, post-2026-05-11 overhaul) ---- */
+  /* ---- Surfaces ---- */
   --sb-paper: #ffffff;
   --sb-paper-2: #f9fafb; /* gray-50 */
   --sb-paper-3: #f3f4f6; /* gray-100 */
@@ -819,8 +821,5 @@ body {
   transition: none;
 }
 
-/* Sections 8 (content-link underline animation), 9 (sidebar active-item
- * gradient accent), and 10 (H2 underline accent) removed 2026-05-20 —
- * those overrode Starlight's default chrome CSS and produced layout
- * misalignment with the sidebar/header grid. Re-introduce only as
- * scoped, non-Starlight-overriding rules if needed. */
+/* Don't override Starlight's chrome CSS here (content-link underlines, sidebar
+ * active-item accents, H2 accents): it misaligns the sidebar/header grid. */
