@@ -19,16 +19,12 @@ test.describe('Smoke — routes load, brand chrome renders', () => {
     test(`${route} loads with brand chrome`, async ({ page }) => {
       const response = await page.goto(route);
 
-      // 200 response
       expect(response?.status()).toBe(200);
 
-      // Title contains SendBriefs
       await expect(page).toHaveTitle(/SendBriefs/i);
 
-      // Comfort FAB is present (it's on every page)
       await expect(page.locator('.sb-comfort-fab')).toBeVisible();
 
-      // Footer tagline is present
       await expect(page.locator('.sb-footer-tagline')).toBeVisible();
     });
   }
@@ -46,15 +42,12 @@ test.describe('Comfort Panel — opens, toggles, persists', () => {
     await page.goto('/getting-started/welcome/');
     await page.locator('.sb-comfort-fab').click();
 
-    // Click "L" in the text size segmented control
     await page
       .locator('[data-sb-comfort-segmented="textSize"] [data-value="l"]')
       .click();
 
-    // Check that html attribute updated
     await expect(page.locator('html')).toHaveAttribute('data-text-size', 'l');
 
-    // Reload and confirm setting persists
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-text-size', 'l');
   });
