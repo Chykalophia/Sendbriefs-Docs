@@ -43,15 +43,12 @@ const companyLinks = [
 ];
 ---
 
-<!-- Starlight's default footer: prev/next, edit-link, last-updated -->
 <Default {...Astro.props}><slot /></Default>
 
-<!-- SendBriefs brand footer -->
 <footer class="sb-footer" role="contentinfo">
   <div class="sb-footer-orb" aria-hidden="true"></div>
 
   <div class="sb-footer-inner">
-    <!-- Brand zone -->
     <div class="sb-footer-brand-row">
       <div class="sb-footer-brand">
         <a href="/" class="sb-footer-brand-link" aria-label="SendBriefs Docs home">
@@ -85,7 +82,6 @@ const companyLinks = [
       </div>
     </div>
 
-    <!-- Link columns -->
     <div class="sb-footer-cols">
       <div>
         <p class="type-eyebrow sb-footer-col-heading">Product</p>
@@ -121,7 +117,6 @@ const companyLinks = [
       </div>
     </div>
 
-    <!-- Bottom strip -->
     <div class="sb-footer-strip">
       <span>© {year} Chykalophia Group, LLC. SendBriefs is a product of Chykalophia Group, LLC.</span>
       <div class="sb-footer-strip-links">
@@ -133,7 +128,6 @@ const companyLinks = [
   </div>
 </footer>
 
-<!-- Comfort panel mounts once at the bottom; FAB is position:fixed -->
 <ComfortPanel />
 
 <style>
