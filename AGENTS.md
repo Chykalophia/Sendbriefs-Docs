@@ -10,5 +10,5 @@ Astro + Starlight static site for docs.sendbriefs.com. Page content lives in `sr
 4. A why-comment is ≤2 lines, present tense, next to the code it explains. Longer rationale goes in `docs/` with a link.
 5. Exported APIs get a TSDoc block (purpose, params, returns, throws). Don't repeat types the signature already gives.
 6. A TODO names a ticket or an owner plus a concrete action, e.g. `TODO(CU-868abc): …`. Otherwise it goes in ClickUp.
-7. Nothing developer-facing ships: no `<!-- -->` in templates, emails, `.astro` or `.mdx`. Use `{/* */}` (JSX/Astro/MDX) or `{{/* */}}` (Go email templates).
+7. Nothing developer-facing ships: no `<!-- -->` in templates, emails, `.astro`, `.md` or `.mdx`. Use `{/* */}` (JSX/Astro/MDX) or `{{/* */}}` (Go email templates). Plain `.md` pages take no comments, because `{/* */}` renders as text there.
 8. When you change code, fix or delete the comments around it. A wrong comment is worse than none.
