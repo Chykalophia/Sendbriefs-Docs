@@ -1,0 +1,17 @@
+---
+import Default from '@astrojs/starlight/components/MobileMenuToggle.astro';
+---
+
+<Default />
+
+{/* Starlight sets aria-expanded on the custom element, which has no role, so the
+    button itself always reads "collapsed". Mirror the state onto the button. */}
+<script>
+  for (const host of document.querySelectorAll('starlight-menu-button')) {
+    const btn = host.querySelector('button');
+    if (!btn) continue;
+    const sync = () => btn.setAttribute('aria-expanded', host.getAttribute('aria-expanded') === 'true' ? 'true' : 'false');
+    new MutationObserver(sync).observe(host, { attributes: true, attributeFilter: ['aria-expanded'] });
+    sync();
+  }
+</script>
