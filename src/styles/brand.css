@@ -1,6 +1,6 @@
 /*
  * SendBriefs Docs — design tokens.
- * Mirrors sendbriefs_marketing/app/globals.css (color overhaul 2026-05-11).
+ * Mirrors sendbriefs_marketing/app/globals.css.
  * Authoritative source for the docs surface; matches marketing + app.
  *
  * Structure:
@@ -9,6 +9,8 @@
  *   3. Type utilities (.type-h1, .type-eyebrow, etc.)
  *   4. Surface utilities + decorative chrome (gradients, focus rings)
  *   5. Content-area refinements (Starlight body content)
+ *   6. Homepage — splash hero + section primitives
+ *   7. Scroll-reveal microinteraction
  */
 
 /* ============================================================
@@ -16,7 +18,7 @@
  * ============================================================ */
 
 :root {
-  /* ---- Surfaces (modern white, post-2026-05-11 overhaul) ---- */
+  /* ---- Surfaces ---- */
   --sb-paper: #ffffff;
   --sb-paper-2: #f9fafb; /* gray-50 */
   --sb-paper-3: #f3f4f6; /* gray-100 */
@@ -355,7 +357,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: sb-text-sweep 7s ease-in-out infinite;
+  animation: sb-text-sweep 7s ease-in-out 1;
 }
 
 @keyframes sb-text-sweep {
@@ -482,7 +484,8 @@ body {
 .hero {
   position: relative;
   isolation: isolate;
-  overflow: visible;
+  /* Clips the blurred orbs so they never widen the page. */
+  overflow: clip;
   padding-block: clamp(3rem, 6vw, 5rem);
 }
 
@@ -503,7 +506,7 @@ body {
   height: 22rem;
   background: radial-gradient(circle at 30% 30%, rgba(79, 70, 229, 0.32), transparent 60%);
   opacity: 0.65;
-  animation: sb-orb-drift 18s ease-in-out infinite;
+  animation: sb-orb-drift 18s ease-in-out 2;
 }
 
 .hero::after {
@@ -513,7 +516,7 @@ body {
   height: 24rem;
   background: radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.28), transparent 60%);
   opacity: 0.55;
-  animation: sb-orb-drift 22s ease-in-out -6s infinite reverse;
+  animation: sb-orb-drift 22s ease-in-out -6s 2 reverse;
 }
 
 :root[data-theme='dark'] .hero::before {
@@ -537,7 +540,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: sb-text-sweep 9s ease-in-out infinite;
+  animation: sb-text-sweep 9s ease-in-out 1;
 }
 
 .hero .tagline {
@@ -616,14 +619,14 @@ body {
 
 .sb-home-foot {
   margin-top: 1.25rem;
-  color: var(--sl-color-gray-4);
+  color: var(--sl-color-gray-3);
   font-size: 0.875rem;
 }
 
 /* Definition list used on the "How these docs are organized" section */
 .sb-home-deflist {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.875rem;
   margin: 1.5rem 0 0;
   padding: 1.5rem;
@@ -641,11 +644,17 @@ body {
 
 .sb-home-deflist > div {
   display: grid;
-  grid-template-columns: 9rem 1fr;
+  grid-template-columns: minmax(0, 1fr);
   align-items: baseline;
   gap: 0.75rem;
   padding: 0.5rem 0;
   border-bottom: 1px dashed var(--sl-color-hairline);
+}
+
+@media (min-width: 30rem) {
+  .sb-home-deflist > div {
+    grid-template-columns: 9rem minmax(0, 1fr);
+  }
 }
 
 .sb-home-deflist > div:last-child {
@@ -791,7 +800,8 @@ body {
  * 7. Scroll-reveal microinteraction
  * ============================================================ */
 
-[data-sb-reveal] {
+/* Hidden only once script has run, so content still shows if it never does. */
+html.js [data-sb-reveal] {
   opacity: 0;
   transform: translateY(14px);
   transition:
@@ -800,27 +810,44 @@ body {
   will-change: opacity, transform;
 }
 
-[data-sb-reveal].is-visible {
+html.js [data-sb-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-sb-reveal] {
+  html.js [data-sb-reveal] {
     opacity: 1;
     transform: none;
     transition: none;
   }
 }
 
-.reduce-motion [data-sb-reveal] {
+html.js.reduce-motion [data-sb-reveal] {
   opacity: 1;
   transform: none;
   transition: none;
 }
 
-/* Sections 8 (content-link underline animation), 9 (sidebar active-item
- * gradient accent), and 10 (H2 underline accent) removed 2026-05-20 —
- * those overrode Starlight's default chrome CSS and produced layout
- * misalignment with the sidebar/header grid. Re-introduce only as
- * scoped, non-Starlight-overriding rules if needed. */
+/* Don't override Starlight's chrome CSS here (content-link underlines, sidebar
+ * active-item accents, H2 accents): it misaligns the sidebar/header grid. */
+
+/* Tables scroll inside a focusable region (see rehype-table-region) rather than on the table itself. */
+.sb-table-region {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.sl-markdown-content .sb-table-region > table:not(:where(.not-content *)) {
+  display: table;
+  overflow: visible;
+}
+.sb-table-region:focus-visible {
+  outline: 2px solid var(--sl-color-text-accent);
+  outline-offset: 2px;
+}
+
+/* Heading anchor links meet the 24px minimum target size. */
+.sl-markdown-content .sl-anchor-link {
+  min-width: 24px;
+  min-height: 24px;
+}

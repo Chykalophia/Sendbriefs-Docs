@@ -17,6 +17,7 @@ import Default from '@astrojs/starlight/components/Head.astro';
 // Total cost: ~600 bytes of inline JS, runs in <2ms.
 const comfortInit = `
 (function(){
+  document.documentElement.classList.add('js');
   try{
     var raw=localStorage.getItem('sb-comfort-v1');
     if(!raw)return;
@@ -36,13 +37,40 @@ const comfortInit = `
 
 <Default><slot /></Default>
 
-<!-- Comfort pre-hydration script — must run before first paint -->
 <script is:inline set:html={comfortInit}></script>
 
-<!-- Banner height sync — keep --sb-banner-h matched to the banner's actual
-     rendered height. The sidebar/TOC use --sl-nav-height + --sb-banner-h
-     as their sticky top offset (see brand.css), so the page chrome stays
-     visually under the full sticky header even when the banner wraps. -->
+{/* Skim mode clamps paragraphs, so give keyboard users a real control to show the full text. */}
+<script is:inline>
+  (function () {
+    function addSkimBar() {
+      var content = document.querySelector('.sl-markdown-content');
+      if (!content || content.querySelector('.sb-skim-bar')) return;
+      var bar = document.createElement('div');
+      bar.className = 'sb-skim-bar';
+      var label = document.createElement('span');
+      label.textContent = 'Skim mode is on: long paragraphs are shortened.';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = 'Show full text';
+      btn.addEventListener('click', function () {
+        var expanded = document.documentElement.classList.toggle('skim-expanded');
+        btn.setAttribute('aria-pressed', String(expanded));
+      });
+      bar.appendChild(label);
+      bar.appendChild(btn);
+      content.insertBefore(bar, content.firstChild);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', addSkimBar, { once: true });
+    } else {
+      addSkimBar();
+    }
+  })();
+</script>
+
+{/* Keeps --sb-banner-h equal to the banner's rendered height: the sidebar/TOC
+    sticky offset is --sl-nav-height + --sb-banner-h, so it must track wrapping. */}
 <script is:inline>
   (function () {
     if (typeof window === 'undefined') return;
@@ -68,7 +96,6 @@ const comfortInit = `
   })();
 </script>
 
-<!-- Scroll-reveal microinteraction — IntersectionObserver, opt-out via prefers-reduced-motion or .reduce-motion -->
 <script is:inline>
   (function () {
     if (typeof window === 'undefined') return;
@@ -106,11 +133,9 @@ const comfortInit = `
   })();
 </script>
 
-<!-- Theme color (browser chrome) — indigo to match brand -->
 <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)" />
 
-<!-- Open Graph defaults — individual pages can override -->
 <meta property="og:site_name" content="SendBriefs Docs" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content={`${Astro.site}og-default.png`} />

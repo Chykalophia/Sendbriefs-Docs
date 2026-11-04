@@ -48,8 +48,6 @@ test.describe('Accessibility — every route is WCAG 2.1 AA clean', () => {
 
       const results = await new AxeBuilder({ page }).withTags([...A11Y_TAGS]).analyze();
 
-      // Filter out any known false positives here if they appear.
-      // (As of writing, none.)
       const violations = results.violations;
 
       if (violations.length > 0) {

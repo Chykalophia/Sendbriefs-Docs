@@ -27,7 +27,6 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
 
-  // Spin up the preview server automatically for the test run.
   webServer: {
     command: `pnpm preview --port ${PORT} --host`,
     url: BASE_URL,

@@ -43,15 +43,12 @@ const companyLinks = [
 ];
 ---
 
-<!-- Starlight's default footer: prev/next, edit-link, last-updated -->
 <Default {...Astro.props}><slot /></Default>
 
-<!-- SendBriefs brand footer -->
-<footer class="sb-footer" role="contentinfo">
+<footer class="sb-footer">
   <div class="sb-footer-orb" aria-hidden="true"></div>
 
   <div class="sb-footer-inner">
-    <!-- Brand zone -->
     <div class="sb-footer-brand-row">
       <div class="sb-footer-brand">
         <a href="/" class="sb-footer-brand-link" aria-label="SendBriefs Docs home">
@@ -85,7 +82,6 @@ const companyLinks = [
       </div>
     </div>
 
-    <!-- Link columns -->
     <div class="sb-footer-cols">
       <div>
         <p class="type-eyebrow sb-footer-col-heading">Product</p>
@@ -121,7 +117,6 @@ const companyLinks = [
       </div>
     </div>
 
-    <!-- Bottom strip -->
     <div class="sb-footer-strip">
       <span>© {year} Chykalophia Group, LLC. SendBriefs is a product of Chykalophia Group, LLC.</span>
       <div class="sb-footer-strip-links">
@@ -133,7 +128,6 @@ const companyLinks = [
   </div>
 </footer>
 
-<!-- Comfort panel mounts once at the bottom; FAB is position:fixed -->
 <ComfortPanel />
 
 <style>
@@ -219,7 +213,7 @@ const companyLinks = [
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     background: color-mix(in srgb, var(--sb-brand-emerald-deep) 12%, transparent);
-    color: var(--sb-brand-emerald-deep);
+    color: #065f46;
     font-size: 0.75rem;
     font-weight: 600;
   }
@@ -233,6 +227,7 @@ const companyLinks = [
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
+    min-height: 24px;
     color: var(--sl-color-gray-3);
     font-size: 0.75rem;
     text-decoration: none;
@@ -305,7 +300,7 @@ const companyLinks = [
 
   .sb-footer-col-heading {
     margin: 0 0 0.625rem;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
   }
 
   .sb-footer-cols ul {
@@ -319,6 +314,9 @@ const companyLinks = [
   }
 
   .sb-footer-cols a {
+    display: inline-block;
+    padding-block: 2px;
+    min-height: 24px;
     color: var(--sl-color-gray-3);
     text-decoration: none;
     font-size: 0.875rem;
@@ -339,7 +337,7 @@ const companyLinks = [
     padding-top: 1.5rem;
     border-top: 1px solid var(--sl-color-hairline);
     font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
   }
 
   @media (min-width: 40rem) {
@@ -357,7 +355,9 @@ const companyLinks = [
   }
 
   .sb-footer-strip-links a {
-    color: var(--sl-color-gray-4);
+    display: inline-block;
+    padding-block: 4px;
+    color: var(--sl-color-gray-3);
     text-decoration: none;
   }
 

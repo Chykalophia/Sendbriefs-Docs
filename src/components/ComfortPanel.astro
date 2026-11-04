@@ -86,9 +86,9 @@
             aria-labelledby="sb-comfort-text-size-label"
             data-sb-comfort-segmented="textSize"
           >
-            <button type="button" role="radio" aria-checked="false" data-value="s">S</button>
-            <button type="button" role="radio" aria-checked="true" data-value="m">M</button>
-            <button type="button" role="radio" aria-checked="false" data-value="l">L</button>
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-value="s" aria-label="Small text">S</button>
+            <button type="button" role="radio" aria-checked="true" tabindex="0" data-value="m" aria-label="Medium text">M</button>
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-value="l" aria-label="Large text">L</button>
           </div>
         </div>
 
@@ -100,13 +100,13 @@
             aria-labelledby="sb-comfort-density-label"
             data-sb-comfort-segmented="density"
           >
-            <button type="button" role="radio" aria-checked="false" data-value="compact"
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-value="compact"
               >Compact</button
             >
-            <button type="button" role="radio" aria-checked="true" data-value="comfort"
+            <button type="button" role="radio" aria-checked="true" tabindex="0" data-value="comfort"
               >Comfort</button
             >
-            <button type="button" role="radio" aria-checked="false" data-value="spacious"
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-value="spacious"
               >Spacious</button
             >
           </div>
@@ -265,7 +265,6 @@
   }
 
   function syncUI(s: ComfortSettings): void {
-    // Segmented controls
     document
       .querySelectorAll<HTMLElement>('[data-sb-comfort-segmented]')
       .forEach((group) => {
@@ -274,10 +273,11 @@
         group.querySelectorAll<HTMLButtonElement>('[role="radio"]').forEach((btn) => {
           const isActive = btn.dataset['value'] === current;
           btn.setAttribute('aria-checked', String(isActive));
+          // Roving tabindex: only the selected option is a tab stop.
+          btn.tabIndex = isActive ? 0 : -1;
         });
       });
 
-    // Switches
     document
       .querySelectorAll<HTMLButtonElement>('[data-sb-comfort-toggle]')
       .forEach((btn) => {
@@ -320,7 +320,6 @@
       if (e.target === dialog) dialog.close();
     });
 
-    // Segmented controls
     document
       .querySelectorAll<HTMLElement>('[data-sb-comfort-segmented]')
       .forEach((group) => {
@@ -347,7 +346,6 @@
         });
       });
 
-    // Switches
     document
       .querySelectorAll<HTMLButtonElement>('[data-sb-comfort-toggle]')
       .forEach((btn) => {
@@ -457,7 +455,7 @@
   .sb-comfort-subtitle {
     margin: 0.25rem 0 0 0;
     font-size: 0.8125rem;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
   }
 
   .sb-comfort-close {
@@ -496,7 +494,7 @@
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
   }
 
   .sb-comfort-controls {
@@ -536,7 +534,7 @@
     border-radius: var(--sb-radius-sm);
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
     cursor: pointer;
     transition:
       background var(--sb-duration-fast) var(--sb-ease-out-quart),
@@ -571,12 +569,15 @@
     border: 0;
     border-radius: 9999px;
     background: var(--sb-line-strong);
+    /* Off-state outline keeps the track visible at 3:1 against the panel. */
+    box-shadow: inset 0 0 0 1.5px var(--sl-color-gray-3);
     cursor: pointer;
     transition: background var(--sb-duration-fast) var(--sb-ease-out-quart);
   }
 
   .sb-switch[aria-checked='true'] {
     background: var(--sb-brand-emerald-deep);
+    box-shadow: none;
   }
 
   .sb-switch-thumb {
@@ -587,7 +588,9 @@
     height: 1.25rem;
     background: var(--sb-paper);
     border-radius: 9999px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow:
+      0 0 0 1px var(--sl-color-gray-3),
+      0 1px 2px rgba(0, 0, 0, 0.15);
     transition: transform var(--sb-duration-fast) var(--sb-ease-out-quart);
   }
 
@@ -604,7 +607,7 @@
     padding-top: 1rem;
     border-top: 1px solid var(--sl-color-hairline);
     font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
   }
 
   .sb-comfort-reset {

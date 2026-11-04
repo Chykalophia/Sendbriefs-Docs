@@ -1,17 +1,16 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import rehypeTableRegion from './src/plugins/rehype-table-region.mjs';
 
-// Detect prod-vs-dev for the placeholder feature, etc.
 const SITE = process.env.SITE_URL ?? 'https://docs.sendbriefs.com';
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
 
-  // The docs site is meant to live at docs.sendbriefs.com (subdomain).
-  // If you ever move it to sendbriefs.com/docs, set `base: '/docs'` and
-  // update SITE_URL accordingly.
+  // Served at the root of docs.sendbriefs.com. To serve under sendbriefs.com/docs,
+  // set `base: '/docs'` and update SITE_URL.
 
   integrations: [
     starlight({
@@ -43,16 +42,13 @@ export default defineConfig({
         './src/styles/comfort.css',
       ],
 
-      // Component overrides — we wrap Starlight's defaults with SendBriefs chrome.
       components: {
         Head: './src/overrides/Head.astro',
         Header: './src/overrides/Header.astro',
         Footer: './src/overrides/Footer.astro',
+        TwoColumnContent: './src/overrides/TwoColumnContent.astro',
         SocialIcons: './src/overrides/SocialIcons.astro',
       },
-
-      // Disable Starlight's default mobile menu styling — we use ours.
-      // (Starlight handles the menu; we only restyle.)
 
       sidebar: [
         {
@@ -131,18 +127,14 @@ export default defineConfig({
       // Match cookie + analytics ban: no Google Analytics, no third-party CDN fonts.
       // Self-hosted @fontsource fonts in src/styles/fonts.css.
 
-      // Last-updated dates from git
       lastUpdated: true,
 
-      // Pagination at the bottom of each page
       pagination: true,
-
-      // Accessibility: skip link is on by default
     }),
   ],
 
-  // Astro markdown config — add Mermaid via rehype-mermaid if needed later.
   markdown: {
+    rehypePlugins: [rehypeTableRegion],
     shikiConfig: {
       themes: {
         light: 'github-light',
@@ -152,12 +144,10 @@ export default defineConfig({
     },
   },
 
-  // Don't ship sourcemaps to production
   build: {
     inlineStylesheets: 'auto',
   },
 
-  // Image optimization is enabled by default in Astro 6
   image: {
     responsiveStyles: true,
   },

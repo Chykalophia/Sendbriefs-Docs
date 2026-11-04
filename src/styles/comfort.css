@@ -80,7 +80,10 @@ html.dyslexia-mode :is(h1, h2, h3, h4, h5, h6) {
   letter-spacing: 0;
 }
 
-/* ---- High-contrast theme ---- */
+/* ---- High-contrast theme ----
+ * :root[data-theme] matches Starlight's theme blocks so these win in both themes.
+ */
+:root[data-theme].high-contrast,
 html.high-contrast {
   --sl-color-bg: #ffffff;
   --sl-color-bg-nav: #ffffff;
@@ -94,6 +97,34 @@ html.high-contrast {
   --sl-color-accent: #0000ee; /* canonical link blue */
   --sl-color-accent-high: #0000aa;
   --sl-color-accent-low: #ffffff;
+  --sl-color-gray-2: #000000;
+  --sl-color-gray-3: #1f2937;
+  --sl-color-gray-4: #1f2937;
+}
+
+:root[data-theme='dark'].high-contrast {
+  --sl-color-bg: #000000;
+  --sl-color-bg-nav: #000000;
+  --sl-color-bg-sidebar: #000000;
+  --sl-color-bg-inline-code: #1a1a1a;
+  --sl-color-text: #ffffff;
+  --sl-color-text-accent: #ffffff;
+  --sl-color-white: #ffffff;
+  --sl-color-hairline-light: #ffffff;
+  --sl-color-hairline: #ffffff;
+  --sl-color-hairline-shade: #ffffff;
+  --sl-color-accent: #9ecbff;
+  --sl-color-accent-high: #cfe5ff;
+  --sl-color-accent-low: #000000;
+  --sl-color-gray-1: #ffffff;
+  --sl-color-gray-2: #ffffff;
+  --sl-color-gray-3: #e5e7eb;
+  --sl-color-gray-4: #e5e7eb;
+}
+
+:root[data-theme='dark'].high-contrast .sb-cta-secondary {
+  border-color: #ffffff;
+  color: #ffffff;
 }
 
 html.high-contrast :is(.sb-cta-primary, .sb-surface-featured) {
@@ -131,25 +162,37 @@ html.skim-mode .sl-markdown-content p:not(.sb-tldr):not(.sb-tldr-label) {
 }
 
 html.skim-mode .sl-markdown-content p:not(.sb-tldr):hover,
-html.skim-mode .sl-markdown-content p:not(.sb-tldr):focus-within {
-  -webkit-line-clamp: 99;
-  line-clamp: 99;
+html.skim-mode .sl-markdown-content p:not(.sb-tldr):focus-within,
+html.skim-mode.skim-expanded .sl-markdown-content p:not(.sb-tldr):not(.sb-tldr-label) {
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  display: block;
 }
 
-/* Visual indicator that skim mode is active */
-html.skim-mode body::before {
-  content: 'Skim mode on — hover a paragraph to expand';
-  position: fixed;
-  top: 0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 60;
-  padding: 0.25rem 0.75rem;
-  background: var(--sb-brand-blue-deep);
-  color: #ffffff;
+/* In-flow skim notice with a Show all toggle, added by Head.astro; hidden unless skim mode is on. */
+.sb-skim-bar {
+  display: none;
+}
+html.skim-mode .sb-skim-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 1.25rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--sl-color-hairline-shade);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--sl-color-text);
+}
+.sb-skim-bar button {
+  min-height: 24px;
+  padding: 0.125rem 0.625rem;
+  border: 1px solid var(--sl-color-gray-3);
   border-radius: 9999px;
-  font-size: 11px;
+  background: transparent;
+  color: var(--sl-color-text);
+  font: inherit;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  pointer-events: none;
+  cursor: pointer;
 }
