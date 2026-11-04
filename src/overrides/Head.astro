@@ -17,6 +17,7 @@ import Default from '@astrojs/starlight/components/Head.astro';
 // Total cost: ~600 bytes of inline JS, runs in <2ms.
 const comfortInit = `
 (function(){
+  document.documentElement.classList.add('js');
   try{
     var raw=localStorage.getItem('sb-comfort-v1');
     if(!raw)return;
@@ -37,6 +38,36 @@ const comfortInit = `
 <Default><slot /></Default>
 
 <script is:inline set:html={comfortInit}></script>
+
+{/* Skim mode clamps paragraphs, so give keyboard users a real control to show the full text. */}
+<script is:inline>
+  (function () {
+    function addSkimBar() {
+      var content = document.querySelector('.sl-markdown-content');
+      if (!content || content.querySelector('.sb-skim-bar')) return;
+      var bar = document.createElement('div');
+      bar.className = 'sb-skim-bar';
+      var label = document.createElement('span');
+      label.textContent = 'Skim mode is on: long paragraphs are shortened.';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = 'Show full text';
+      btn.addEventListener('click', function () {
+        var expanded = document.documentElement.classList.toggle('skim-expanded');
+        btn.setAttribute('aria-pressed', String(expanded));
+      });
+      bar.appendChild(label);
+      bar.appendChild(btn);
+      content.insertBefore(bar, content.firstChild);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', addSkimBar, { once: true });
+    } else {
+      addSkimBar();
+    }
+  })();
+</script>
 
 {/* Keeps --sb-banner-h equal to the banner's rendered height: the sidebar/TOC
     sticky offset is --sl-nav-height + --sb-banner-h, so it must track wrapping. */}

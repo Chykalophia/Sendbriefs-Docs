@@ -132,7 +132,7 @@ Every client can have their own logo. White-label work depends on this. Five min
 ## When you get stuck
 
 - **Read the workflow docs.** Most "how do I…" questions are answered in [Processes & flows](/flows/monthly-reporting/).
-- **Email <a href="mailto:support@sendbriefs.com">support@sendbriefs.com</a>.** Real humans, four-hour response time, often much less.
+- **Email [support@sendbriefs.com](mailto:support@sendbriefs.com).** Real humans, four-hour response time, often much less.
 - **Help center on the marketing site.** Quick reference at [sendbriefs.com/help](https://sendbriefs.com/help).
 
 You're done with onboarding. The rest of these docs are reference — pull them up when you need them, ignore them otherwise.

@@ -45,7 +45,7 @@ const companyLinks = [
 
 <Default {...Astro.props}><slot /></Default>
 
-<footer class="sb-footer" role="contentinfo">
+<footer class="sb-footer">
   <div class="sb-footer-orb" aria-hidden="true"></div>
 
   <div class="sb-footer-inner">
@@ -213,7 +213,7 @@ const companyLinks = [
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     background: color-mix(in srgb, var(--sb-brand-emerald-deep) 12%, transparent);
-    color: var(--sb-brand-emerald-deep);
+    color: #065f46;
     font-size: 0.75rem;
     font-weight: 600;
   }
@@ -299,7 +299,7 @@ const companyLinks = [
 
   .sb-footer-col-heading {
     margin: 0 0 0.625rem;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
   }
 
   .sb-footer-cols ul {
@@ -313,6 +313,9 @@ const companyLinks = [
   }
 
   .sb-footer-cols a {
+    display: inline-block;
+    padding-block: 2px;
+    min-height: 24px;
     color: var(--sl-color-gray-3);
     text-decoration: none;
     font-size: 0.875rem;
@@ -333,7 +336,7 @@ const companyLinks = [
     padding-top: 1.5rem;
     border-top: 1px solid var(--sl-color-hairline);
     font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-3);
   }
 
   @media (min-width: 40rem) {
@@ -351,7 +354,9 @@ const companyLinks = [
   }
 
   .sb-footer-strip-links a {
-    color: var(--sl-color-gray-4);
+    display: inline-block;
+    padding-block: 4px;
+    color: var(--sl-color-gray-3);
     text-decoration: none;
   }
 

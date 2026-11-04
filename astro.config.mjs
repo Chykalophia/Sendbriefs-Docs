@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import rehypeTableRegion from './src/plugins/rehype-table-region.mjs';
 
 const SITE = process.env.SITE_URL ?? 'https://docs.sendbriefs.com';
 
@@ -45,6 +46,7 @@ export default defineConfig({
         Head: './src/overrides/Head.astro',
         Header: './src/overrides/Header.astro',
         Footer: './src/overrides/Footer.astro',
+        TwoColumnContent: './src/overrides/TwoColumnContent.astro',
         SocialIcons: './src/overrides/SocialIcons.astro',
       },
 
@@ -132,6 +134,7 @@ export default defineConfig({
   ],
 
   markdown: {
+    rehypePlugins: [rehypeTableRegion],
     shikiConfig: {
       themes: {
         light: 'github-light',
