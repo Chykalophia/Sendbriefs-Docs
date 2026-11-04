@@ -48,6 +48,8 @@ export default defineConfig({
         Footer: './src/overrides/Footer.astro',
         TwoColumnContent: './src/overrides/TwoColumnContent.astro',
         SocialIcons: './src/overrides/SocialIcons.astro',
+        MobileMenuToggle: './src/overrides/MobileMenuToggle.astro',
+        Search: './src/overrides/Search.astro',
       },
 
       sidebar: [

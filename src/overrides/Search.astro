@@ -1,0 +1,25 @@
+---
+import Default from '@astrojs/starlight/components/Search.astro';
+---
+
+<Default />
+
+{/* Pagefind's result count is plain text, so screen readers never hear it.
+    Copy it into a persistent polite live region inside the search dialog. */}
+<script>
+  const dialog = document.querySelector('site-search dialog');
+  if (dialog) {
+    const live = document.createElement('p');
+    live.className = 'sr-only';
+    live.setAttribute('role', 'status');
+    dialog.prepend(live);
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    new MutationObserver(() => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const text = dialog.querySelector('.pagefind-ui__message')?.textContent?.trim() ?? '';
+        if (live.textContent !== text) live.textContent = text;
+      }, 400);
+    }).observe(dialog, { childList: true, subtree: true, characterData: true });
+  }
+</script>
