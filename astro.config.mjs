@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { unified } from '@astrojs/markdown-remark';
 import rehypeTableRegion from './src/plugins/rehype-table-region.mjs';
 
 const SITE = process.env.SITE_URL ?? 'https://docs.sendbriefs.com';
@@ -136,7 +137,7 @@ export default defineConfig({
   ],
 
   markdown: {
-    rehypePlugins: [rehypeTableRegion],
+    processor: unified({ rehypePlugins: [rehypeTableRegion] }),
     shikiConfig: {
       themes: {
         light: 'github-light',
