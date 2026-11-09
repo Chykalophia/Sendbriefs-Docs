@@ -28,7 +28,7 @@ export default defineConfig({
   },
 
   webServer: {
-    command: `pnpm preview --port ${PORT} --host`,
+    command: `pnpm preview --port ${PORT} --host --ignore-lock`,
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
