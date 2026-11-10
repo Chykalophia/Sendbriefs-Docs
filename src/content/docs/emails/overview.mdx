@@ -1,0 +1,81 @@
+---
+title: Every email SendBriefs sends
+description: A catalog of every email, who receives it, what triggers it, and the setting that controls it.
+sidebar:
+  order: 1
+  label: All emails at a glance
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  SendBriefs sends four kinds of email: <strong>briefs to your clients</strong>,{' '}
+  <strong>notifications to your team</strong>, <strong>sign-in and security emails</strong> to the
+  account holder, and a few <strong>billing and admin</strong> messages. Only the first kind carries
+  your branding. Team notifications can each be switched off in{' '}
+  <strong>Settings → Notifications</strong>.
+</aside>
+
+## To your clients
+
+These go to client contacts. They are sent from your workspace's sender name and address when you have set one in [Email sending](/settings/email-sending/).
+
+| Email                                                                       | Sent when                                       | Controlled by                                                                                              |
+| --------------------------------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [The brief email](/emails/client-emails/#the-brief-email)                   | A brief is sent, by hand or on schedule         | [Email layout](/settings/email-layout/), [Email sending](/settings/email-sending/), the brief's recipients |
+| [Plain brief email](/emails/client-emails/#the-plain-fallback)              | Only if the email layout cannot be rendered     | Nothing to set; it is a safety net                                                                         |
+| [Portal verification code](/emails/client-emails/#portal-verification-code) | A contact opens a portal link that needs a code | [Client portal](/settings/client-portal/) access level                                                     |
+
+## To your team
+
+Each of these has its own **In-app** and **Email** switch in [Settings → Notifications](/settings/notifications/). Every person sets their own.
+
+| Email                                                                              | Who gets it                                                            | Email on by default? |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------- |
+| [Report ready for approval](/emails/team-notifications/#report-ready-for-approval) | Everyone who can approve the brief, except the person who submitted it | Yes                  |
+| [Changes requested](/emails/team-notifications/#changes-requested)                 | The brief's author                                                     | Yes                  |
+| [Report approved](/emails/team-notifications/#report-approved)                     | The brief's author                                                     | Yes                  |
+| [Must-fix items resolved](/emails/team-notifications/#must-fix-items-resolved)     | The reviewer who flagged the must-fix items                            | Yes                  |
+| [Report sent](/emails/team-notifications/#report-sent)                             | The brief's author, when someone else sent it                          | No                   |
+| [New team member](/emails/team-notifications/#new-team-member)                     | Owners and managers                                                    | No                   |
+| [Draft ready](/emails/team-notifications/#draft-ready)                             | The client's brief owner, when an automatic draft is created           | No                   |
+| [Team invitation](/emails/team-notifications/#team-invitation)                     | The person you invite                                                  | Always sent          |
+
+## To the account holder
+
+Sign-in and security emails go to the person whose account changed. You can't turn them off, because they protect the account.
+
+| Email                                                                | Sent when                                                                           |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [Confirm your account](/emails/account-emails/#confirm-your-account) | Someone signs up with email and password                                            |
+| [Password reset](/emails/account-emails/#password-reset)             | Someone asks to reset their password, or an admin adds them to a workspace directly |
+| [Security alerts](/emails/account-emails/#security-alerts)           | Two-factor or a linked sign-in method is added or removed                           |
+
+A few more templates exist for support-assisted cases, such as changing the email on an account. They are listed under [emails you're unlikely to see](/emails/account-emails/#emails-youre-unlikely-to-see).
+
+## Billing and admin
+
+| Email                                                                              | Who gets it                     | Sent when                                   |
+| ---------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------------- |
+| [Subscription confirmed](/emails/billing-and-admin-emails/#subscription-confirmed) | The workspace's billing email   | A paid plan or trial starts                 |
+| [Redemption code](/emails/billing-and-admin-emails/#redemption-code)               | The person a code was issued to | SendBriefs staff send you a code            |
+| [Sender verification](/emails/billing-and-admin-emails/#sender-verification)       | You                             | You test a custom sending account           |
+| [IP allowlist recovery](/emails/billing-and-admin-emails/#ip-allowlist-recovery)   | The workspace owner             | The owner is locked out by the IP allowlist |
+
+## What every team email looks like
+
+Team and billing emails share one plain layout: your workspace name at the top, a short message in a card, one button, and a footer link to **Manage email notifications**. They never use your client branding.
+
+<Screenshot
+  src="/screenshots/emails/report-approved.webp"
+  alt="A 'Report approved' email: workspace name at the top, a light grey card with the heading Report Approved, one sentence naming the brief, and a purple View Report button. The footer reads SendBriefs with a Manage email notifications link."
+  caption="Team notifications use one shared layout."
+  width={640}
+/>
+
+## Related
+
+- [Notifications](/app/notifications/): the in-app bell and inbox
+- [Notification settings](/settings/notifications/): switch each email on or off
+- [Email layout](/settings/email-layout/): design the email your clients receive

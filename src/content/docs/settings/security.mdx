@@ -1,0 +1,46 @@
+---
+title: Security
+description: Require two-factor authentication, session timeout and the IP allowlist.
+sidebar:
+  order: 2
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Settings → Security</strong> holds workspace-wide policies: require two-factor
+  authentication for everyone, sign people out after a period of inactivity, and limit access to
+  your office or VPN addresses. Your own two-factor setup is in{' '}
+  <a href="/app/profile/#security">Profile → Security</a>.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-security.webp"
+  dark="/screenshots/app/settings-security-dark.webp"
+  alt="Settings, Security: Require MFA for all members (Optional, with MFA adoption 0 of 5 members), Session timeout with Idle timeout 8 hours, and IP allowlist (Disabled) with the current IP, a CIDR range field, a label field, Add and Add my IP buttons."
+/>
+
+## Require two-factor authentication
+
+**Require MFA for all members** makes every member set up two-factor authentication before they can use the workspace. When you turn it on, members get a 7-day grace period to enrol. **MFA adoption** shows how many members already have it.
+
+## Session timeout
+
+**Idle timeout** signs people out after a period of inactivity: **15 minutes**, **1 hour**, **4 hours**, **8 hours**, **24 hours** or **Never**. Someone in several workspaces is held to the strictest timeout among them.
+
+## IP allowlist
+
+Restrict the app to specific networks. Requests from other addresses are blocked.
+
+1. Enter a range in CIDR form, such as `203.0.113.0/24`, or a single address, such as `203.0.113.7`. Add an optional label like "Office VPN". Click **Add**. **Add my IP** adds the address you're on now.
+2. Turn on the allowlist.
+
+The page shows **Your IP** and whether it's **covered**. If it isn't, you're warned before you lock yourself out.
+
+**Locked out?** **Email recovery link** sends you a one-time link that turns the allowlist off. See [IP allowlist recovery email](/emails/billing-and-admin-emails/).
+
+## Related
+
+- [Profile and security](/app/profile/)
+- [Account emails](/emails/account-emails/)

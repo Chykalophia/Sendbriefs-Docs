@@ -1,0 +1,134 @@
+---
+title: The brief page
+description: A brief's own page, its status actions, send readiness, the send page, email preview and audit history.
+sidebar:
+  order: 5
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Every brief has its own page with its status, the next action (approve, send, resubmit), a{' '}
+  <strong>Send readiness</strong> checklist and its activity log. Sending happens on a separate{' '}
+  <strong>Send this brief</strong> page, so nothing goes out until you press the button at the
+  bottom.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/brief-approved.webp"
+  dark="/screenshots/app/brief-approved-dark.webp"
+  alt="An approved brief's page: title, Approved status and client link at the top with Preview Email, Preview in Portal, Download PDF, Edit Report and Delete. Below: Report Details (slug, reporting period, deadline with On track, created, last updated, version), Approved / Send / Unapprove buttons, and the brief itself. On the right: Send Readiness with six ticks, the Client card and the Activity log."
+/>
+
+## Header
+
+| Button                | What it does                                                                                                             |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Preview Email**     | Opens the [email preview](#email-preview): the brief exactly as the email will look.                                     |
+| **Preview in Portal** | Opens the brief in the [client portal](/app/client-portal/) as a client sees it. Once sent, it reads **View in Portal**. |
+| **Download PDF**      | Saves the brief as a PDF.                                                                                                |
+| **Edit Report**       | Opens the [editor](/app/brief-editor/).                                                                                  |
+| **Delete**            | Deletes the brief after you confirm.                                                                                     |
+
+## Report details
+
+**Reporting period**, **Deadline** and the deadline status (**On track**, **Due soon** or **Overdue**), when the brief was created and last changed, and its version. A brief with no deadline is due 5 days after its period ends.
+
+## Status and actions
+
+The row of buttons above the brief changes with its status. You only see the actions your role allows; see [Team → Brief permissions](/app/team/#brief-permissions).
+
+| Status                | Buttons                                        |                                                                                                |
+| --------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Draft**             | **Submit for review** or **Send**              | Submit when approval is required, otherwise send.                                              |
+| **Pending approval**  | **Approve**, **Request changes**, **Withdraw** | Reviewers approve or send it back. The author can withdraw it to keep editing.                 |
+| **Changes requested** | **Resubmit for review**, **Move to draft**     | The reviewer's note shows in a yellow panel with a link to the editor.                         |
+| **Approved**          | **Send**, **Unapprove**                        | Unapprove returns it to draft so it can be edited again.                                       |
+| **Sent**              | **Send update**, **Resend…**                   | Shown to owners and managers. **Send update** appears when a sent brief was edited afterwards. |
+
+<Screenshot
+  src="/screenshots/app/brief-pending.webp"
+  dark="/screenshots/app/brief-pending-dark.webp"
+  alt="A brief pending approval: a yellow panel reading 'Pending approval, requested by Sofia Alvarez' with Approve, Request changes and Withdraw buttons."
+/>
+
+### Request changes
+
+<Screenshot
+  src="/screenshots/app/brief-request-changes.webp"
+  dark="/screenshots/app/brief-request-changes-dark.webp"
+  alt="The Request changes form with a required 'What needs to change' box and a Request changes button."
+/>
+
+**Request changes** asks you to say what needs to change. The author gets a [notification](/emails/team-notifications/) and sees your note at the top of the brief and the editor.
+
+<Screenshot
+  src="/screenshots/app/brief-changes-requested.webp"
+  dark="/screenshots/app/brief-changes-requested-dark.webp"
+  alt="A brief with changes requested: 'Jordan Ellis asked for changes', the note 'Break retainer hours out by studio', '1 open comment on the brief', a link 'Open the editor to make changes', and Resubmit for review and Move to draft buttons."
+/>
+
+For comment-by-comment review in the editor (**Must fix**, **Suggestion**, **Note**) and **Finish review**, see [The brief editor → Reviewing](/app/brief-editor/#reviewing).
+
+## Send readiness
+
+The card on the right lists what has to be true before the brief can go out:
+
+- Brief has content
+- Report period is set
+- At least one recipient contact for the client
+- All required data fields are filled
+- Report has been approved (when approval applies)
+- No open must-fix feedback
+
+A cross marks anything still open. Send stays disabled until every item passes.
+
+## Activity log
+
+Who changed what in this brief, newest first. The full record is on **Audit history**.
+
+## Send this brief
+
+<Screenshot
+  src="/screenshots/app/brief-send-full.webp"
+  dark="/screenshots/app/brief-send-full-dark.webp"
+  alt="The Send this brief page: Recipients with a checkbox per client contact, a Before it goes checklist with every item Ready, and a Check and send box listing the recipients, When: Right away, and a 'Send to 2 people' button. On the right, an Open email preview button."
+/>
+
+**Send** opens a page of its own. It says up front: nothing goes out until you press the button at the bottom.
+
+1. **Recipients**: the client's contacts, all ticked. Untick anyone who shouldn't get this one. **Manage contacts** opens the client's contact list.
+2. **Before it goes**: the same readiness checks, each marked **Ready** or **Needs a look**.
+3. **Check and send**: who it goes to and when (**Right away**). If a data token in the brief has no value, you're warned that it will show as "—" and can **Send anyway** or go back.
+4. **Send to N people** sends it.
+
+A contact never gets the same brief twice from this page; to send it again, use **Resend…** on the brief page. **Open email preview** on the right shows the email first.
+
+To change how the email looks, see [Email layout](/settings/email-layout/). To change the sender name and address, see [Email sending](/settings/email-sending/). The email itself is described in [Client emails](/emails/client-emails/#the-brief-email).
+
+## Email preview
+
+<Screenshot
+  src="/screenshots/app/brief-email-preview.webp"
+  dark="/screenshots/app/brief-email-preview-dark.webp"
+  alt="The Email preview page: a mail window showing From, To and Subject lines, and the brief email with the agency name, title, a callout, four metric tiles and a chart."
+/>
+
+The brief rendered exactly as the send will render it, with the **From**, **To** and **Subject** lines. Personal tokens such as a contact's first name are filled in per recipient at send time.
+
+## Audit history
+
+<Screenshot
+  src="/screenshots/app/brief-audit.webp"
+  dark="/screenshots/app/brief-audit-dark.webp"
+  alt="Audit history for a brief: one event, Approved by Jordan Ellis, with its date and time."
+/>
+
+Every status change and send for this brief, with who did it and when.
+
+## Related
+
+- [The brief editor](/app/brief-editor/)
+- [Approvals](/settings/approvals/)
+- [Client portal](/app/client-portal/)

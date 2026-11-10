@@ -1,0 +1,77 @@
+---
+title: New brief
+description: Start a client's next brief, pick a different period, or make a one-off brief.
+sidebar:
+  order: 3
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Click a client's tile and its next brief opens in the editor. Use <strong>Other…</strong> to pick
+  a different period, and <strong>Start a one-off brief</strong> for anything outside the client's
+  schedule, like a yearly review.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/new-brief.webp"
+  dark="/screenshots/app/new-brief-dark.webp"
+  alt="The New brief page: 'Who's this brief for?' with a client search box, a link to Due briefs, and a grid of client tiles under 'Due now · opens the draft'. Each tile shows the period it covers and how late it is, with an 'Other…' link."
+/>
+
+## Pick a client
+
+**Who's this brief for?** lists the clients that have a brief due, most urgent first. Each tile shows the period the brief covers and, in red, how many days late it is. Type in the search box to find any client.
+
+Clicking a tile creates the draft for that period and opens it in the [editor](/app/brief-editor/). If a draft for that period already exists, you're taken to it instead of getting a second one.
+
+Doing several clients at once? **Open Due briefs** makes them all in one go. See [Due briefs](/app/due-briefs/).
+
+## Choose another period
+
+<Screenshot
+  src="/screenshots/app/new-brief-other.webp"
+  dark="/screenshots/app/new-brief-other-dark.webp"
+  alt="After choosing Other… on a client: a strip of periods with a status under each (sent, draft, not started, missed), and a card summarising the brief that will be made, with its template, title and a Create draft button."
+/>
+
+**Other…** on a tile shows a strip of that client's periods with the status of each one: sent, draft open, not started or missed. Pick a period, check the summary card, and click **Create draft**.
+
+The summary card shows what the new brief will be:
+
+| Field             | What it means                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Kind of brief** | **Recurring brief** follows the client's template and cadence. **One-off brief** is outside the schedule.  |
+| **Template**      | The report template the brief is built from. **Manage templates** opens [Templates](/settings/templates/). |
+| **Title**         | Set by the template, from the client and period.                                                           |
+| **Start from**    | Optionally copy the text of the last period's brief as a starting point.                                   |
+
+If last period's brief has notes that were never sent, a panel offers to bring them across. Each note is added to the matching section of the new draft and marked as carried on the old brief; nothing already in the draft is repeated.
+
+## One-off briefs
+
+<Screenshot
+  src="/screenshots/app/new-brief-one-off.webp"
+  dark="/screenshots/app/new-brief-one-off-dark.webp"
+  alt="The one-off brief panel with four ways to start: Blank page, Copy a past brief, Paste or import, and Describe it."
+/>
+
+**Start a one-off brief** makes a brief that isn't part of a schedule. Choose how to start it:
+
+| Option                | What you get                                                                                                                                                                                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Blank page**        | An empty brief.                                                                                                                                                                                                                                              |
+| **Copy a past brief** | A copy of one of this client's earlier briefs. Pick it from the list.                                                                                                                                                                                        |
+| **Paste or import**   | A blank brief; paste your text into any section in the editor.                                                                                                                                                                                               |
+| **Describe it**       | Write a sentence such as "Year-end review covering all of 2026, focused on leads and revenue" and SendBriefs uses AI to propose an outline of section headings. When AI isn't available, the option is greyed out. Edit the headings, then create the draft. |
+
+## Who can make briefs
+
+Owners, managers and members can create briefs. If your role can't, the page says **You don't have permission to create briefs here.** See [Team](/app/team/).
+
+## Related
+
+- [Due briefs](/app/due-briefs/)
+- [The brief editor](/app/brief-editor/)
+- [Scheduling](/settings/scheduling/)

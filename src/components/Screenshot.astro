@@ -1,0 +1,82 @@
+---
+/**
+ * A real app screenshot from `public/screenshots/`. When a dark capture is
+ * given, readers see the one that matches the docs theme they picked.
+ *
+ * @param src     Path under `/screenshots/` of the light (or only) capture.
+ * @param dark    Optional path of the dark-mode capture of the same screen.
+ * @param alt     What the image shows, for screen readers.
+ * @param caption Optional visible caption. Defaults to none.
+ * @param width   Optional max width in px, for narrow captures such as emails.
+ */
+interface Props {
+  src: string;
+  dark?: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+}
+
+const { src, dark, alt, caption, width } = Astro.props;
+---
+
+<figure class="sb-shot" style={width ? `max-width: ${width}px;` : undefined}>
+  <img
+    class:list={['sb-shot-img', { 'sb-shot-light': dark }]}
+    src={src}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+  />
+  {
+    dark && (
+      <img class="sb-shot-img sb-shot-dark" src={dark} alt={alt} loading="lazy" decoding="async" />
+    )
+  }
+  {caption && <figcaption class="sb-shot-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .sb-shot {
+    margin: 1.75rem auto;
+    padding: 0;
+  }
+
+  .sb-shot-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--sb-radius-lg);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    box-shadow: var(--sb-shadow-card);
+  }
+
+  .sb-shot-dark {
+    display: none;
+  }
+
+  :root[data-theme='dark'] .sb-shot-light {
+    display: none;
+  }
+
+  :root[data-theme='dark'] .sb-shot-dark {
+    display: block;
+  }
+
+  :root[data-theme='dark'] .sb-shot-img {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .sb-shot-caption {
+    margin: 0.625rem auto 0;
+    max-width: 42rem;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--sb-ink-soft);
+    text-align: center;
+  }
+
+  :root[data-theme='dark'] .sb-shot-caption {
+    color: var(--sl-color-gray-2);
+  }
+</style>

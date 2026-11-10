@@ -1,0 +1,145 @@
+---
+title: Team notification emails
+description: What each notification email to your team looks like, who receives it, and how to switch it on or off.
+sidebar:
+  order: 3
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Notification emails follow a brief through review and sending, and tell owners and managers when
+  someone joins. Each person chooses which ones they get in{' '}
+  <strong>Settings → Notifications</strong>. Nobody is emailed about their own action: approving
+  your own brief doesn't email you.
+</aside>
+
+## How they work
+
+Every notification has two channels, and each person sets both:
+
+- **In-app**: a row in the bell menu and on the [Notifications](/app/notifications/) page.
+- **Email**: one of the emails on this page, sent to the address on your account.
+
+The switches are per person and per workspace. If you belong to two workspaces, set them in each. Changes apply to the next event; nothing already sent is recalled.
+
+Every email has a **Manage email notifications** link in the footer that opens your notification settings.
+
+## Report ready for approval
+
+**Who gets it:** everyone allowed to approve this brief, except the person who submitted it. That is anyone whose role can approve briefs, narrowed by the [approval rules](/settings/approvals/) for the brief's client.
+**When:** a writer submits a brief for approval.
+**Setting:** _Reports submitted for approval_. Email is on by default.
+
+<Screenshot
+  src="/screenshots/emails/approval-requested.webp"
+  alt="Email titled Report ready for approval. Sofia Alvarez has submitted October performance brief for your review, with a Review Report button."
+  width={640}
+/>
+
+The **Review Report** button opens the brief, where you can approve it or request changes.
+
+## Changes requested
+
+**Who gets it:** the person who wrote the brief.
+**When:** a reviewer sends the brief back instead of approving it.
+**Setting:** _Changes requested on your reports_. Email is on by default.
+
+<Screenshot
+  src="/screenshots/emails/changes-requested.webp"
+  alt="Email titled Changes requested. Priya Raman has requested changes to October performance brief. A box shows the reviewer's feedback, then a Review comments list with a Must fix item quoting the sentence it is about and a Suggestion, then 'And 1 more on the brief' and an Edit Report button."
+  width={640}
+/>
+
+The email carries the reviewer's note and up to the first few review comments, each labelled **Must fix**, **Suggestion** or **Note**. A comment pinned to a sentence quotes that sentence. If there are more comments than fit, the email says how many more are on the brief.
+
+When the review has comments, the button opens the brief's feedback list. Without comments it opens the editor.
+
+## Report approved
+
+**Who gets it:** the person who wrote the brief, when someone else approved it.
+**When:** a reviewer approves the brief.
+**Setting:** _Your reports approved_. Email is on by default.
+
+<Screenshot
+  src="/screenshots/emails/report-approved.webp"
+  alt="Email titled Report Approved: Your report October performance brief has been approved and is ready to send to the client. View Report button."
+  width={640}
+/>
+
+## Must-fix items resolved
+
+**Who gets it:** the reviewer who asked for the fixes.
+**When:** the writer resolves the last must-fix comment, so the brief can go out. The email says whether it is being sent now or is ready to send.
+**Setting:** uses the _Your reports approved_ switch.
+
+<Screenshot
+  src="/screenshots/emails/fixes-resolved.webp"
+  alt="Email titled Must-fix items resolved: Every must-fix on October performance brief is resolved, so it is ready to send. View Report button."
+  width={640}
+/>
+
+## Report sent
+
+**Who gets it:** the person who wrote the brief, when someone else sent it.
+**When:** the brief is emailed to the client.
+**Setting:** _Your reports sent_. Email is **off** by default; the bell notification is on.
+
+<Screenshot
+  src="/screenshots/emails/report-sent.webp"
+  alt="Email titled Report Sent: Your report October performance brief has been sent to the client. View Report button."
+  width={640}
+/>
+
+## New team member
+
+**Who gets it:** workspace owners and managers.
+**When:** someone accepts an invitation and joins the workspace.
+**Setting:** _New team members_. Email is **off** by default.
+
+<Screenshot
+  src="/screenshots/emails/member-joined.webp"
+  alt="Email titled New Team Member: Theo Brooks has joined your workspace on SendBriefs. View Team button."
+  width={640}
+/>
+
+## Draft ready
+
+**Who gets it:** the client's brief owner.
+**When:** SendBriefs creates the next brief for a client on its own, ahead of the deadline. This happens only for clients with **Automatic drafts** turned on in their [client settings](/app/clients/#client-settings).
+**Setting:** _Drafts ready for you_. Email is **off** by default.
+
+<Screenshot
+  src="/screenshots/emails/draft-ready.webp"
+  alt="Email titled This month's draft for Lumen Coffee Roasters is ready, with the line Lumen Coffee Roasters, November 2026. The draft is waiting for you to fill in. Open draft button."
+  width={640}
+/>
+
+The button opens the draft in the editor.
+
+## Team invitation
+
+**Who gets it:** the person you invite from [Team](/app/team/).
+**When:** you send or resend an invitation. It isn't a notification, so there is no switch for it.
+
+<Screenshot
+  src="/screenshots/emails/team-invitation.webp"
+  alt="Email titled You've been invited to join Harbor and Pine Digital. Jordan Ellis has invited you to join their workspace on SendBriefs as Member. Accept Invitation button. This invitation expires in 7 days."
+  width={640}
+/>
+
+The invitation names the role they will join with. The link works for 7 days; after that, resend it from the Team page.
+
+## Notifications that never email
+
+Two notifications only ever appear in the app:
+
+- **Email delivery failures.** If an email you triggered can't be delivered by any of the workspace's sending accounts, you get a bell notification. Email can't report its own outage, so there is no email version. The note tells you whether to retry from the brief or to check with the recipient first, because a timed-out attempt may still have arrived.
+- **Approved or sent by a trusted member.** When a member who has **Approve their own briefs** or **Send their own briefs** turned on (on their [Team](/app/team/) profile) uses it, the people who would normally approve get a bell notification, so a skipped review is still visible.
+
+## Related
+
+- [Notification settings](/settings/notifications/): every switch on one page
+- [Notifications](/app/notifications/): the bell and the inbox
+- [Edits and approvals](/flows/edits-and-approvals/): the review workflow these emails follow

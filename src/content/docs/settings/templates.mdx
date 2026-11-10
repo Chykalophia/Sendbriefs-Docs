@@ -1,0 +1,97 @@
+---
+title: Templates
+description: 'Report templates: the starting layout, title, cadence and rules for every brief made from them.'
+sidebar:
+  order: 7
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>A template is the blueprint for a client's briefs: its sections
+  and blocks, how the title is written, its cadence, whether it needs approval, and who can add
+  updates. Start from the gallery or a blank page, then edit it like a brief.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-templates.webp"
+  dark="/screenshots/app/settings-templates-dark.webp"
+  alt="Settings, Templates: a New template button and one template, 'Weekly update', with weekly, Default and 'Scheduled · 6' badges, its description, title pattern '{client.name} — {brief.period}', 'Auto-calculates periods', and Deactivate, Edit and Delete buttons."
+/>
+
+## The list
+
+Each template shows its name, cadence and badges:
+
+| Badge             | Meaning                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| **Default**       | Used for clients that don't pick a template. One template is the default.                       |
+| **Scheduled · N** | Used by N [schedules](/settings/scheduling/). A template in use by a schedule can't be deleted. |
+| **Starter**       | Imported from the gallery.                                                                      |
+| **Inactive**      | Hidden from the New brief picker.                                                               |
+
+Below the name you see the **Title** pattern, and notes such as **Auto-calculates periods**, **Title locked** or **Slug locked**. **Deactivate** (or **Activate**), **Edit** and **Delete** sit on the right.
+
+## New template
+
+<Screenshot
+  src="/screenshots/app/settings-template-new.webp"
+  dark="/screenshots/app/settings-template-new-dark.webp"
+  alt="The New template chooser: 'Start from the gallery' (import a ready-made template you can edit) or 'Blank template' (start empty and add sections, text and live data)."
+/>
+
+**New template** asks how to start:
+
+- **Start from the gallery**: import a ready-made template you can edit. The fastest way to get going. **Import all** brings in every gallery template at once.
+- **Blank template**: start empty and add sections, text and live data.
+
+<Screenshot
+  src="/screenshots/app/settings-template-gallery.webp"
+  dark="/screenshots/app/settings-template-gallery-dark.webp"
+  alt="The Template gallery listing ready-made templates to import."
+/>
+
+## Editing a template
+
+<Screenshot
+  src="/screenshots/app/settings-template-blocks.webp"
+  dark="/screenshots/app/settings-template-blocks-dark.webp"
+  alt="The template editor: Back to templates, a 'Preview as' client picker, Preview, Fields and Data fields buttons, a settings strip (Cadence Weekly, Title, Approval Optional, Period Auto, Default, More…), and the template's blocks: 'This week' and 'Next week' sections."
+/>
+
+The template editor works like the [brief editor](/app/brief-editor/): add blocks from the left, type `{` for data fields. Changes save on their own.
+
+**Preview as** fills the template with a real client's values. **Preview** shows the result; **Data fields** sets which fields are required and their fallbacks and formats.
+
+### Settings strip
+
+| Setting      | What it does                                                                                                                                                                                                     |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cadence**  | **Daily**, **Weekly**, **Biweekly**, **Monthly**, **Quarterly**, **Milestone**, **One-off** or **Custom**. Only regular cadences (weekly, biweekly, monthly, quarterly) can take [updates](/app/add-an-update/). |
+| **Title**    | The title pattern, for example `{client.name} — {brief.period}`.                                                                                                                                                 |
+| **Approval** | **Required** or **Optional** for briefs made from this template. If your workspace already requires approval, this has no effect. Needs a plan with approvals.                                                   |
+| **Period**   | **Auto** works out each brief's reporting period from the cadence; otherwise the author picks it.                                                                                                                |
+| **Default**  | Make this the workspace default template.                                                                                                                                                                        |
+
+### More settings
+
+**More…** opens the rest:
+
+| Group              | Settings                                                                                                                                                 |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Basics             | **Template name**, **Description** (shown in the list), **Active** (appears in the New brief picker).                                                    |
+| Title and slug     | **Title template**, **Lock title** (authors can't override it), **Slug template**, **Lock slug**.                                                        |
+| Period             | **Period required to create a brief**.                                                                                                                   |
+| Week settings      | **Auto-calculate the reporting week**, **Week starts on**, **Week length (days)**.                                                                       |
+| Team contributions | **Allow team contributions to this template's briefs**, **Contribution mode**, **Section layout**. See [Client settings](/app/clients/#client-settings). |
+| Content            | **Default block for new content**.                                                                                                                       |
+| Email overrides    | **Sender name** and **Sender email address** for briefs from this template. Leave blank to use [Email sending](/settings/email-sending/).                |
+
+## Save a brief as a template
+
+Liked how a brief turned out? Open it in the editor and choose **Save as template** from **⋯ More actions**.
+
+## Related
+
+- [Scheduling](/settings/scheduling/)
+- [Writing styles](/settings/writing-styles/)

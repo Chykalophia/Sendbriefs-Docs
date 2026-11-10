@@ -1,0 +1,73 @@
+---
+title: Briefs
+description: The Briefs page, its three layouts (List, By period, Timeline), filters, and bulk actions.
+sidebar:
+  order: 2
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Briefs</strong> lists every brief in the workspace. Switch between <strong>List</strong>,{' '}
+  <strong>By period</strong> and <strong>Timeline</strong>, filter by status, client, type and date,
+  and tick several rows to approve, send or carry them forward together. Every filter is kept in the
+  address, so you can bookmark or share a view.
+</aside>
+
+## List
+
+<Screenshot
+  src="/screenshots/app/briefs-list.webp"
+  dark="/screenshots/app/briefs-list-dark.webp"
+  alt="The Briefs page in List layout: a search box, client, type and date filters, status tabs (Active, All, Draft, Pending, Approved, Sent, Archived) and a table of briefs with title, status badge, reporting period, created and sent dates, and a row menu."
+/>
+
+Each row shows the brief's title and status, its reporting period, when it was created and when it was sent. Click a title to open the [brief page](/app/brief-page/). Column headers sort the table.
+
+### Filters
+
+| Filter      | Options                                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Search      | Matches brief titles.                                                                                                                       |
+| Client      | One client, or all.                                                                                                                         |
+| Type        | **Recurring** (made from a client's schedule), **One-off**, or all.                                                                         |
+| Date        | A date range, or any time.                                                                                                                  |
+| Status tabs | **Active** (everything not sent or archived), **All**, **Draft**, **Pending** (waiting for approval), **Approved**, **Sent**, **Archived**. |
+
+### Row menu
+
+The **⋮** menu on each row has **View**, **Duplicate**, **Carry forward…** and **Delete**.
+
+**Carry forward** moves a brief that missed its send into the current period, so its content isn't lost. If the client already has a brief for this period, the old content is added to it section by section and the old brief is archived; otherwise the old brief is moved into the current period and renamed. Sent briefs are never changed.
+
+### Bulk actions
+
+Tick the boxes on the left to act on several briefs at once. A bar appears with **Approve All**, **Send**, **Carry forward**, **Pause cadence**, **Resume cadence** and **Delete**. Only the actions your role allows are offered. Each brief is handled on its own, and a progress banner reports any that couldn't be approved or sent.
+
+## By period
+
+<Screenshot
+  src="/screenshots/app/briefs-by-period.webp"
+  dark="/screenshots/app/briefs-by-period-dark.webp"
+  alt="Briefs grouped by reporting period: a 'Last month, October 2026' group listing three briefs, and a collapsed Q3 2026 group."
+/>
+
+The same briefs, grouped by the period they report on (this month, last month, each quarter). Click a group header to fold it. **Show in list view** opens the list filtered to that period.
+
+## Timeline
+
+<Screenshot
+  src="/screenshots/app/briefs-timeline.webp"
+  dark="/screenshots/app/briefs-timeline-dark.webp"
+  alt="The Timeline layout: one row per client with its cadence, and one column per month. Each cell holds a coloured marker for that period's brief: sent, approved, in review, changes requested, drafting, missed or upcoming. The current month is highlighted."
+/>
+
+One row per client, one column per month, so you can see at a glance which periods were sent and which were missed. Each marker's colour and icon show the brief's state: **Sent**, **Approved**, **In review**, **Changes requested**, **Drafting**, **Not started**, **Missed**, **No brief** or **Upcoming**. Click a marker to open that brief.
+
+Use the **Cadence** buttons to show only weekly or monthly clients, **Needs attention only** to hide clients that are up to date, and **3 months** or **6 months** to change the range. A client's cadence comes from its active schedule; clients without one show only the briefs they have.
+
+## Related
+
+- [New brief](/app/new-brief/) and [Due briefs](/app/due-briefs/): making briefs
+- [The brief page](/app/brief-page/)

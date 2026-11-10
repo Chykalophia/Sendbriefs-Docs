@@ -1,0 +1,37 @@
+---
+title: Connected accounts
+description: Connect Google Analytics and ClickUp so briefs can pull live numbers and tasks.
+sidebar:
+  order: 14
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Connect <strong>Google Analytics</strong> or <strong>ClickUp</strong> here once for the workspace,
+  then link a property or list to each client. Briefs for that client can then fill data fields like{' '}
+  <code>{'{ga.sessions|number}'}</code> and import recent tasks.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-integrations.webp"
+  dark="/screenshots/app/settings-integrations-dark.webp"
+  alt="Settings, Connected accounts: Google Analytics with a Connect button, Slack marked Coming soon, ClickUp with a Connect button, and an empty 'No integrations connected' area."
+/>
+
+| Service              | What it does                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Google Analytics** | Pulls GA4 metrics (sessions, users, engagement and more) into data fields.                                  |
+| **ClickUp**          | Turns a list's recent tasks into Completed, In progress, Blocked and Up next lines, and pulls task metrics. |
+| **Slack**            | Coming soon.                                                                                                |
+
+## Setting it up
+
+1. Click **Connect** and sign in to the service.
+2. Open a client's [Overview](/app/clients/#overview) and add a **data stream**: pick the GA4 property or ClickUp list for that client. Data sources are linked per client so one client's numbers never land in another's brief.
+3. In the brief editor, use **Sync** to pull the latest data, or **Pull from ClickUp…** / **Import recent work from ClickUp…**. See [The brief editor](/app/brief-editor/#top-bar).
+
+## Related
+
+- [Data fields](/app/brief-editor/#data-fields)

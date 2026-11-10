@@ -40,7 +40,7 @@ From **Settings → Team**, click **Invite member**. Add their email and pick a 
 
 Once they accept the invite, you can assign brief sections to them. This is the unlock for "I write the strategy section, you write the analytics section" without anyone stepping on anyone's toes.
 
-[Workspaces & teams →](/features/workspaces/)
+[Workspaces →](/app/workspaces/)
 
 ## 3. Connect the rest of your clients
 
@@ -78,7 +78,7 @@ You can change this per event type from **Settings → Delivery → Notification
 
 For each event, you have separate in-app and email toggles plus a **Test** button. Tune aggressively — silence what you don't need.
 
-[Notifications & delivery →](/features/notifications/)
+[Notifications →](/app/notifications/)
 
 ## 5. Move briefs onto a recurring schedule
 
@@ -113,19 +113,19 @@ If your team tracks brief inputs in ClickUp, you can wire it up yourself:
 
 This is the one data-ingest integration that actually flows today.
 
-[Integrations → ClickUp →](/features/integrations/#clickup)
+[Settings → Connected accounts →](/settings/connected-accounts/)
 
 ### Enforce MFA for the whole workspace
 
 If your team handles client data, requiring multi-factor authentication is table stakes. From **Settings → Security**, flip on **Require MFA**. Members get a **7-day grace period** with a banner reminding them to enroll; after that, they're blocked from the dashboard until they set up TOTP via `/mfa-enroll`.
 
-[Workspaces & teams → Multi-factor authentication →](/features/workspaces/#multi-factor-authentication)
+[Settings → Security →](/settings/security/#require-two-factor-authentication)
 
 ### Tune per-client branding
 
 Every client can have their own logo. White-label work depends on this. Five minutes per client.
 
-[Workspaces & teams → Branding →](/features/workspaces/#branding)
+[Settings → Logo and colors →](/settings/logo-and-colors/)
 
 ---
 

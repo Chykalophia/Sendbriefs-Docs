@@ -1,0 +1,79 @@
+---
+title: Billing and admin emails
+description: Subscription confirmations, redemption codes, sender checks and the IP allowlist recovery link.
+sidebar:
+  order: 5
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Four one-off emails: a <strong>subscription confirmation</strong> when a paid plan or trial
+  starts, a <strong>redemption code</strong> when SendBriefs gives you one, a short{' '}
+  <strong>sender check</strong> when you test your own sending account, and a{' '}
+  <strong>recovery link</strong> for an owner locked out by the IP allowlist.
+</aside>
+
+## Subscription confirmed
+
+**Who gets it:** the workspace's billing email address.
+**When:** a paid plan or a trial starts.
+**Subject:** Your SendBriefs subscription is confirmed
+
+<Screenshot
+  src="/screenshots/emails/subscription-confirmed.webp"
+  alt="Email titled Subscription confirmed: Your SendBriefs Business plan is active and renews automatically on a date for a monthly price, and each month after that. You can cancel anytime from your billing settings. Manage subscription button."
+  width={640}
+/>
+
+It states the plan, the renewal date and the price, and that the plan renews until you cancel. During a trial it says when the trial turns into a paid subscription. **Manage subscription** opens [Plan and billing](/settings/plan-and-billing/).
+
+Invoices and receipts come from Stripe, not from this email. See [Invoices and receipts](/billing/invoices/).
+
+## Redemption code
+
+**Who gets it:** the person SendBriefs issued a code to.
+**When:** SendBriefs staff send you a code, for example a plan or an add-on as part of an offer.
+**Subject:** Your SendBriefs redemption code
+
+<Screenshot
+  src="/screenshots/emails/redemption-code.webp"
+  alt="Email titled You've got a SendBriefs code: Unlocks the Business plan for your workspace. The code is shown in a grey box, with a black Redeem now button and the link to paste."
+  width={640}
+/>
+
+**Redeem now** applies the code to the workspace you're signed in to. Make sure you're in the right workspace before you click.
+
+## Sender verification
+
+**Who gets it:** you, when you click **Verify** on a sending account in [Email sending](/settings/email-sending/).
+**When:** you add your own sending account (your SMTP server or email provider) and test it.
+**Subject:** SendBriefs sender verification
+
+<Screenshot
+  src="/screenshots/emails/sender-verification.webp"
+  alt="A one-line email: This confirms your Harbor and Pine SMTP sender works. Your briefs can now send through it."
+  width={640}
+/>
+
+The email is sent through the account you're testing, so receiving it proves the account works. If it doesn't arrive, the account shows an error instead.
+
+## IP allowlist recovery
+
+**Who gets it:** the workspace owner.
+**When:** the owner asks for a recovery link because the [IP allowlist](/settings/security/#ip-allowlist) is blocking them.
+**Subject:** Disable your SendBriefs IP allowlist
+
+<Screenshot
+  src="/screenshots/emails/ip-allowlist-recovery.webp"
+  alt="Email: You requested a recovery link to disable the IP allowlist on your SendBriefs workspace. A link reads Disable the IP allowlist. This link can be used once and expires in 1 hour."
+  width={640}
+/>
+
+The link turns the allowlist off. It works once and for one hour. If you didn't ask for it, ignore it and the allowlist stays on.
+
+## Related
+
+- [All emails at a glance](/emails/overview/)
+- [Plan and billing](/settings/plan-and-billing/)

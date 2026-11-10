@@ -1,0 +1,52 @@
+---
+title: Add an update
+description: "The pencil button on every page: jot a note into a client's current brief without opening it."
+sidebar:
+  order: 7
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  The round pencil button at the bottom right of every page opens <strong>Add an update</strong>.
+  Pick a client, type what happened and press Enter. The note goes into that client's brief for the
+  current period, so the brief writes itself over the month.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/add-update.webp"
+  dark="/screenshots/app/add-update-dark.webp"
+  alt="The Add an update panel open over the Home page: a client picker, the text 'Wholesale order from Northside Market came in at 40 bags, double last month.', a microphone button and a Send button."
+/>
+
+## Adding an update
+
+1. Click the pencil button, or choose **Add an update** for a client in [search](/app/search-and-help/).
+2. Pick the client. **Adding to** shows which brief the note will go into; change the period there if needed.
+3. Type what happened. **Enter** adds it, **Shift+Enter** starts a new line. Or press the microphone and speak.
+
+Each update you add is listed under the box so you can see where it went. Made a mistake? **Undo** appears in the confirmation for a few seconds.
+
+## Where updates go
+
+Updates go into the client's brief for the current period. If that brief doesn't exist yet, it's created as a draft with the first update, unless the client's schedule makes drafts ahead of time (see [automatic drafts](/app/clients/#automatic-drafts)).
+
+Notes land in a **General** section at the end of the brief. In the editor, each General note offers **Move to** a section, or **Fine as is** to leave it there.
+
+What a contributor sees of the rest of the brief depends on the client's **Team contribution mode**: just the section headings, the whole brief read-only, or full editing. See [Client settings](/app/clients/#client-settings).
+
+## When updates can't be added
+
+The panel tells you why, for example:
+
+- The client's template has contributions turned off.
+- The template has no regular cadence (weekly, biweekly, monthly or quarterly), so there's no current period to add to.
+- The client has no template and the workspace has no default template.
+
+Fix these in [Templates](/settings/templates/).
+
+## Related
+
+- [The brief editor](/app/brief-editor/)
+- [Scheduling](/settings/scheduling/)

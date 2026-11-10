@@ -1,0 +1,74 @@
+---
+title: Email layout
+description: Choose and edit the layout your clients' brief emails use.
+sidebar:
+  order: 12
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  An email layout is the frame around a brief in the client's inbox: header, greeting, the brief
+  itself, signature and footer. Six presets come ready to use. Edit any of them in a block editor,
+  or create your own.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-email-layout.webp"
+  dark="/screenshots/app/settings-email-layout-dark.webp"
+  alt="Settings, Email layout: a Create New button and six email templates: Plain / Personal (Default), Branded / Professional, Minimal / Clean, Academic / Consultant, Modern 2026 and Newsletter / Digest, each with a short description."
+/>
+
+## The presets
+
+| Layout                     | Looks like                                               |
+| -------------------------- | -------------------------------------------------------- |
+| **Plain / Personal**       | A hand-typed email. No branding, no chrome. The default. |
+| **Branded / Professional** | Logo header, brand colours, a button and a footer.       |
+| **Minimal / Clean**        | A subtle top border, clean type, generous whitespace.    |
+| **Academic / Consultant**  | Serif type and numbered sections.                        |
+| **Modern 2026**            | Rounded cards and gradients, works in dark mode.         |
+| **Newsletter / Digest**    | Sections with clear dividers.                            |
+
+The layout marked **Default** is used for every brief.
+
+## Editing a layout
+
+<Screenshot
+  src="/screenshots/app/settings-email-layout-edit.webp"
+  dark="/screenshots/app/settings-email-layout-edit-dark.webp"
+  alt="Edit Email Template: the template name, a block list (Text, Heading, Button, Image, Divider, Spacer, Greeting, Report Content, Period Info, Signature, Footer), and a mail-window preview with a coloured header showing {workspace_name}, 'Hi {contact.first_name},', client and period details, and 'Report content will be injected here'."
+/>
+
+Click a layout to open it. Add blocks from the left (press `/` to search them) and arrange them in the preview:
+
+| Block                                                                 | What it adds                                                      |
+| --------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Text**, **Heading**, **Button**, **Image**, **Divider**, **Spacer** | General content.                                                  |
+| **Greeting**                                                          | A personal opening such as "Hi `{contact.first_name}`,".          |
+| **Period Info**                                                       | The client and reporting period.                                  |
+| **Report Content**                                                    | Where the brief itself goes. Every layout needs one.              |
+| **Signature**                                                         | Your [email signature](/settings/email-sending/#email-signature). |
+| **Footer**                                                            | Copyright, branding and the unsubscribe link.                     |
+
+**Start from preset** replaces the blocks with one of the presets. Click **Save Template** when done.
+
+## Create a layout
+
+<Screenshot
+  src="/screenshots/app/settings-email-layout-new.webp"
+  dark="/screenshots/app/settings-email-layout-new-dark.webp"
+  alt="Create Email Template: six preset cards to start from."
+/>
+
+**Create New** asks you to pick a preset to start from and a name, then opens the editor.
+
+## Checking the result
+
+Open any brief and choose **Preview Email** to see it in the current layout, with the real From, To and Subject. See [The brief page → Email preview](/app/brief-page/#email-preview).
+
+## Related
+
+- [Email sending](/settings/email-sending/)
+- [Client emails](/emails/client-emails/)

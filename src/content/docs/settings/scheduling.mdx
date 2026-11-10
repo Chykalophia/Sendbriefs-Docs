@@ -1,0 +1,68 @@
+---
+title: Scheduling
+description: Recurring schedules that make each client's draft brief every period.
+sidebar:
+  order: 10
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>A schedule tells SendBriefs when a client's brief is due:
+  weekly, monthly or daily, at a set time. It creates a draft for you to finish and send. Nothing is
+  ever sent automatically. Clients with a schedule show up in{' '}
+  <a href="/app/due-briefs/">Due briefs</a>.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-scheduling.webp"
+  dark="/screenshots/app/settings-scheduling-dark.webp"
+  alt="Settings, Scheduling: 'Scheduled reports' with a New schedule button and six active schedules, each showing client, frequency, day and time with time zone, template, next run and last run, and Run now, Edit, Pause and Delete buttons."
+/>
+
+## Schedules
+
+Each schedule shows its client, frequency, day and time, template, and its next and last run. Its status is **Active**, **Paused**, **Last run failed** or **No template**.
+
+| Button                 | What it does                                              |
+| ---------------------- | --------------------------------------------------------- |
+| **Run now**            | Makes this period's draft straight away.                  |
+| **Edit**               | Opens the schedule's own page.                            |
+| **Pause** / **Resume** | Stops or restarts the schedule. Existing briefs are kept. |
+| **Delete**             | Removes the schedule. Drafts it already made stay.        |
+
+## New schedule
+
+**New schedule** asks for:
+
+| Field                                 | Notes                                                                                                                                                                                 |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Schedule name**                     | For example "Weekly wrap-up".                                                                                                                                                         |
+| **Client**                            | Who the briefs are for.                                                                                                                                                               |
+| **Template**                          | What each brief contains. Recommended: it also lets the schedule reuse a draft already in progress. The frequency is suggested from the template's cadence, but you can change it.    |
+| **Frequency**                         | **Daily**, **Weekly** or **Monthly**.                                                                                                                                                 |
+| **Day of week** / **Day of month**    | For weekly and monthly schedules.                                                                                                                                                     |
+| **Hour of day** and **Timezone**      | When the period's brief is due.                                                                                                                                                       |
+| **Auto-generate a draft each period** | Off (default): a draft is created when the first [update](/app/add-an-update/) for the client arrives in the period. On: a blank draft is created every period, even with no updates. |
+
+The first run is the next matching slot. Due schedules are checked every 5 minutes.
+
+## A schedule's page
+
+<Screenshot
+  src="/screenshots/app/settings-schedule-edit.webp"
+  dark="/screenshots/app/settings-schedule-edit-dark.webp"
+  alt="A schedule's page: Schedule details (name, frequency, hour of day, time zone, template, auto-generate switch, Save changes), a Status card (state, template, next run, last run with status, consecutive failures), Run now and Pause buttons, and a Danger zone with Delete schedule."
+/>
+
+Change the details and **Save changes**; changing the timing reschedules the next run straight away. The **Status** card shows the state, template, next and last run, and how many runs in a row have failed. A failed run also shows on [Home](/app/home/#today) under **Blocked**.
+
+## Pausing one client
+
+To stop briefs for a single client without touching the schedule, use **Pause this client's schedule** in [Client settings](/app/clients/#client-settings) or **Pause schedule** on the client's Overview.
+
+## Related
+
+- [Due briefs](/app/due-briefs/)
+- [Templates](/settings/templates/)
+- [Automatic drafts](/app/clients/#automatic-drafts)

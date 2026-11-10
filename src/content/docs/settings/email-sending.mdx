@@ -1,0 +1,85 @@
+---
+title: Email sending
+description: Sender name and address, signature, copies to your team, engagement tracking, your own sending provider and suppressed contacts.
+sidebar:
+  order: 11
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Settings → Email sending</strong> controls who brief emails come from, the signature at
+  the bottom, whether your team gets a copy, whether opens and clicks are tracked, and which
+  provider sends them. <strong>Suppressed contacts</strong> lists addresses that bounced or
+  complained.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-email.webp"
+  dark="/screenshots/app/settings-email-dark.webp"
+  alt="Settings, Email sending: Sender Information with Sender Name and Sender Email Address, and Email Signature with a formatting toolbar."
+/>
+
+## Sender information
+
+| Setting                  | What it does                                                                                                                                    |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sender Name**          | The name brief emails come from, for example your agency name.                                                                                  |
+| **Sender Email Address** | The from address. It must be verified with your sending service. A [verification email](/emails/billing-and-admin-emails/) is sent when needed. |
+
+A [template](/settings/templates/#more-settings) can use its own sender, unless you lock these settings (below).
+
+## Email signature
+
+Optional. Write it with the formatting toolbar; it's added at the bottom of every brief email.
+
+## Copy your team on every brief
+
+**Send a copy to our internal addresses** CCs or BCCs up to 20 of your own addresses on every brief sent from this workspace. Choose **BCC** (recommended) or **CC**. Off by default.
+
+## Template override settings
+
+**Lock Email Settings** stops templates from overriding the sender and signature. Every brief then uses these workspace settings.
+
+Click **Save Email Settings** to save the sections above.
+
+<Screenshot
+  src="/screenshots/app/settings-email-lower.webp"
+  dark="/screenshots/app/settings-email-lower-dark.webp"
+  alt="The lower part of Email sending: the 'Send a copy to our internal addresses' switch, Template Override Settings with Lock Email Settings, Save Email Settings, Engagement tracking with 'Track opens and clicks' on, and 'Bring your own sending provider' with an 'Add a sending provider' button."
+/>
+
+## Engagement tracking
+
+**Track opens and clicks** records when clients open a brief email and click its links. You see the results in [Activity → Email Delivery](/app/activity/#email-delivery) and **Seen by** on the brief page. When off, briefs are sent without tracking and Seen by shows delivery only. Resend and Brevo senders can't turn tracking off for a single message.
+
+## Bring your own sending provider
+
+Send briefs from your own domain's reputation. **Add a sending provider**, give it a label and choose the provider:
+
+| Provider                       | You enter                         |
+| ------------------------------ | --------------------------------- |
+| SendGrid, Brevo, Resend        | API key                           |
+| Postmark                       | Server token                      |
+| Mailgun                        | API key, domain and region        |
+| SMTP (generic), AWS SES (SMTP) | Host, port, username and password |
+
+Plus the **From address** and **From name**. A provider must pass a test send (**Verify**) before it's used. Verified providers are tried first, and the SendBriefs pool takes over automatically if yours fails. **Remove** goes back to the default pool.
+
+## Suppressed contacts
+
+<Screenshot
+  src="/screenshots/app/settings-email-suppressions.webp"
+  dark="/screenshots/app/settings-email-suppressions-dark.webp"
+  alt="The Suppressed contacts page with a table of contact, reason, suppressed date and a Restore action."
+/>
+
+Contacts are blocked automatically after a **Hard bounce**, a **Spam complaint** or an unsubscribe. They don't receive briefs until restored. **Restore** unblocks the address everywhere in the workspace. If the problem isn't fixed, the email provider suppresses them again on the next send.
+
+Addresses whose contacts were deleted stay blocked too, so they aren't emailed again if re-added. They're listed separately with **Restore address**.
+
+## Related
+
+- [Email layout](/settings/email-layout/)
+- [Client emails](/emails/client-emails/)

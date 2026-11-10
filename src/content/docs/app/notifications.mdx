@@ -1,0 +1,56 @@
+---
+title: Notifications
+description: The in-app notification inbox, the events that land there, and where to choose what you get.
+sidebar:
+  order: 5
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Notifications</strong> in the sidebar is your inbox for this workspace; the red badge
+  counts unread items. Each event can also send an email. Choose which ones you get in{' '}
+  <a href="/settings/notifications/">Settings → Notifications</a>.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/notifications.webp"
+  dark="/screenshots/app/notifications-dark.webp"
+  alt="The Notifications page: Type and Read status filters, a Notification settings link, a Mark all as read button and a list of unread notifications such as 'Sofia submitted a brief for approval', 'Brief delivered to Kestrel Outdoor Supply' and 'Theo Brooks joined Harbor & Pine Digital'."
+/>
+
+## The inbox
+
+Each notification shows what happened, the brief or person it's about, and when. Click one to open it. **Mark all as read** clears the badge.
+
+Filter by **Type** (Reports submitted, Reports approved, Changes requested, Reports sent, Team joins, Drafts ready) and **Read status** (Unread only, or All).
+
+## What lands here
+
+| Event                        | You get it when                                                        |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| Brief submitted for approval | Someone submits a brief you can approve.                               |
+| Brief approved               | A reviewer approves your brief.                                        |
+| Changes requested            | A reviewer sends your brief back.                                      |
+| Brief sent                   | Your approved brief goes out to the client.                            |
+| New team member              | Someone joins the workspace (owners and managers).                     |
+| Email delivery failure       | An email you triggered couldn't be delivered. In-app only.             |
+| Draft ready                  | An [automatic draft](/app/clients/#automatic-drafts) was made for you. |
+
+You're never notified about your own action.
+
+## Choosing what you get
+
+<Screenshot
+  src="/screenshots/app/settings-notifications.webp"
+  dark="/screenshots/app/settings-notifications-dark.webp"
+  alt="Settings, Notifications: each event with an In-app switch and an Email switch."
+/>
+
+**Notification settings →** on the inbox, or **Settings → Notifications**, has an **In-app** and an **Email** switch for each event. They're your own choices for this workspace. See [Notifications settings](/settings/notifications/) for the defaults and [Team notification emails](/emails/team-notifications/) for what each email looks like.
+
+## Related
+
+- [Home → Today](/app/home/#today)
+- [Team notification emails](/emails/team-notifications/)
