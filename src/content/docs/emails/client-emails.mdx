@@ -1,0 +1,83 @@
+---
+title: Client emails
+description: 'The emails your clients receive: the brief email, its plain fallback, and the portal verification code.'
+sidebar:
+  order: 2
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Clients receive the <strong>brief email</strong> when you send a brief. Its look comes from your{' '}
+  <a href="/settings/email-layout/">email layout</a>, its sender from{' '}
+  <a href="/settings/email-sending/">Email sending</a>. If a portal link needs it, they also get a
+  6-digit <strong>verification code</strong>. They never get team or account emails.
+</aside>
+
+## The brief email
+
+<Screenshot
+  src="/screenshots/app/brief-email-preview.webp"
+  dark="/screenshots/app/brief-email-preview-dark.webp"
+  alt="The email preview of a brief: From 'Harbor & Pine Digital', To the contact, Subject 'Lumen Coffee Roasters — September 2026 performance - Harbor & Pine Digital', and the email body with the agency name, the brief title, a callout, four metric tiles and a chart."
+/>
+
+**Who gets it:** the contacts ticked on the [send page](/app/brief-page/#send-this-brief). By default that's every contact of the client with **Receive reports** on.
+**When:** you press **Send to N people**, or use **Resend…** or **Send update** on a sent brief.
+
+| Part         | Where it comes from                                                                                                                                                                        |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **From**     | **Sender Name** and **Sender Email Address** in [Email sending](/settings/email-sending/#sender-information), or the brief's template if it sets its own and email settings aren't locked. |
+| **Subject**  | The brief title and your workspace name.                                                                                                                                                   |
+| **Layout**   | The default [email layout](/settings/email-layout/): header, greeting, period, signature and footer around the brief.                                                                      |
+| **Branding** | Your [logo and colours](/settings/logo-and-colors/), or the client's own if set.                                                                                                           |
+| **Body**     | The brief itself, with data fields filled in for each recipient (for example `{contact.first_name}`).                                                                                      |
+| **Link**     | A link to the brief in the [client portal](/app/client-portal/), if the portal is on.                                                                                                      |
+| **Footer**   | An unsubscribe link, and "Sent via SendBriefs" unless you have the White-label add-on.                                                                                                     |
+
+### Copies to your team
+
+If **Send a copy to our internal addresses** is on in [Email sending](/settings/email-sending/#copy-your-team-on-every-brief), those addresses are CC'd or BCC'd on every brief.
+
+### Tracking
+
+With [engagement tracking](/settings/email-sending/#engagement-tracking) on, opens and link clicks are recorded and shown in [Activity → Email Delivery](/app/activity/#email-delivery). Delivery and bounces are always recorded.
+
+### Unsubscribing
+
+The footer's unsubscribe link opens a page that asks the client to confirm. Once confirmed, that contact's **Receive reports** is turned off and they get no more briefs. You'll see them under **Not receiving** in [Contacts](/app/contacts/). Hard bounces and spam complaints stop delivery the same way; see [Suppressed contacts](/settings/email-sending/#suppressed-contacts).
+
+### Previewing
+
+**Preview Email** on the brief page shows the exact email before you send it. See [The brief page → Email preview](/app/brief-page/#email-preview).
+
+## The plain fallback
+
+<Screenshot
+  src="/screenshots/emails/brief-fallback.webp"
+  alt="The plain brief email, subject 'October performance brief - Harbor & Pine Digital': your agency name, the brief title, 'Your report for Lumen Coffee Roasters is ready to view', the reporting period, and a View Report button."
+  width={640}
+/>
+
+**Who gets it:** the same recipients, but only if the email layout can't be rendered for some reason.
+**Setting:** none. It's a safety net so the brief still arrives: the title, the reporting period and a **View Report** button that opens it in the portal.
+
+## Portal verification code
+
+<Screenshot
+  src="/screenshots/emails/portal-verification-code.webp"
+  alt="Email titled 'Your verification code: 482913' from SendBriefs: a Portal Verification Code card saying the code expires in 10 minutes."
+  width={640}
+/>
+
+**Who gets it:** a contact opening a portal link when the [access tier](/settings/client-portal/#access-tiers) is **Verified**.
+**When:** they click **Send verification code** on the portal.
+**Setting:** the portal's access tier, for the workspace or per client.
+
+The code expires after 10 minutes. They enter it on the portal page to open the brief. See [What clients see → Email verification](/app/client-portal/#email-verification).
+
+## Related
+
+- [Email overview](/emails/overview/)
+- [Email layout](/settings/email-layout/)

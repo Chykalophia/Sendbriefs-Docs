@@ -1,0 +1,36 @@
+---
+title: Plan and billing
+description: Your plan and usage, redeeming a code, add-ons, and managing payment and invoices.
+sidebar:
+  order: 15
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Settings → Plan and billing</strong> shows your plan and usage, lets you redeem a code,
+  add <strong>White-label</strong> or <strong>Custom domain</strong>, and opens the subscription
+  portal for payment details and invoices. Only the owner can change billing.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-billing.webp"
+  dark="/screenshots/app/settings-billing-dark.webp"
+  alt="Settings, Plan and billing: Current Plan with an Upgrade Plan button, Current Usage (users, clients, reports per month), a 'Have a code?' box, Add-ons (White-label, Custom domain) with Add to plan buttons, and Billing & Invoices links: View Available Plans and Subscription Portal."
+/>
+
+| Card                   | What it does                                                                                                                                                                                                                 |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Current Plan**       | Your plan and its status. **Upgrade Plan** compares plans.                                                                                                                                                                   |
+| **Current Usage**      | Users, clients and briefs this month, against your plan's limits.                                                                                                                                                            |
+| **Have a code?**       | Enter a code or paste a `/redeem` link. Codes apply a permanent entitlement to this workspace; you get a [confirmation email](/emails/billing-and-admin-emails/).                                                            |
+| **Add-ons**            | **White-label** removes the "Sent via SendBriefs" line from every email. **Custom domain** serves brief links on your own domain; see [General → Custom domain](/settings/general/#custom-domain). **Add to plan** adds one. |
+| **Billing & Invoices** | **View Available Plans**, and **Subscription Portal** to update your payment method, download invoices and see billing history.                                                                                              |
+
+Current prices are on the plans page and at [sendbriefs.com/pricing](https://sendbriefs.com/pricing).
+
+## Related
+
+- [Plans](/billing/plans/)
+- [Invoices](/billing/invoices/)

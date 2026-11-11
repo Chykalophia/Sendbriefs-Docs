@@ -1,0 +1,63 @@
+---
+title: Profile and security
+description: 'Your own account: name, landing page, theme, shortcuts, time zone, passkeys, two-factor authentication, password, sessions and Claude connections.'
+sidebar:
+  order: 11
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Profile</strong> holds your own preferences: name, the page you land on, light or dark
+  theme, shortcuts and time zone. <strong>Security</strong> holds passkeys, two-factor
+  authentication, your password, signed-in sessions, and tokens that let Claude add entries to your
+  briefs.
+</aside>
+
+## Profile
+
+<Screenshot
+  src="/screenshots/app/profile.webp"
+  dark="/screenshots/app/profile-dark.webp"
+  alt="The User Profile page: Account Information with email (read-only), Full Name, status, last login, two-factor status and member since; Navigation Preferences with Default Landing Page; and the start of Appearance with Theme."
+/>
+
+| Section                    | Settings                                                                                                                                                         |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Account Information**    | Your **Full Name**. Your email can't be changed here; contact support to change it. Also shows your status, last sign-in, two-factor status and when you joined. |
+| **Navigation Preferences** | **Default Landing Page**: the page you see first when you sign in.                                                                                               |
+| **Appearance**             | **Theme**: **Light**, **Dark** or **System (Auto)**.                                                                                                             |
+| **Keyboard shortcuts**     | **Single-key shortcuts**. Turn off if you use speech input or press keys by accident. ⌘K still works.                                                            |
+| **Notifications**          | Whether you receive email updates about briefs and activity. Per-type choices are in [Notifications](/app/notifications/#choosing-what-you-get).                 |
+| **Regional Settings**      | **Timezone** and language.                                                                                                                                       |
+
+## Security
+
+<Screenshot
+  src="/screenshots/app/profile-security.webp"
+  dark="/screenshots/app/profile-security-dark.webp"
+  alt="The Security page: Passkeys, Two-factor authentication (Not enabled, with an Enable two-factor authentication button) and Password (Change password)."
+/>
+
+Open it from the **Security** button on your profile.
+
+| Card                          | What it does                                                                                                                                                                                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Passkeys**                  | Sign in with Face ID, Touch ID, Windows Hello or a security key instead of typing your password. Your password still works.                                                                                                                                  |
+| **Two-factor authentication** | Adds a code from an authenticator app to every sign-in. Recommended; your workspace may [require it](/settings/security/#require-two-factor-authentication). You get a [security alert](/emails/account-emails/#security-alerts) when it's turned on or off. |
+| **Password**                  | **Change password**.                                                                                                                                                                                                                                         |
+| **Active sessions**           | Where you're signed in. **Sign out other devices** ends every session but this one.                                                                                                                                                                          |
+| **Connect Claude**            | Create a token so Claude Code or a script can add entries to your clients' briefs in this workspace. The token is shown once; copy it then. Entries land as drafts you review.                                                                               |
+| **Connected apps**            | Claude apps you connected by URL (claude.ai, Claude Desktop, Claude mobile), each limited to one workspace. **Revoke connection** cuts one off.                                                                                                              |
+
+### Connecting Claude
+
+To connect claude.ai, Claude Desktop or Claude mobile, no token is needed: in Claude, go to **Settings → Connectors → Add custom connector** and paste the server address shown on the page (`https://app.sendbriefs.com/api/mcp`). You pick one workspace when you approve.
+
+For Claude Code or scripts, use **Create token**, choose when it expires, and use **Copy Claude Code command**.
+
+## Related
+
+- [Account emails](/emails/account-emails/)
+- [Workspace security settings](/settings/security/)

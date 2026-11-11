@@ -1,0 +1,88 @@
+---
+title: Team
+description: Workspace members, roles, inviting and adding people, member pages and per-member brief permissions.
+sidebar:
+  order: 10
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Team</strong> lists everyone in the workspace with their role.{' '}
+  <strong>Invite member</strong> emails an invitation; <strong>Add member</strong> creates the
+  account for them. On a member's page, owners and managers can give a member extra{' '}
+  <strong>Brief permissions</strong>: submit, approve or send their own briefs.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/team.webp"
+  dark="/screenshots/app/team-dark.webp"
+  alt="The Team page: Add member and Invite member buttons, Active / Suspended / All tabs, role filters (Owners, Managers, Members), search and activity filter, '5 seats used', a table of members with role, joined date, reports in 90 days, status, a role picker and Remove button, and a Role Descriptions panel."
+/>
+
+## Roles
+
+| Role        | Can                                                                                                                                                                                                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Owner**   | Everything, including billing, workspace settings and deleting the workspace.                                                                                                                                                                                                                    |
+| **Manager** | Manage clients, contacts, templates and team members; approve, send and resend briefs.                                                                                                                                                                                                           |
+| **Member**  | Write and edit any brief in the workspace, add updates and create clients. Can't add or edit contacts. By default a member can't submit, approve or send; turn those on per member with [brief permissions](#brief-permissions). A member can always withdraw a brief from review back to draft. |
+
+Change someone's role with the picker on their row. **Remove** takes them out of the workspace.
+
+## The list
+
+Tabs show **Active**, **Suspended** or **All** members, and the chips filter by role. **Any activity** narrows to people with or without briefs in the last 90 days. **Seats used** counts against your [plan](/settings/plan-and-billing/).
+
+## Invite or add someone
+
+<Screenshot
+  src="/screenshots/app/team-invite.webp"
+  dark="/screenshots/app/team-invite-dark.webp"
+  alt="The Invite New Member form with Email Address and Role fields and a Send Invitation button."
+/>
+
+| Button            | What happens                                                                                                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Invite member** | Enter an email and role. They get an [invitation email](/emails/team-notifications/) and join when they accept. Pending invitations are listed with **Resend** and **Revoke**. |
+| **Add member**    | Enter a name, email and role to create the account now. If they don't have a SendBriefs account yet, they're emailed a link to set their password.                             |
+
+If your plan has no free seats, you're offered **Upgrade plan**.
+
+## A member's page
+
+<Screenshot
+  src="/screenshots/app/team-member.webp"
+  dark="/screenshots/app/team-member-dark.webp"
+  alt="A member's page: name, role and status; tiles for reports and sections in the last 90 days and member since; and Recent contributions listing the briefs they authored with their status."
+/>
+
+Click a member to see their briefs and sections from the last 90 days, and when they joined.
+
+### Access
+
+**Suspend access** ends their access to this workspace without deleting anything they wrote. Restore it from the same place.
+
+### Brief permissions
+
+<Screenshot
+  src="/screenshots/app/team-member-permissions.webp"
+  dark="/screenshots/app/team-member-permissions-dark.webp"
+  alt="The Access card with a Suspend access button, and the Brief permissions card with three switches: Submit briefs for review, Approve their own briefs, Send their own briefs."
+/>
+
+These switches apply to members only; owners and managers can already do all three.
+
+| Permission                   | Lets the member                                                    |
+| ---------------------------- | ------------------------------------------------------------------ |
+| **Submit briefs for review** | Submit any brief in the workspace for review.                      |
+| **Approve their own briefs** | Approve briefs they created. The approval records who approved it. |
+| **Send their own briefs**    | Send and resend briefs they created.                               |
+
+Your [approval settings](/settings/approvals/) can still require someone else's approval.
+
+## Related
+
+- [Profile and security](/app/profile/)
+- [Team notification emails](/emails/team-notifications/)

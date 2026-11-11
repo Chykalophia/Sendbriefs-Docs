@@ -1,0 +1,38 @@
+---
+title: Notifications
+description: Choose which events send an in-app notification or an email to your team.
+sidebar:
+  order: 13
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Settings → Notifications</strong> has one row per event, with an <strong>In-app</strong>{' '}
+  and an <strong>Email</strong> switch. Changes apply straight away. What each email looks like is
+  in <a href="/emails/team-notifications/">Team notifications</a>.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-notifications.webp"
+  dark="/screenshots/app/settings-notifications-dark.webp"
+  alt="Settings, Notifications: a table of seven events, each with In-app and Email switches."
+/>
+
+| Event                                 | Who gets it                                                                   | In-app | Email                                             |
+| ------------------------------------- | ----------------------------------------------------------------------------- | ------ | ------------------------------------------------- |
+| **Reports submitted for approval**    | Reviewers                                                                     | On     | On                                                |
+| **Your reports approved**             | The author                                                                    | On     | On                                                |
+| **Changes requested on your reports** | The author                                                                    | On     | On                                                |
+| **Your reports sent**                 | The author                                                                    | On     | Off                                               |
+| **New team members**                  | Owners and managers                                                           | On     | Off                                               |
+| **Email delivery failures**           | Whoever triggered the email                                                   | On     | Not available (email can't report its own outage) |
+| **Drafts ready for you**              | The teammate an [automatic draft](/app/clients/#automatic-drafts) is made for | On     | Off                                               |
+
+These are your own choices for this workspace; each teammate sets theirs. The table shows the defaults. In-app notifications appear in the [Notifications inbox](/app/notifications/).
+
+## Related
+
+- [Team notifications](/emails/team-notifications/)
+- [Notifications inbox](/app/notifications/)

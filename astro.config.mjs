@@ -10,6 +10,25 @@ const SITE = process.env.SITE_URL ?? 'https://docs.sendbriefs.com';
 export default defineConfig({
   site: SITE,
 
+  // Old feature pages moved into App tour and Settings; keep their links working.
+  redirects: {
+    '/features/activity': '/app/activity/',
+    '/features/approvals': '/settings/approvals/',
+    '/features/briefs': '/app/briefs/',
+    '/features/clients': '/app/clients/',
+    '/features/email-layout': '/settings/email-layout/',
+    '/features/integrations': '/settings/connected-accounts/',
+    '/features/media-library': '/settings/media-library/',
+    '/features/notifications': '/app/notifications/',
+    '/features/profile-security': '/app/profile/',
+    '/features/recipient-experience': '/app/client-portal/',
+    '/features/reports': '/app/brief-page/',
+    '/features/scheduled-reports': '/settings/scheduling/',
+    '/features/settings-overview': '/settings/',
+    '/features/templates': '/settings/templates/',
+    '/features/workspaces': '/app/workspaces/',
+  },
+
   // Served at the root of docs.sendbriefs.com. To serve under sendbriefs.com/docs,
   // set `base: '/docs'` and update SITE_URL.
 
@@ -33,15 +52,15 @@ export default defineConfig({
 
       // Match marketing's social presence; no GitHub here on purpose.
       social: [
-        { icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/company/sendbriefs' },
+        {
+          icon: 'linkedin',
+          label: 'LinkedIn',
+          href: 'https://www.linkedin.com/company/sendbriefs',
+        },
         { icon: 'email', label: 'Contact', href: 'mailto:support@sendbriefs.com' },
       ],
 
-      customCss: [
-        './src/styles/fonts.css',
-        './src/styles/brand.css',
-        './src/styles/comfort.css',
-      ],
+      customCss: ['./src/styles/fonts.css', './src/styles/brand.css', './src/styles/comfort.css'],
 
       components: {
         Head: './src/overrides/Head.astro',
@@ -66,29 +85,57 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Core features',
+          label: 'App tour',
           items: [
-            { label: 'Briefs', slug: 'features/briefs' },
-            { label: 'Clients', slug: 'features/clients' },
-            { label: 'Reports & data', slug: 'features/reports' },
-            { label: 'Workspaces & teams', slug: 'features/workspaces' },
-            { label: 'Integrations', slug: 'features/integrations' },
-            { label: 'Notifications & delivery', slug: 'features/notifications' },
-            { label: 'Recipient experience', slug: 'features/recipient-experience' },
+            { label: 'Home', slug: 'app/home' },
+            { label: 'Briefs', slug: 'app/briefs' },
+            { label: 'New brief', slug: 'app/new-brief' },
+            { label: 'Due briefs', slug: 'app/due-briefs' },
+            { label: 'The brief page', slug: 'app/brief-page' },
+            { label: 'The brief editor', slug: 'app/brief-editor' },
+            { label: 'Add an update', slug: 'app/add-an-update' },
+            { label: 'Clients', slug: 'app/clients' },
+            { label: 'Contacts', slug: 'app/contacts' },
+            { label: 'Activity', slug: 'app/activity' },
+            { label: 'Team', slug: 'app/team' },
+            { label: 'Notifications', slug: 'app/notifications' },
+            { label: 'Profile and security', slug: 'app/profile' },
+            { label: 'Workspaces', slug: 'app/workspaces' },
+            { label: 'Search and shortcuts', slug: 'app/search-and-help' },
+            { label: 'What clients see', slug: 'app/client-portal' },
           ],
         },
         {
-          label: 'Settings reference',
+          label: 'Settings',
           collapsed: true,
           items: [
-            { label: 'Settings — the full tab map', slug: 'features/settings-overview' },
-            { label: 'Brief templates', slug: 'features/templates' },
-            { label: 'Approval policy', slug: 'features/approvals' },
-            { label: 'Scheduled reports', slug: 'features/scheduled-reports' },
-            { label: 'Email Layout', slug: 'features/email-layout' },
-            { label: 'Media Library', slug: 'features/media-library' },
-            { label: 'Activity & audit log', slug: 'features/activity' },
-            { label: 'Profile & personal security', slug: 'features/profile-security' },
+            { label: 'Overview', slug: 'settings' },
+            { label: 'General', slug: 'settings/general' },
+            { label: 'Security', slug: 'settings/security' },
+            { label: 'Delete workspace', slug: 'settings/delete-workspace' },
+            { label: 'Logo and colors', slug: 'settings/logo-and-colors' },
+            { label: 'Client portal', slug: 'settings/client-portal' },
+            { label: 'Media library', slug: 'settings/media-library' },
+            { label: 'Templates', slug: 'settings/templates' },
+            { label: 'Writing styles', slug: 'settings/writing-styles' },
+            { label: 'Approvals', slug: 'settings/approvals' },
+            { label: 'Scheduling', slug: 'settings/scheduling' },
+            { label: 'Email sending', slug: 'settings/email-sending' },
+            { label: 'Email layout', slug: 'settings/email-layout' },
+            { label: 'Notifications', slug: 'settings/notifications' },
+            { label: 'Connected accounts', slug: 'settings/connected-accounts' },
+            { label: 'Plan and billing', slug: 'settings/plan-and-billing' },
+          ],
+        },
+        {
+          label: 'Emails',
+          collapsed: true,
+          items: [
+            { label: 'Every email we send', slug: 'emails/overview' },
+            { label: 'Client emails', slug: 'emails/client-emails' },
+            { label: 'Team notifications', slug: 'emails/team-notifications' },
+            { label: 'Account emails', slug: 'emails/account-emails' },
+            { label: 'Billing and admin emails', slug: 'emails/billing-and-admin-emails' },
           ],
         },
         {
@@ -119,7 +166,11 @@ export default defineConfig({
           label: 'API & developers',
           collapsed: true,
           items: [
-            { label: 'API access', slug: 'api/coming-soon', badge: { text: 'Soon', variant: 'note' } },
+            {
+              label: 'API access',
+              slug: 'api/coming-soon',
+              badge: { text: 'Soon', variant: 'note' },
+            },
           ],
         },
       ],

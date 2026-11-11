@@ -1,0 +1,49 @@
+---
+title: Client portal
+description: Turn the client portal on, choose how clients get in, and how long links last.
+sidebar:
+  order: 5
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  The client portal is where clients read their briefs in the browser.{' '}
+  <strong>Settings → Client portal</strong> turns it on, chooses the access tier (
+  <strong>Public</strong>, <strong>Signed</strong> or <strong>Verified</strong>) and sets how long
+  links last. Requires the Pro plan or higher.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-portal.webp"
+  dark="/screenshots/app/settings-portal-dark.webp"
+  alt="Settings, Client portal: Enable Client Portal (Enabled, Active), Default Access Tier set to Signed with descriptions of Public, Signed and Verified, Token Expiry 30 days, Branded Portal Only switch, and Portal URL Preview."
+/>
+
+| Setting                  | What it does                                                                                                           |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| **Enable Client Portal** | Turns the portal on. Turning it off invalidates every portal link already sent.                                        |
+| **Default Access Tier**  | How recipients open portal links. Can be overridden for each client.                                                   |
+| **Token Expiry**         | How long a portal link stays valid: 7, 14, 30, 60 or 90 days.                                                          |
+| **Branded Portal Only**  | Only serve briefs on your workspace subdomain (or custom domain). Links on app.sendbriefs.com then return "not found". |
+| **Portal URL Preview**   | What your portal links look like.                                                                                      |
+
+## Access tiers
+
+| Tier         | How it works                                                                                                           |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| **Public**   | No sign-in. Anyone with the link can view the brief.                                                                   |
+| **Signed**   | Each contact gets their own signed link. Only the intended recipient's link works for them.                            |
+| **Verified** | Recipients confirm their email with a one-time [code](/emails/client-emails/#portal-verification-code) before viewing. |
+
+If your plan doesn't include the portal, this page shows **Client Portal requires a Pro plan** with an **Upgrade to Pro** button.
+
+## Portal and branding
+
+The portal's look comes from a few places:
+
+- [Logo and colors](/settings/logo-and-colors/): workspace logo, colours and the portal landing page.
+- Each client's own logo, colours and mark, on its [settings page](/app/clients/#client-settings).
+
+To see the result, see [What clients see](/app/client-portal/).

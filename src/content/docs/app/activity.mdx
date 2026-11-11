@@ -1,0 +1,52 @@
+---
+title: Activity
+description: The workspace activity feed, the email delivery log and the full audit log.
+sidebar:
+  order: 9
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Activity</strong> has three tabs: <strong>Workspace Activity</strong> (who did what),{' '}
+  <strong>Email Delivery</strong> (whether each brief email was delivered, opened or bounced) and{' '}
+  <strong>Advanced</strong> (the full audit log, kept for 7 years).
+</aside>
+
+## Workspace Activity
+
+<Screenshot
+  src="/screenshots/app/activity.webp"
+  dark="/screenshots/app/activity-dark.webp"
+  alt="The Workspace Activity tab: search, action and date filters, and a table of events (report approved, rejected, submitted, created, sent, schedule created) with when, who and the brief."
+/>
+
+A feed of what happened in the workspace: briefs created, submitted, approved, sent back and sent, schedules created and more. Filter by text, **Action** and date range, then **Apply**. Click a brief to open it.
+
+## Email Delivery
+
+<Screenshot
+  src="/screenshots/app/activity-email.webp"
+  dark="/screenshots/app/activity-email-dark.webp"
+  alt="The Email Delivery tab: From and To dates, a Reset to 30 days button, and one row per sent brief with its client, recipients and delivered, opened, clicked and bounced counts."
+/>
+
+One row per sent brief with what happened to each email: **delivered**, **opened**, **clicked** or **bounced**. Pick a date range, or **Reset to 30 days**. Open a row to see each recipient's events in order.
+
+Opens and clicks only appear when [engagement tracking](/settings/email-sending/#engagement-tracking) is on. Automatic opens by mail scanners are left out.
+
+## Advanced
+
+<Screenshot
+  src="/screenshots/app/activity-advanced.webp"
+  dark="/screenshots/app/activity-advanced-dark.webp"
+  alt="The Advanced tab, Audit Logs: Action, Resource Type, Who, Start Date and End Date filters, and a table of events with a Details link on each."
+/>
+
+The full audit log of the workspace, retained for 7 years. Filter by **Action**, **Resource Type**, **Who** and date. **Details** shows the full record of an event.
+
+## Related
+
+- [The brief page → Audit history](/app/brief-page/#audit-history)
+- [Email sending](/settings/email-sending/)

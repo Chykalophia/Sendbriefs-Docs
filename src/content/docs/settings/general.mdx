@@ -1,0 +1,48 @@
+---
+title: General
+description: Workspace name, subdomain, date format, workspace-wide overrides and custom domain.
+sidebar:
+  order: 1
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Settings → General</strong> sets your workspace's name and subdomain, how dates are
+  written in briefs, and optional overrides that apply to every client. A custom domain for the
+  portal is set up here once the add-on is on your plan.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-general.webp"
+  dark="/screenshots/app/settings-general-dark.webp"
+  alt="Settings, General: Workspace Name, Subdomain with the workspace URL, Date format, Team contribution mode and Section layout overrides, a Save Changes button, and the start of the Custom Domain card. The settings menu is on the left."
+/>
+
+## General settings
+
+| Setting                    | What it does                                                                                                                                                                                                                               |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Workspace Name**         | Shown to your team and used as the default sender name on brief emails.                                                                                                                                                                    |
+| **Subdomain**              | Your workspace address, for example `harbor-pine.sendbriefs.com`. Must be unique.                                                                                                                                                          |
+| **Date format**            | How `{date}` tokens are written when the brief doesn't give a format: **US default** (Jun 7, 2026), **US slashes** (6/7/2026), **European** (7/6/2026), **Day month year** (07 Jun 2026), **ISO** (2026-06-07) or **Long** (June 7, 2026). |
+| **Team contribution mode** | Overrides the mode for every client and template. Leave on **No override** to let each client or template decide. See [Client settings](/app/clients/#client-settings).                                                                    |
+| **Section layout**         | Overrides strict or flexible section layout for every client and template. The value is fixed onto each brief when it's created.                                                                                                           |
+
+Click **Save Changes**.
+
+## Custom domain
+
+Serve the client portal and brief links on your own domain, such as `reports.your-domain.com`, with SendBriefs branding removed. Custom Domain is a paid add-on: add it from [Plan and billing](/settings/plan-and-billing/) first.
+
+1. Enter the domain and add it.
+2. Add the DNS records shown to your domain's DNS. The status reads **Awaiting DNS**.
+3. Click **Verify now**. Once verified, the domain is active and a certificate is issued.
+
+**Remove domain** stops serving the portal on it. You can add it again later, but you'll need to verify it again.
+
+## Related
+
+- [Logo and colors](/settings/logo-and-colors/)
+- [Workspaces](/app/workspaces/)

@@ -1,0 +1,150 @@
+---
+title: Clients
+description: The client list, each client's Overview, Briefs, Contacts and Settings pages, adding a client and tidying up.
+sidebar:
+  order: 7
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Clients</strong> lists every client with its schedule, last send and next brief, most
+  urgent first. Each client has four pages: <strong>Overview</strong>, <strong>Briefs</strong>,{' '}
+  <strong>Contacts</strong> and <strong>Settings</strong>, where you set its branding, default
+  template, schedule and automatic drafts.
+</aside>
+
+## Client list
+
+<Screenshot
+  src="/screenshots/app/clients.webp"
+  dark="/screenshots/app/clients-dark.webp"
+  alt="The Clients page: Active, Inactive, All and Archived tabs; Everyone, Needs attention, No schedule and Paused filters; a search box and sort menu; and a table with each client's schedule, last sent date, next brief with its status, primary contact and one action button (Fix, Review, Continue or Open)."
+/>
+
+| Column              | Shows                                                                                           |
+| ------------------- | ----------------------------------------------------------------------------------------------- |
+| **Client**          | Name and website.                                                                               |
+| **Schedule**        | Cadence and send slot, such as **Monthly · 1st 9am**, or **No schedule** / **Schedule paused**. |
+| **Last sent**       | When the client last received a brief.                                                          |
+| **Next brief**      | The open brief and its status.                                                                  |
+| **Primary contact** | The client's main contact.                                                                      |
+| Action              | One button for the next step: **Review**, **Fix**, **Continue** or **Open**.                    |
+
+Tabs switch between **Active**, **Inactive**, **All** and **Archived** clients. The filters narrow to clients that **Need attention**, have **No schedule**, or are **Paused**. Sort by **needs action first**, **longest since a send** or **name**.
+
+## Add a client
+
+<Screenshot
+  src="/screenshots/app/client-new.webp"
+  dark="/screenshots/app/client-new-dark.webp"
+  alt="The Add New Client form: Client Name, Slug, Website URL, Logo URL with an Upload file button, Default Report Template, and an optional Primary Contact section."
+/>
+
+**+ Add Client** opens a form:
+
+| Field                       | Notes                                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------ |
+| **Client Name**             | Required.                                                                            |
+| **Slug**                    | Required. Used in brief and portal links. Made from the name; you can change it.     |
+| **Website URL**             | Optional.                                                                            |
+| **Logo URL**                | Paste a link or **Upload file**.                                                     |
+| **Default Report Template** | Pre-selected when you start a brief for this client.                                 |
+| **Primary Contact**         | Optional name and email of the client's main contact. You can add more people later. |
+
+A new client has no schedule. Add one in [Scheduling](/settings/scheduling/) so its briefs show up in [Due briefs](/app/due-briefs/).
+
+## Overview
+
+<Screenshot
+  src="/screenshots/app/client-overview.webp"
+  dark="/screenshots/app/client-overview-dark.webp"
+  alt="A client's Overview: the client name with Active status, website, cadence and 'Client since' date; More and 'New brief · Oct 26 to Nov 1' buttons. Cards for Needs attention, Recently sent, Data streams and Assets, and on the right Schedule (cadence, next run, Pause schedule) and Recipients."
+/>
+
+The header shows the client's status, website, cadence and how long they've been a client. **New brief** starts the next brief for the period shown on the button; its arrow offers other options. **More** marks the client inactive or active, archives it, or restores an archived client.
+
+| Card                | What it shows                                                                                                                                                                                                                   |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Needs attention** | Open briefs for this client with their status.                                                                                                                                                                                  |
+| **Recently sent**   | The last briefs sent. **Sent · edited** means the brief was changed after it went out.                                                                                                                                          |
+| **Data streams**    | Connected data sources (Google Analytics properties, ClickUp lists) that fill this client's data tokens, such as `{ga.sessions\|number}`. Connect the integration in [Connected accounts](/settings/connected-accounts/) first. |
+| **Assets**          | Files filed under this client. See [Media library](/settings/media-library/).                                                                                                                                                   |
+| **Schedule**        | Cadence and next run. **Pause schedule** stops new scheduled briefs; **Manage** opens [Scheduling](/settings/scheduling/).                                                                                                      |
+| **Recipients**      | The contacts who receive briefs. **Manage** opens the Contacts page.                                                                                                                                                            |
+
+## Briefs
+
+<Screenshot
+  src="/screenshots/app/client-briefs.webp"
+  dark="/screenshots/app/client-briefs-dark.webp"
+  alt="A client's Briefs page listing that client's briefs with status and period."
+/>
+
+Every brief for this client. It works like the main [Briefs](/app/briefs/) page, filtered to one client.
+
+## Contacts
+
+<Screenshot
+  src="/screenshots/app/client-contacts.webp"
+  dark="/screenshots/app/client-contacts-dark.webp"
+  alt="A client's Contacts page: a table of name, email, role, phone and a Reports switch for each contact, a 'Set primary' button, and a Manage Contacts button."
+/>
+
+The people at this client. The **Reports** switch decides whether a contact receives briefs by email. **Set primary** makes someone the primary contact. **Manage Contacts** adds a new contact or links an existing one. Contacts that can't be reached, for example after a bounce, are flagged here. See [Contacts](/app/contacts/).
+
+## Client settings
+
+<Screenshot
+  src="/screenshots/app/client-settings.webp"
+  dark="/screenshots/app/client-settings-dark.webp"
+  alt="Client Settings with a section list (General, Branding, Brief defaults, Schedule, Data fields, Archive), the General and Branding forms, and a live preview of the client's brief header and From line."
+/>
+
+Settings are grouped into sections, with a live preview of the client's branding on the right. Change anything, then **Save changes** in the bar at the bottom; **Discard** undoes unsaved edits.
+
+| Section            | Settings                                                                                                                                                                                                                                                                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **General**        | **Client name**, **Website**, **URL slug** (changing it breaks links in briefs already sent) and **Logo**.                                                                                                                                                                                                                  |
+| **Branding**       | **Accent colour** (brief header chip and buttons), **Primary colour** (headings and links), **Brand mark** (a small square mark; without one, the client's first letter is used), **Typography**, **From name on emails** and **Custom subdomain**. Blank fields use your [workspace branding](/settings/logo-and-colors/). |
+| **Brief defaults** | **Default template**, **Team contribution mode** and **Section layout**. Leave a setting on **Same as template** to inherit it.                                                                                                                                                                                             |
+| **Schedule**       | The client's schedule, with a link to [Scheduling](/settings/scheduling/), and **Pause this client's schedule**. While paused, no new briefs are made; existing briefs and briefs you start by hand aren't affected.                                                                                                        |
+| **Data fields**    | Override the template's required, fallback and format settings for data tokens in this client's briefs. **Add data field**, then **Save overrides**.                                                                                                                                                                        |
+| **Archive**        | Mark the client inactive, or archive it. Archived clients leave your active lists; their briefs and contacts are kept, and you can restore them from the **Archived** tab.                                                                                                                                                  |
+
+**Team contribution mode** decides what teammates see when they use [Add an update](/app/add-an-update/):
+
+| Mode                      | The contributor                         |
+| ------------------------- | --------------------------------------- |
+| **Append — no context**   | Sees only the brief's section headings. |
+| **Append — with context** | Sees the whole brief, read-only.        |
+| **Collaborative**         | Can edit the whole brief.               |
+
+**Section layout**: **Strict** keeps everything inside sections once a section exists; **Flexible** mixes sections and other blocks freely.
+
+### Automatic drafts
+
+<Screenshot
+  src="/screenshots/app/client-settings-drafts.webp"
+  dark="/screenshots/app/client-settings-drafts-dark.webp"
+  alt="The Schedule, Automatic drafts and Data field overrides sections of client settings. Automatic drafts has a 'Create drafts automatically' switch and a Save automatic drafts button."
+/>
+
+Turn on **Create drafts automatically** and SendBriefs creates this client's recurring draft a set number of days before each period ends, for the teammate you choose, and tells them it's ready with a [Draft ready notification](/emails/team-notifications/). Save with **Save automatic drafts**.
+
+## Tidy up clients
+
+<Screenshot
+  src="/screenshots/app/client-tidy.webp"
+  dark="/screenshots/app/client-tidy-dark.webp"
+  alt="The Tidy up clients page with a Quiet clients list (none to tidy) and a Templates panel."
+/>
+
+**Tidy up clients** (linked from Due briefs) lists quiet clients: no schedule and no recent brief. Archive them so they stop cluttering the client pickers. Archived clients keep their briefs and can be made active again from their page.
+
+## Related
+
+- [Contacts](/app/contacts/)
+- [Scheduling](/settings/scheduling/)
+- [Client portal](/app/client-portal/)

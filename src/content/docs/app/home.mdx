@@ -1,0 +1,75 @@
+---
+title: Home
+description: The Home dashboard, the sidebar, and what each card on it tells you.
+sidebar:
+  order: 1
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Home answers one question: <strong>what needs me now?</strong> The <strong>Due now</strong> card
+  lists briefs you owe clients, <strong>Today</strong> lists everything waiting on you in order of
+  urgency, and the right column shows your clients and last month's email delivery.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/home.webp"
+  dark="/screenshots/app/home-dark.webp"
+  alt="The Home dashboard. Left: the sidebar with Home, Briefs, New brief, Due briefs, Clients, Contacts, Activity, Team, Notifications, Settings and Profile. Middle: a Due now card listing six briefs to make with how late each is, then a Today list grouped into Overdue, Waiting on you, Blocked, Due soon and Get set up (only the groups with something in them show), each row with one action button. Right: a Clients card and an Email Delivery card."
+/>
+
+## The sidebar
+
+The sidebar is on every signed-in page.
+
+| Item                      | Opens                                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Workspace name (top)      | The workspace switcher. See [Workspaces](/app/workspaces/).                                                  |
+| **Search** (⌘K or Ctrl+K) | Search for any brief, client, contact or setting. See [Search and help](/app/search-and-help/).              |
+| **Home**                  | This page.                                                                                                   |
+| **Briefs**                | Every brief in the workspace. The badge counts briefs waiting for your approval. See [Briefs](/app/briefs/). |
+| **New brief**             | Pick a client and start the next brief. See [New brief](/app/new-brief/).                                    |
+| **Due briefs**            | Make every brief that's due in one go. See [Due briefs](/app/due-briefs/).                                   |
+| **Clients**               | Your clients and their schedules. See [Clients](/app/clients/).                                              |
+| **Contacts**              | Everyone who receives briefs. See [Contacts](/app/contacts/).                                                |
+| **Activity**              | The workspace's history and email delivery log. See [Activity](/app/activity/).                              |
+| **Team**                  | Your teammates and their roles. See [Team](/app/team/).                                                      |
+| **Notifications**         | Your notification inbox. The red badge counts unread ones. See [Notifications](/app/notifications/).         |
+| **Settings**              | Workspace settings. See [Settings](/settings/).                                                              |
+| **Profile**               | Your own account. See [Profile and security](/app/profile/).                                                 |
+| **Help** (bottom)         | Help and support.                                                                                            |
+
+## Due now
+
+The card at the top lists the briefs your clients' schedules say are due, with the period each one covers and how late it is. It shows the three most urgent and counts the rest.
+
+**Open Due briefs** takes you to [Due briefs](/app/due-briefs/), where you can make them all at once. The card disappears when nothing is due.
+
+## Today
+
+**Today** is your to-do list, most urgent first. A brief appears once, in its most urgent group:
+
+| Group              | What lands here                                                                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Overdue**        | Briefs past their deadline and not sent, including ones waiting for approval or changes. A brief with no deadline is due 5 days after its period ends. |
+| **Waiting on you** | Briefs ready for your approval, briefs sent back to you with changes, and approved briefs ready to send.                                               |
+| **Blocked**        | Things that stop a brief going out: a data connection that failed, a schedule whose last run failed, or an email that bounced.                         |
+| **Due soon**       | Briefs due in the next 7 days, and drafts nobody has touched for 14 days or more.                                                                      |
+| **Get set up**     | First-run steps such as uploading your logo and taking the tour. **Hide setup steps** removes them.                                                    |
+
+Each row has one button that does the next thing: **Review**, **Send**, **Open**, **Continue** or **Fix**. When nothing needs you, the card says so.
+
+## Recent briefs
+
+The five most recently created briefs with their status. **View all** opens [Briefs](/app/briefs/).
+
+## Clients and email delivery
+
+The right-hand column shows your clients with their status, and an **Email Delivery** card with the last 30 days of brief emails: how many were sent, delivered, opened and bounced. For the full log, open [Activity → Email Delivery](/app/activity/#email-delivery).
+
+## Related
+
+- [Due briefs](/app/due-briefs/)
+- [Notifications](/app/notifications/)

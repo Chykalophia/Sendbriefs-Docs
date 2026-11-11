@@ -1,0 +1,85 @@
+---
+title: Sign-in and security emails
+description: The emails that confirm, recover and protect a SendBriefs account, with what each one asks you to do.
+sidebar:
+  order: 4
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  These emails protect your account, so they can't be switched off. You'll see{' '}
+  <strong>Confirm your account</strong> when you sign up, <strong>Password reset</strong> when you
+  ask for one (or when an admin adds you), and a <strong>security alert</strong> whenever two-factor
+  or a linked sign-in is added or removed.
+</aside>
+
+All of these come from **SendBriefs**, not from your agency, and use the same plain black-and-white style. They never contain your password.
+
+## Confirm your account
+
+**When:** you sign up with an email address and password.
+**What to do:** click **Verify Email Address**. You can't sign in until you do. The link works for 24 hours.
+**Subject:** Confirm your SendBriefs account
+
+<Screenshot
+  src="/screenshots/emails/auth-confirm-sign-up.webp"
+  alt="Email from SendBriefs: Thanks for signing up for SendBriefs. Click the button below to verify your email address and activate your account. Black Verify Email Address button. The link expires in 24 hours."
+  width={640}
+/>
+
+Signing up with Google skips this email, because Google has already confirmed the address.
+
+## Password reset
+
+**When:** you click **Forgot password** on the sign-in page, or a workspace admin adds you to a workspace directly (the email is then your link to set a first password).
+**What to do:** click **Set a new password** within 60 minutes. The link works once.
+**Subject:** Your SendBriefs password reset request
+
+<Screenshot
+  src="/screenshots/emails/auth-reset-password.webp"
+  alt="Email titled Reset your password: We received a request to reset the password for your SendBriefs account. This link expires in 60 minutes. Black Set a new password button, a copyable link, and a note that you can ignore the email if you didn't request it."
+  width={640}
+/>
+
+If you didn't ask for it, ignore it. Your password stays the same until someone uses the link.
+
+## Security alerts
+
+SendBriefs emails you when a way of signing in to your account is added or removed. If you made the change, there's nothing to do. If you didn't, open **Review Security Settings** and reset your password.
+
+| Alert                                      | Subject                                             |
+| ------------------------------------------ | --------------------------------------------------- |
+| Two-factor added                           | Two-factor authentication added to your account     |
+| Two-factor removed                         | Two-factor authentication removed from your account |
+| Sign-in method linked (for example Google) | A new sign-in method was linked to your account     |
+| Sign-in method removed                     | A sign-in method was removed from your account      |
+
+<Screenshot
+  src="/screenshots/emails/auth-mfa-method-removed.webp"
+  alt="Security alert email: A two-factor authentication method was removed from your SendBriefs account. Your account is now less secure. If you didn't remove it, re-enable it and reset your password. Review Security Settings button."
+  width={640}
+/>
+
+<Screenshot
+  src="/screenshots/emails/auth-identity-linked.webp"
+  alt="Security alert email: A new sign-in method was linked to your SendBriefs account. Review Security Settings button."
+  width={640}
+/>
+
+## Emails you're unlikely to see
+
+These templates exist, but the app only sends them in support-assisted cases:
+
+- **Confirm your new email address** (_Confirm your new email address_). You can't change your email from your profile; support changes it for you, and both addresses must confirm.
+- **Sign-in link** (_Your SendBriefs sign-in link_). The sign-in page uses a password, Google or a passkey, not emailed links.
+- **Confirm your identity** (_Confirm your identity_). A one-time code for a password change. Changing your password from your profile asks for your current password instead.
+- **Invited to SendBriefs** (_You've been invited to SendBriefs_). Teammates are invited with the [team invitation](/emails/team-notifications/#team-invitation) email instead.
+
+Alerts for a changed password, email address or phone number are turned off.
+
+## Related
+
+- [Profile and personal security](/app/profile/): two-factor, passkeys and your password
+- [Create your account](/getting-started/create-account/)

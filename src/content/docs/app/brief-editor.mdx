@@ -1,0 +1,124 @@
+---
+title: The brief editor
+description: Writing a brief, the block palette, data tokens, AI help, syncing data, previews, and reviewing.
+sidebar:
+  order: 6
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  The editor is where a brief is written. Drag blocks in from the left, type <code>{'{'}</code> to
+  insert a live data field, use <strong>Draft with AI</strong> on a section, and{' '}
+  <strong>Sync</strong> to pull fresh numbers. Your work saves as you type. The button at the top
+  right is always the next step: <strong>Submit for review</strong>, <strong>Resubmit</strong>,{' '}
+  <strong>Finish review</strong> or <strong>Send</strong>.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/brief-editor.webp"
+  dark="/screenshots/app/brief-editor-dark.webp"
+  alt="The brief editor for a brief with changes requested. Top bar: Back to brief, Saved, Dictate, Fields, Sync, Preview, a More actions menu, a 'Changes requested' status button and Resubmit. A yellow banner shows the reviewer's note. Below, the brief header, a Blocks palette on the left (Text, Lists, Data) and the brief's sections, each with Draft with AI and a writing style picker."
+/>
+
+## Top bar
+
+| Control            | What it does                                                                                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Back to brief**  | Returns to the [brief page](/app/brief-page/).                                                                                                                |
+| Save status        | **Saved**, **Saving…** or **Unsaved changes…**. The editor saves on its own.                                                                                  |
+| **Dictate**        | Speak an update. The transcript is added at your cursor as a new paragraph you can edit.                                                                      |
+| **Fields**         | Opens the panel of [data fields](#data-fields) in this brief.                                                                                                 |
+| **Sync**           | Pulls the latest data from connected sources. The arrow offers **Sync all configured data**, **Pull from ClickUp…** and **Import recent work from ClickUp…**. |
+| **Preview**        | **View email** or **View portal**, each on its own page.                                                                                                      |
+| **⋯ More actions** | **Unapprove** (approved briefs), **Resend…** (sent briefs), **Save as template** and **Delete**.                                                              |
+| Status button      | Shows where the brief stands (**Draft**, **In review**, **Changes requested**, **Ready to send**). Click it for the readiness checklist.                      |
+| Next step          | The one main action for you right now.                                                                                                                        |
+
+<Screenshot
+  src="/screenshots/app/brief-editor-preview-menu.webp"
+  dark="/screenshots/app/brief-editor-preview-menu-dark.webp"
+  alt="The Preview menu open with View email and View portal."
+/>
+
+## Blocks
+
+The **Blocks** panel on the left lists everything you can add. Click a block, or drag it into place. Search the list at the top.
+
+| Group          | Blocks                                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Text**       | Paragraph, Heading 1–3, Callout (highlighted note with optional emoji), Quote, Divider                                                                       |
+| **Lists**      | Bulleted list, Numbered list, Checklist, Columns (2–4 side-by-side lists such as Wins / Goals)                                                               |
+| **Data**       | Metric tile, Stats grid (2–6 tiles), Comparison card (before / after), Sparkline, Gauge (progress with X / Y units), Sentiment bar                           |
+| **Structured** | Table, Channel grid, Decision tiles (what's working, what to cut), Thumbnail grid, Keyword movement, Chart, Image, Embed (a link as a preview card), Section |
+| **Email**      | Greeting (for example "Hi `{contact.first_name}`"), Signature, Header, Footer, Brief content. These are used in [email layouts](/settings/email-layout/).    |
+
+**Section** blocks group content under a title. Each section has **Draft with AI** and a [writing style](/settings/writing-styles/) picker.
+
+Undo and redo sit above the brief. **Authors** chooses whether to **Hide**, **Show** or **Hover** to see who wrote each block.
+
+## Data fields
+
+<Screenshot
+  src="/screenshots/app/brief-editor-fields.webp"
+  dark="/screenshots/app/brief-editor-fields-dark.webp"
+  alt="The Fields panel on the right listing each smart field in the brief with its value and source."
+/>
+
+Data fields (also called tokens) are placeholders that fill themselves in, such as `{client.name}`, `{period.label}` or `{ga.sessions|number}`. Type `{` in any text to add one, or open **Data tokens** for the full list.
+
+- Client, period and workspace fields always work.
+- Live fields from Google Analytics or ClickUp work once the client has that source connected as a [data stream](/app/clients/#overview).
+- **Fields** lists every field in this brief, its value and where it comes from. **Edit live values…** lets you override a value for this brief.
+
+A template can mark fields as required; a brief with an empty required field can't be sent. If a field has no value at send time, you're warned that it will show as "—".
+
+## AI help
+
+| Tool              | What it does                                                                                                                                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Draft with AI** | Writes a draft of one section from the brief's data and notes, in the chosen [writing style](/settings/writing-styles/).                                                                                                                         |
+| **AI co-author**  | A side panel with **Executive summary**, **Talking points**, **Make concise**, **Expand**, **Professional tone**, **Casual tone**, **Positive tone** and **Ask anything**. Results are shown for you to insert; nothing is changed until you do. |
+
+When AI isn't available, these say so and the rest of the editor works as normal.
+
+## Approved and sent briefs
+
+<Screenshot
+  src="/screenshots/app/brief-editor-more-menu.webp"
+  dark="/screenshots/app/brief-editor-more-menu-dark.webp"
+  alt="An approved brief in the editor with the banner 'This brief is approved. Edits are disabled.' and the More actions menu open: Unapprove, Save as template, Delete."
+/>
+
+An approved brief is locked so what was approved is what goes out. To change it, choose **Unapprove** from **⋯ More actions**; it goes back to draft. A sent brief can still be edited; owners and managers then get **Send update** to send the new version.
+
+**Save as template** turns this brief's layout into a new [template](/settings/templates/) so the next brief can start from it.
+
+## Reviewing
+
+When a brief is **In review** and you're a reviewer, select any text to leave a comment. Pick its kind:
+
+| Kind           | Meaning                             |
+| -------------- | ----------------------------------- |
+| **Must fix**   | Blocks sending until it's resolved. |
+| **Suggestion** | Proposes replacement text.          |
+| **Note**       | For the author's information.       |
+
+Then click **Finish review**, choose **Approve**, **Approve with changes** or **Request changes**, add a note and **Submit**. Your comments go to the author together. With **Approve with changes**, the brief is approved now and sends itself once every must-fix item is resolved, with no second review.
+
+The author sees **Your reviewer asked for changes** at the top of the editor. Once the comments are dealt with, **Resubmit** sends it back. If a must-fix comment doesn't need a change, the author can say why when resubmitting.
+
+## Working through Due briefs
+
+When you start from [Due briefs](/app/due-briefs/), a bar at the top shows your place in the run. **Done, next →** opens the next brief, **Finish** ends the run, and **Leave the run** stops early.
+
+## Editing at the same time
+
+If a teammate is already editing the brief, you see who and can **Keep viewing** or **Take over**.
+
+## Related
+
+- [The brief page](/app/brief-page/)
+- [Templates](/settings/templates/)
+- [Connected accounts](/settings/connected-accounts/)

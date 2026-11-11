@@ -1,0 +1,52 @@
+---
+title: Due briefs
+description: Make every brief that's due in one run, then write them one after another.
+sidebar:
+  order: 4
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Due briefs</strong> lists every client whose schedule says a brief is due. Untick anyone
+  you want to leave for later, then <strong>Make N and start writing</strong> to create the drafts
+  and open the first one, or <strong>Just make the drafts</strong>.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/due-briefs.webp"
+  dark="/screenshots/app/due-briefs-dark.webp"
+  alt="The Due briefs page: 'Who are we doing now? Untick anyone to leave for later.' Six ticked clients, each with its template, period and how late it is. One row offers a choice between an older missed period and the period due now. At the bottom: '6 selected', 'Just make the drafts' and 'Make 6 and start writing'."
+/>
+
+## The list
+
+Each row is one client with its template, the period the brief covers, and how late it is. Every row starts ticked.
+
+When a client has missed more than one period, the row shows each period as a button (for example **Oct 12 to 18** and **Nov 9 to 15 (due now)**). Pick the one you want to make now.
+
+If a client already has a draft open for the period, the row says **Draft already open · joins the run at the end**: no new draft is made, and the existing one is added to the end of your writing run.
+
+Clients without an active schedule aren't listed. **Tidy up clients** helps you give them one. See [Clients](/app/clients/#tidy-up-clients) and [Scheduling](/settings/scheduling/).
+
+## Make the drafts
+
+| Button                       | What it does                                                                                                                                                                                                                                  |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Make N and start writing** | Creates the ticked drafts and opens the first in the editor. A bar at the top of the editor shows your place in the run: **Done, next →** saves and opens the next brief, **Finish** ends on the last one, and **Leave the run** stops early. |
+| **Just make the drafts**     | Creates the drafts and leaves them in [Briefs](/app/briefs/) for later.                                                                                                                                                                       |
+
+## Keyboard
+
+| Key   | Action                                   |
+| ----- | ---------------------------------------- |
+| ↑ ↓   | Move between clients                     |
+| X     | Tick or untick the current client        |
+| ← →   | Change the period for the current client |
+| Enter | Make the drafts and start writing        |
+
+## Related
+
+- [New brief](/app/new-brief/)
+- [Home → Due now](/app/home/#due-now)

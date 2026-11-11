@@ -1,0 +1,73 @@
+---
+title: Contacts
+description: Everyone who receives briefs, their delivery status, adding and importing contacts, and a contact's own page.
+sidebar:
+  order: 8
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  <strong>Contacts</strong> are the people at your clients who receive briefs. One person can belong
+  to several clients, with a role and a <strong>Receive reports</strong> switch for each. The{' '}
+  <strong>Delivery problems</strong> filter shows anyone whose email bounced or who stopped
+  receiving.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/contacts.webp"
+  dark="/screenshots/app/contacts-dark.webp"
+  alt="The Contacts page: '12 people across 6 clients', Import CSV and Add contact buttons, Everyone / Delivery problems / Not receiving filters, a search box, status, role and client filters, and a table of people with their clients and roles and a Receiving delivery badge."
+/>
+
+## The list
+
+Each row shows the person, the clients they belong to with their role at each, and their **Delivery** status:
+
+| Status            | Meaning                                                                                                                          |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Receiving**     | Gets briefs by email.                                                                                                            |
+| **Not receiving** | Receive reports is off for every client.                                                                                         |
+| **Bounced**       | Their address bounced or complained, so briefs stopped. See [Suppressed contacts](/settings/email-sending/#suppressed-contacts). |
+
+The quick filters show **Everyone**, **Delivery problems** or **Not receiving**. You can also filter by status (active or archived), role and client.
+
+Tick several rows to **Set role…**, archive or delete them together. Deleting is permanent; their send history is kept.
+
+## Add a contact
+
+Adding, editing and deleting contacts is for owners and managers, because contacts decide who receives briefs.
+
+**Add contact** asks for the person's full name, email, optional phone, the client they belong to, their role there, and whether they **Receive reports**.
+
+## Import from CSV
+
+**Import CSV** bulk-imports contacts into one client. Choose the target client, then drop in a CSV file with these columns:
+
+```text
+full_name, email, role, phone, receive_reports
+```
+
+Rows with duplicate or invalid emails are listed so you can fix them before importing.
+
+## A contact's page
+
+<Screenshot
+  src="/screenshots/app/contact.webp"
+  dark="/screenshots/app/contact-dark.webp"
+  alt="A contact's page: name, Receiving briefs badge, email and date added, with Copy email, Edit and More buttons. A Client card with the client, a Role select and a Reports switch, plus 'Link to another client'. A Briefs received card and a Delivery card."
+/>
+
+| Card                | What it does                                                                                                                                                                 |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Client**          | Each client this person belongs to, with their **Role** and a **Reports** switch. **Link to another client** adds them to a second client. **Unlink** removes them from one. |
+| **Briefs received** | Every brief sent to this person.                                                                                                                                             |
+| **Delivery**        | How many clients they receive briefs for, and the address used.                                                                                                              |
+
+**Edit** changes the name, email or phone. Future briefs go to the new address; past delivery history stays with the contact. **More** archives, restores or deletes the contact.
+
+## Related
+
+- [Clients → Contacts](/app/clients/#contacts)
+- [Client emails](/emails/client-emails/)

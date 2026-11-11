@@ -1,0 +1,76 @@
+---
+title: What clients see
+description: "The client portal: a sent brief, an approved preview, email verification, expired links and a contact's brief history."
+sidebar:
+  order: 14
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Every brief email links to the brief in your branded <strong>client portal</strong>. Clients read
+  it there, download a PDF, and see past briefs. Depending on your{' '}
+  <a href="/settings/client-portal/">access tier</a>, they may need to confirm their email with a
+  6-digit code first.
+</aside>
+
+## A sent brief
+
+<Screenshot
+  src="/screenshots/app/portal-sent.webp"
+  dark="/screenshots/app/portal-sent-dark.webp"
+  alt="A brief in the client portal: the agency name and logo at the top, the brief card with title, period and 'Sent Oct 6, 2026', three metric tiles, a Highlights section, an 'Approved · Oct 6, 14:00 UTC' footer, and Download PDF and Print / Save as PDF buttons."
+/>
+
+The portal shows your workspace logo and colours (or the client's own, if set in [client branding](/app/clients/#client-settings)), the brief, when it was sent and approved, and **Download PDF** / **Print / Save as PDF**.
+
+Clients can't edit anything. The portal is read-only.
+
+## Previewing before you send
+
+<Screenshot
+  src="/screenshots/app/portal-approved.webp"
+  dark="/screenshots/app/portal-approved-dark.webp"
+  alt="An approved, unsent brief in the portal with a green banner: 'Approved: This report has been approved but has not been sent yet.' and a 'Draft preview' label in the brief header."
+/>
+
+**Preview in Portal** on the [brief page](/app/brief-page/) or **View portal** in the editor opens the brief as the client will see it. Until it's sent, a banner says so and the header reads **Draft preview**.
+
+## Email verification
+
+<Screenshot
+  src="/screenshots/app/portal-verify.webp"
+  dark="/screenshots/app/portal-verify-dark.webp"
+  alt="The portal's verification page: 'To access this report, please verify your email address' with a Send verification code button."
+/>
+
+With the **Verified** access tier, a client opening a brief link is asked to confirm their email. They click **Send verification code**, get a [verification code email](/emails/client-emails/#portal-verification-code), and enter the 6 digits.
+
+| Access tier  | Who can open a brief link                              |
+| ------------ | ------------------------------------------------------ |
+| **Public**   | Anyone with the link.                                  |
+| **Signed**   | Each contact gets their own unique link.               |
+| **Verified** | The contact must also confirm their email with a code. |
+
+Set the default in [Client portal settings](/settings/client-portal/). It can be changed per client.
+
+## Expired links
+
+<Screenshot
+  src="/screenshots/app/portal-expired.webp"
+  dark="/screenshots/app/portal-expired-dark.webp"
+  alt="The portal's expired-link page: 'This link has expired. Please contact the sender of this link for a new link to your report.'"
+/>
+
+Links last as long as the **Token expiry** you set (7 to 90 days). After that the client sees **This link has expired** and is asked to contact you for a new link.
+
+## Brief history
+
+A contact's personal portal link also lists every brief they've received, newest first, so they can look back at earlier periods.
+
+## Related
+
+- [Client emails](/emails/client-emails/)
+- [Client portal settings](/settings/client-portal/)
+- [Logo and colours](/settings/logo-and-colors/)

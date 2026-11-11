@@ -1,0 +1,64 @@
+---
+title: Approvals
+description: Require approval before briefs are sent, and set who can approve and send.
+sidebar:
+  order: 9
+---
+
+import Screenshot from '../../../components/Screenshot.astro';
+
+<aside class="sb-tldr">
+  <p class="sb-tldr-label">TL;DR</p>
+  Turn on <strong>Require approval before sending any brief</strong> and every brief must be
+  approved before it goes out. For finer control, add <strong>approval flows</strong> for a role, a
+  client or a person. An <strong>Enforced</strong> setting can't be overridden by anything below it.
+</aside>
+
+<Screenshot
+  src="/screenshots/app/settings-approvals.webp"
+  dark="/screenshots/app/settings-approvals-dark.webp"
+  alt="Settings, Approvals: a New Approval Flow button, the Workspace approval policy switch 'Require approval before sending any brief', the precedence note, and Current Settings listing 'Workspace Default: On, Can Approve: No, Can Send: No'."
+/>
+
+## Workspace approval policy
+
+**Require approval before sending any brief**: when on, briefs go from draft to pending approval to approved before they can be sent, and members don't see a **Send** button.
+
+## Approval flows
+
+<Screenshot
+  src="/screenshots/app/settings-approvals-new.webp"
+  dark="/screenshots/app/settings-approvals-new-dark.webp"
+  alt="The New Approval Flow form: Scope (Workspace Default), Approval Required (Off — No approval required), and Permissions checkboxes Can Approve Reports and Can Send Reports."
+/>
+
+**New Approval Flow** adds a rule:
+
+| Field                   | Options                                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Scope**               | **Workspace Default**, **Role-Based** (Workspace Owner, Manager or Member), **Client-Specific** or **User-Specific**.                |
+| **Approval Required**   | **Off** (no approval), **On** (required, can be overridden by a more specific rule) or **Enforced** (required, can't be overridden). |
+| **Can Approve Reports** | People at this level can approve.                                                                                                    |
+| **Can Send Reports**    | People at this level can send approved briefs.                                                                                       |
+
+**Current Settings** lists every rule; the bin deletes one.
+
+## Which rule wins
+
+Rules are checked in this order, and the first that applies wins:
+
+**Enforced workspace** → **User** → **Client** → **Role** → **Workspace default**
+
+So an enforced workspace rule beats everything; otherwise a rule for a specific person beats one for their client, which beats one for their role.
+
+## Other places that affect approval
+
+- A [template](/settings/templates/#settings-strip) can require approval for briefs made from it.
+- A member's [brief permissions](/app/team/#brief-permissions) can let them approve or send their own briefs.
+
+If your plan doesn't include approval workflows, the template switch says so and offers an upgrade.
+
+## Related
+
+- [The brief page → Status and actions](/app/brief-page/#status-and-actions)
+- [Team notifications](/emails/team-notifications/)
