@@ -1,9 +1,8 @@
 ---
 /**
  * Footer override — wraps Starlight's default footer (which contains
- * "Edit this page" + prev/next pagination + last-updated) with:
- *   1. SendBriefs brand footer (logo, tagline, links, copyright)
- *   2. ComfortPanel (floating FAB + dialog) — mounted once per page
+ * "Edit this page" + prev/next pagination + last-updated) with the SendBriefs
+ * brand footer (logo, tagline, links, copyright).
  *
  * Layout matches marketing/components/nav/Footer.tsx in spirit:
  *   tagline + newsletter card top, link columns, bottom strip.
@@ -11,7 +10,6 @@
 
 import Default from '@astrojs/starlight/components/Footer.astro';
 import SendBriefsMark from '../components/SendBriefsMark.astro';
-import ComfortPanel from '../components/ComfortPanel.astro';
 
 const year = new Date().getFullYear();
 
@@ -127,8 +125,6 @@ const companyLinks = [
     </div>
   </div>
 </footer>
-
-<ComfortPanel />
 
 <style>
   .sb-footer {

@@ -1,0 +1,20 @@
+---
+/**
+ * PageFrame override: Starlight's default frame, plus the ComfortPanel
+ * (floating button + dialog) mounted after it, at body level.
+ *
+ * The panel must sit outside `.main-pane`: Starlight gives that element
+ * `isolation: isolate`, so anything fixed inside it stacks below the
+ * right-hand "On this page" sidebar, which then swallows clicks on the button.
+ */
+import Default from '@astrojs/starlight/components/PageFrame.astro';
+import ComfortPanel from '../components/ComfortPanel.astro';
+---
+
+<Default>
+  <slot name="header" slot="header" />
+  <slot name="sidebar" slot="sidebar" />
+  <slot />
+</Default>
+
+<ComfortPanel />

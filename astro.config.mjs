@@ -67,6 +67,7 @@ export default defineConfig({
         Header: './src/overrides/Header.astro',
         Footer: './src/overrides/Footer.astro',
         TwoColumnContent: './src/overrides/TwoColumnContent.astro',
+        PageFrame: './src/overrides/PageFrame.astro',
         SocialIcons: './src/overrides/SocialIcons.astro',
         MobileMenuToggle: './src/overrides/MobileMenuToggle.astro',
         Search: './src/overrides/Search.astro',
